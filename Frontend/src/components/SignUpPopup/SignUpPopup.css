@@ -1,0 +1,15 @@
+.login-popup-condition {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    
+  }
+  
+  .login-popup-condition input {
+    margin-right: 10px;
+  }
+  
+  .login-popup-condition p {
+    font-size: 14px;
+    color: #777;
+  }

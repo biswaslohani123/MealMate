@@ -1,0 +1,6 @@
+.Our-Gallery p{
+    font-size: max(3vw, 20px);
+    text-align: center;
+    margin: auto auto;
+    margin-top: 100px
+}

@@ -14,7 +14,7 @@ import menu_9 from './menu_9.png'
 import menu_10 from './menu_10.png'
 
 
-import food_1 from './food_1.png'
+import food_1 from './food_1.jpg'
 import food_2 from './food_2.png'
 import food_3 from './food_3.jpg'
 import food_4 from './food_4.png'
@@ -62,7 +62,7 @@ import app_store from './app_store.png'
 import play_store from './play_store.png'
 import linkedin_icon from './linkedin_icon.png'
 import facebook_icon from './facebook_icon.png'
-import twitter_icon from './twitter_icon.png'
+import instagram_icon from './instagram_icon.png'
 
 import selector_icon from './selector_icon.png'
 import rating_starts from './rating_starts.png'
@@ -84,7 +84,7 @@ export const assets = {
     play_store,
     linkedin_icon,
     facebook_icon,
-    twitter_icon,
+    instagram_icon,
 
     selector_icon,
     profile_icon,
@@ -137,7 +137,7 @@ export const menu_list = [
 export const food_list = [
     {
         _id: "1",
-        name: "bitter gourd",
+        name: "Green Salad",
         image: food_1,
         price: 190,
         description: "Food provides essential nutrients for overall health and well-being",
@@ -266,7 +266,7 @@ export const food_list = [
         category: "Cake"
     }, {
         _id: "19",
-        name: "Butterscotch Cake",
+        name: "vanilla Cake",
         image: food_19,
         price: 200,
         description: "Food provides essential nutrients for overall health and well-being",

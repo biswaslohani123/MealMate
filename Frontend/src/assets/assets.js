@@ -12,6 +12,11 @@ import menu_7 from './menu_7.png'
 import menu_8 from './menu_8.png'
 import menu_9 from './menu_9.png'
 import menu_10 from './menu_10.png'
+import Aboutus_icon from './Aboutus_icon.jpg'
+
+
+
+
 
 
 import food_1 from './food_1.jpg'
@@ -55,6 +60,7 @@ import food_38 from './food_38.jpg'
 import food_39 from './food_39.jpg'
 import food_40 from './food_40.jpg'
 
+
 import add_icon_white from './add_icon_white.png'
 import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
@@ -70,6 +76,7 @@ import profile_icon from './profile_icon.png'
 import bag_icon from './bag_icon.png'
 import logout_icon from './logout_icon.png'
 import parcel_icon from './parcel_icon.png'
+
 
 export const assets = {
     logo,
@@ -90,7 +97,9 @@ export const assets = {
     profile_icon,
     logout_icon,
     bag_icon,
-    parcel_icon
+    parcel_icon,
+    Aboutus_icon,
+   
 }
 
 export const menu_list = [
@@ -422,3 +431,4 @@ export const food_list = [
         category: "Coffee and tea"
     }
 ]
+

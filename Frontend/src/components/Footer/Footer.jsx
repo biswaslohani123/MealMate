@@ -2,7 +2,7 @@ import React from "react";
 import "./Footer.css";
 import { assets } from "../../assets/assets";
 
-const Footer = () => {
+const Footer = ({ onAboutUsClick }) => {
   return (
     <div className="Footer" id="Footer">
       <div className="footer-content">
@@ -14,18 +14,21 @@ const Footer = () => {
             inside Pokhara vAlley.
           </p>
           <div className="footer-social-icons">
-            <img src={assets.facebook_icon} alt="" />
-            <img src={assets.instagram_icon} alt="" />
-            <img src={assets.linkedin_icon} alt="" />
+            <a href="https://www.facebook.com/profile.php?id=100093406100843">
+            <img src={assets.facebook_icon} alt="" /></a>
+            <a href="https://www.instagram.com/lohanibiswas/">
+            <img src={assets.instagram_icon} alt="" /></a>
+            <a href="https://www.linkedin.com/feed/">
+            <img src={assets.linkedin_icon} alt="" /></a>
           </div>
         </div>
         <div className="footer-content-center">
           <h2>COMPANY</h2>
           <ul>
-            <li>Home</li>
+            
             <li>About Us</li>
             <li>Delivery</li>
-            <li>Privacy Policy</li>
+            
           </ul>
         </div>
         <div className="footer-content-right">

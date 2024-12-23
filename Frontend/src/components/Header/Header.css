@@ -26,15 +26,8 @@
     color: aliceblue;
     font-size: 1vw;
 }
-.header-contents button{
-    border: none;
-    color: #747474;
-    font-weight: 500;
-    padding: 1vw 2.3vw;
-    background-color: white;
-    font-size: max(1vw, 13px);
-    border-radius: 50px;
-}
+
+
 @media (max-width: 1050px){
    
     .header-contents{

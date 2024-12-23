@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header'
 import ExploreMenu from '../../components/ExploreMenu/ExploreMenu'
 import FoodDisplay from '../../components/FoodDisplay/FoodDisplay'
 import MobileApp from '../../components/MobileApp/MobileApp'
-import AboutUs from '../../components/About Us/AboutUs'
+
 
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
       <ExploreMenu category={category} setCategory={setCategory}/>
       <FoodDisplay category={category}/>
       <MobileApp/>
-      <AboutUs/>
+      
       
     </div>
   )

@@ -13,6 +13,9 @@ import menu_8 from './menu_8.png'
 import menu_9 from './menu_9.png'
 import menu_10 from './menu_10.png'
 import Aboutus_icon from './Aboutus_icon.jpg'
+import values_1 from './values_1.png'
+import values_2 from './values_2.png'
+import values_3 from './values_3.png'
 
 
 
@@ -99,6 +102,10 @@ export const assets = {
     bag_icon,
     parcel_icon,
     Aboutus_icon,
+    values_1,
+    values_2,
+    values_3,
+    
    
 }
 

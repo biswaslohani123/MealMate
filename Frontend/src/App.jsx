@@ -7,6 +7,8 @@ import Cart from "./pages/Cart/Cart";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import SignUpPopup from "./components/SignUpPopup/SignUpPopup";
 import Footer from "./components/Footer/Footer";
+import AboutUs from "./pages/AboutUS/About";
+
 
 const App = () => {
   const [showlogin, setShowlogin] = useState(false);
@@ -23,9 +25,13 @@ const App = () => {
       <div className="app">
         <Navbar setShowlogin={setShowlogin} setIsSignUp={setIsSignUp} />
         <Routes>
+          
           <Route path="/" element={<Home />} />
           <Route path="/Cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
+          <Route path="/about" element={<AboutUs/>} />
+        
+          
         </Routes>
       </div>
       <Footer />

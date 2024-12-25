@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-content-center">
-          <h2>About Nova</h2>
+          <h2>About MealMate</h2>
           <ul>
             <li>
               <Link to='/'>Home</Link>

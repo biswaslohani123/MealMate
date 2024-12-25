@@ -1,7 +1,6 @@
 import React from 'react'
 import './LoginPopup.css'
 
-import { Link } from 'react-router-dom'
 import { ImCross } from "react-icons/im";
 
 const LoginPopup = ({setShowlogin,setIsSignUp}) => {

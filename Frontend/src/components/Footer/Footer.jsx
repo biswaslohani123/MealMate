@@ -43,10 +43,10 @@ const Footer = () => {
           <h2>GET IN TOUCH</h2>
           <ul>
             <li>
-              <span>Mobile:</span> 9846065223
+              <span>Mobile:</span> 9814136254
             </li>
             <li>
-              <span>Email:</span> lohanibiswas1@gmail.com
+              <span>Email:</span> MealMate@gmail.com
             </li>
             <li>
               <span>Location:</span> Ranipawa, Pokhara

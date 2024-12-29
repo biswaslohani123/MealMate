@@ -8,6 +8,7 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 import SignUpPopup from "./components/SignUpPopup/SignUpPopup";
 import Footer from "./components/Footer/Footer";
 import AboutUs from "./pages/AboutUS/About";
+import DeliveryCharges from "./pages/Delivery Charges/DeliveryCharges";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/about" element={<AboutUs/>} />
+          <Route path="/Delivery" element={<DeliveryCharges/>} />
         
           
         </Routes>

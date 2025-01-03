@@ -5,7 +5,6 @@ import Home from "./pages/Home/Home";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
 import Cart from "./pages/Cart/Cart";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
-import SignUpPopup from "./components/SignUpPopup/SignUpPopup";
 import Footer from "./components/Footer/Footer";
 import AboutUs from "./pages/AboutUS/About";
 import DeliveryCharges from "./pages/Delivery Charges/DeliveryCharges";
@@ -13,18 +12,13 @@ import DeliveryCharges from "./pages/Delivery Charges/DeliveryCharges";
 
 const App = () => {
   const [showlogin, setShowlogin] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
+  
 
   return (
     <>
-      {showlogin && (
-        <LoginPopup setShowlogin={setShowlogin} setIsSignUp={setIsSignUp} />
-      )}
-      {isSignUp && (
-        <SignUpPopup setIsSignUp={setIsSignUp} setShowlogin={setShowlogin} />
-      )}
+      {showlogin?<LoginPopup setShowlogin={setShowlogin}/>:<></>}
       <div className="app">
-        <Navbar setShowlogin={setShowlogin} setIsSignUp={setIsSignUp} />
+        <Navbar setShowlogin={setShowlogin} />
         <Routes>
           
           <Route path="/" element={<Home />} />

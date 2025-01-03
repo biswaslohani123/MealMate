@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { StoreContext } from '../../context/StoreContext'
 
 
-const Navbar = ({setShowlogin, setIsSignUp}) => {
+const Navbar = ({setShowlogin}) => {
 
     // for Cart signal
     const {getTotalCartAmount} = useContext(StoreContext)
@@ -29,8 +29,7 @@ const Navbar = ({setShowlogin, setIsSignUp}) => {
                 <Link to='/cart'><img src={assets.basket_icon} alt="" /></Link>
                 <div className={getTotalCartAmount()===0?"":"dot"}></div>
             </div>
-            <button onClick={() => setIsSignUp(true)}>Sign Up</button>
-            <button onClick={() => setShowlogin(true)}>Login</button>
+            <button onClick={() => setShowlogin(true)}>Sign Up/Login</button>
         </div>
       
     </div>

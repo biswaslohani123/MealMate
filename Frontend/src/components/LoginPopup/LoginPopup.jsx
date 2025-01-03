@@ -23,8 +23,10 @@ const LoginPopup = ({setShowlogin,setIsSignUp}) => {
         
         
         <div className="login-popup-inputs">
-            <input type="text" placeholder='Your Full Name' required />
+           
             <input type="Email" placeholder='Your Email' required />
+            <input type="password" placeholder='Your Passowrd' required />
+
         </div>
         <button>Login</button>
         <p>

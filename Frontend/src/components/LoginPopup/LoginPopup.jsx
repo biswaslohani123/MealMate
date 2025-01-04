@@ -91,8 +91,8 @@ const LoginPopup = ({ setShowlogin }) => {
             
 
           </span>
-          </div>
         </div>
+          </div>
         <button type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>

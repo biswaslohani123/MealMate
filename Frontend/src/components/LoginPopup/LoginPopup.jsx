@@ -3,6 +3,8 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const LoginPopup = ({ setShowlogin }) => {
   // fetching url using Context Api
@@ -14,6 +16,9 @@ const LoginPopup = ({ setShowlogin }) => {
     email: "",
     password: "",
   });
+
+  // UseState for Password Visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -71,14 +76,22 @@ const LoginPopup = ({ setShowlogin }) => {
             placeholder="Your email"
             required
           />
+          <div className="password-input-container">
+
           <input
             name="password"
             onChange={onChangeHandler}
             value={data.password}
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             required
           />
+          <span className="password-visibility" onClick={() => setShowPassword((prev) => !prev)}>
+           <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash }/>
+            
+
+          </span>
+          </div>
         </div>
         <button type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}

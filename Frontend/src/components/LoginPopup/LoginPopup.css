@@ -14,7 +14,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 8px;
     padding: 25px 30px;
     border-radius: 8px ;
     font-size: 14px;
@@ -46,6 +46,7 @@
     background-color: tomato;
     font-size: 15px;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 .login-popup span{
     color: tomato;
@@ -56,15 +57,49 @@
     display: flex;
     align-items: start;
     gap: 8px;
-    margin-top: -15px;
+    margin-top: -10px;
 }
 .login-popup-condition input{
     margin-top: 5px;
 }
 .login-popup p span{
-    color:  tomato;
+    color:  rgb(1, 1, 1);
     font-weight: 500;
     cursor: pointer;
 }
+
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+ 
+  .password-input-container input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; 
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  
+  .password-visibility {
+    position: absolute;
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px; 
+    color: #888; 
+  }
+  
+  .password-visibility:hover {
+    color: #333; 
+  }
+  
 
 

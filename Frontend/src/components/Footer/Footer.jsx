@@ -15,13 +15,13 @@ const Footer = () => {
             inside Pokhara vAlley.
           </p>
           <div className="footer-social-icons">
-            <a href="https://www.facebook.com/profile.php?id=100093406100843">
+            <a target="_blank" href="https://www.facebook.com/profile.php?id=100093406100843">
               <img src={assets.facebook_icon} alt="" />
             </a>
-            <a href="https://www.instagram.com/lohanibiswas/">
+            <a target="_blank" href="https://www.instagram.com/lohanibiswas/">
               <img src={assets.instagram_icon} alt="" />
             </a>
-            <a href="https://www.linkedin.com/feed/">
+            <a target="_blank" href="https://www.linkedin.com/feed/">
               <img src={assets.linkedin_icon} alt="" />
             </a>
           </div>

@@ -4,7 +4,7 @@ import { assets } from '../../assets/assets'
 
 const DeliveryCharges = () => {
   return (
-   <div className='delivery'>
+   <div className='delivery' id='Delivery-Charges'>
     <div className='content'>
         <img src={assets.logo} alt="" className='icon' />
     </div>

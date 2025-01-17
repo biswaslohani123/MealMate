@@ -14,7 +14,7 @@
     max-width: 50%;
     bottom: 10%;
     left: 6vw;
-    animation: fadeIn 3s;
+    animation: fadeInUp 1.2s ease-out ;
 
 }
 .header-contents h2{
@@ -26,6 +26,18 @@
     color: aliceblue;
     font-size: 1vw;
 }
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 
 @media (max-width: 1050px){

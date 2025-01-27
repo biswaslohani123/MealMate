@@ -54,3 +54,7 @@ const PlaceOrder = () => {
 }
 
 export default PlaceOrder
+
+
+// khalti password
+// BISWAS123##lohani

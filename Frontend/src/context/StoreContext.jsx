@@ -43,7 +43,7 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   };
 
-  // Fectch Food
+  // Fetch Food
   const fetchFoodList =  async() => {
     //call Api
     const response = await axios.get(url+"/api/food/list")

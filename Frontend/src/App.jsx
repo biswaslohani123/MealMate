@@ -7,7 +7,7 @@ import Cart from "./pages/Cart/Cart";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import Footer from "./components/Footer/Footer";
 import AboutUs from "./pages/AboutUS/About";
-import Ourgallery from "./pages/Ourgallery/Ourgallery";
+
 
 
 
@@ -26,7 +26,7 @@ const App = () => {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/about" element={<AboutUs/>} />
-          <Route path="/gallery" element={<Ourgallery/>} />
+         
        
         
           

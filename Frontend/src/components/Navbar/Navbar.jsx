@@ -41,12 +41,13 @@ const Navbar = ({ setShowlogin }) => {
           Menu
         </a>
         <a
-          href="#Delivery-Charges"
-          onClick={() => setMenu("Delivery-Charges")}
-          className={menu === "Delivery-Charges" ? "active" : ""}
+          href="#Our-gallery"
+          onClick={() => setMenu("Our-gallery")}
+          className={menu === "Our-gallery" ? "active" : ""}
         >
-          Delivery-Charges
+         Our-gallery
         </a>
+       
         <a
           href="#Footer"
           onClick={() => setMenu("Contact Us")}

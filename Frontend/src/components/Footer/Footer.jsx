@@ -35,6 +35,9 @@ const Footer = () => {
             <li>
               <Link to="/about">Who We Are</Link>
             </li>
+            <li>
+              <Link to="/gallery">Our Gallery</Link>
+            </li>
            
             
           </ul>
@@ -56,6 +59,7 @@ const Footer = () => {
       </div>
       <hr />
       <p className="footer-copyright">
+        
         Copyright 2024 © MealMate.com - All Right Reserved{" "}
       </p>
     </div>

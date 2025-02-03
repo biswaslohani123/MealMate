@@ -9,9 +9,6 @@ import orderRouter from "./routes/orderRoute.js";
 
 
 
-
-
-
 // app config
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -30,6 +27,7 @@ app.use("/images",express.static('uploads'))
 app.use("/api/user",userRouter)
 app.use("/api/cart",cartRouter)
 app.use("/api/order",orderRouter)
+
 
 
 

@@ -8,6 +8,7 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 import Footer from "./components/Footer/Footer";
 import AboutUs from "./pages/AboutUS/About";
 import PageNotFound from "./pages/PageNotFound";
+import Verify from "./pages/verify/Verify";
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/about" element={<AboutUs/>} />
           <Route path="*" element={<PageNotFound/>}/>
+          <Route path="/verify" element={<Verify/>}/>
          
        
         

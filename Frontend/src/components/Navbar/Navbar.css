@@ -77,9 +77,16 @@
         padding: 8px 25px;
     }
 }
-.navbar-profle{
+.navbar-profile{
     position: relative;
+   
 }
+.navbar-profile img{
+    border-radius: 50%;
+}
+
+
+
 .nav-profile-dropdown{
     position: absolute;
     display: none;

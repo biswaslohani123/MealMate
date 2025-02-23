@@ -23,6 +23,7 @@ import img_3 from './img_3.jpg'
 import img_4 from './img_4.jpg'
 import img_5 from './img_5.jpg'
 import img_6 from './img_6.jpg'
+import img_7 from './menu_png.png'
 
 
 
@@ -72,6 +73,7 @@ import food_39 from './food_39.jpg'
 import food_40 from './food_40.jpg'
 
 
+
 import add_icon_white from './add_icon_white.png'
 import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
@@ -119,7 +121,8 @@ export const assets = {
     img_3,
     img_4,
     img_5,
-    img_6
+    img_6,
+    img_7
     
    
 }

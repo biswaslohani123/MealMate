@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const PlaceOrder = () => {
   const {getTotalCartAmount, token,food_list,cartItems,url} = useContext(StoreContext)
@@ -46,6 +47,15 @@ const PlaceOrder = () => {
     }
     
   }
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate('/cart')
+    }else if(getTotalCartAmount() === 0)
+      {
+        navigate('/cart')
+    }
+  },[token])
 
   return (
     <form onSubmit={placeOrder} className='place-order'>
@@ -60,7 +70,9 @@ const PlaceOrder = () => {
         <p>Email:</p>
         <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email Address' required />
         <p>Your location:</p>
-        <input name='location' onChange={onChangeHandler} value={data.location} type="text" placeholder='eg: Ranipawa'required />
+        <input name='City' onChange={onChangeHandler} value={data.City} type="text" placeholder='eg: Enter Your City' required />
+        <input name='street' onChange={onChangeHandler} value={data.street} type="number" placeholder='eg: Entr Your Street.No' required />
+        
         <div className='multi-fields'>
           <p>Order Note(any message for us)</p>
             <input name='Note' onChange={onChangeHandler} value={data.Note} type="text" placeholder='Any Message' required/>

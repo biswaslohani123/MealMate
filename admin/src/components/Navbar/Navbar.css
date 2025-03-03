@@ -3,6 +3,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 8px 4%;
+    background-color:#F4EAE0;
+    border: 2px solid black;
 }
 .navbar img.logo{
   width: max(10%, 80px);

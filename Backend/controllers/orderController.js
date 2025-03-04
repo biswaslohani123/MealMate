@@ -16,10 +16,20 @@ const placeOrder = async (req,res) => {
             userId:req.body.userId,
             items:req.body.items,
             amount:req.body.amount,
-            address:req.body.address
+            address:req.body.address,
+            paymentMethod: req.body.paymentMethod,
+            paymentStatus: req.body.paymentMethod === "cod" ? "pending" : "waiting"
+
         })
         await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}})
+
+        if (req.body.paymentMethod === "cod") {
+            res.json({success: true, message: 'Order placed '})
+            
+        } else{
+            
+        }
 
         const line_items = req.body.items.map((item) => ({
             price_data:{

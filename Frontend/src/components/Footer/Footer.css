@@ -1,6 +1,6 @@
 .Footer{
     color: white ;
-    background-color: black;
+    background-color: #481E14;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,6 +29,7 @@
     list-style: none;
     margin-bottom: 10px;
     cursor: pointer;
+    color: #FFFDEC;
 
 }
 
@@ -36,14 +37,15 @@
 
 
 .footer-content-right span {
-    color: tomato;
+    color:#FAF0E6;
     
 }
 .footer-content-center h2{
-    color: tomato;
+    
+    color: #FAF0E6;
 }
 .footer-content-right h2{
-    color: tomato;
+    color: #FAF0E6;
 }
 .footer-social-icons img{
     width: 40px;

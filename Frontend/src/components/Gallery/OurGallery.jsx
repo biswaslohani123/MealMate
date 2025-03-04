@@ -5,6 +5,7 @@ import { assets } from "../../assets/assets";
 const OurGallery = () => {
   return (
     <div className="gallery-section" id="Our-gallery">
+      
         <h1>Our Gallery</h1>
         
         <p>We have gathered spectacular pictures of our hotel and location to showcase style & design of our accommodations to inspire you.</p>

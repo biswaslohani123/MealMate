@@ -5,9 +5,11 @@
   box-sizing: border-box;
   font-family: Outfit;
   scroll-behavior: smooth;
+  
 }
 body{
   min-height: 100vh;
+  background-color: #FFF7F1;
 }
 a{
   text-decoration: none;

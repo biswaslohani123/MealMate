@@ -36,6 +36,7 @@ const PlaceOrder = () => {
       address: data,
       items:orderItems,
       amount:getTotalCartAmount()+100,
+     
     }
     // calling API
     let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}})
@@ -71,8 +72,8 @@ const PlaceOrder = () => {
         <p>Email:</p>
         <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email Address' required />
         <p>Your location:</p>
-        <input name='City' onChange={onChangeHandler} value={data.City} type="text" placeholder='eg: Enter Your City' required />
-        <input name='street' onChange={onChangeHandler} value={data.street} type="number" placeholder='eg: Enter Your Street.No' required />
+        <input name='location' onChange={onChangeHandler} value={data.location} type="text" placeholder='eg: Enter Your City' required />
+        <input name='street' onChange={onChangeHandler} value={data.street} type="text" placeholder='eg: Enter Your Street.No' required />
         
         
         <div className='multi-fields'>
@@ -84,7 +85,7 @@ const PlaceOrder = () => {
       <p>Payment Method:</p>
         <select name="paymentMethod" onChange={onChangeHandler} value={data.paymentMethod} required>
           <option value="">Select Payment Method</option>
-          <option value="COD">Cash on Delivery (COD)</option>
+          <option value="Cash on Delivery">Cash on Delivery (COD)</option>
           <option value="Stripe">Pay with Stripe</option>
         </select>
       </div>
@@ -110,7 +111,7 @@ const PlaceOrder = () => {
               <b>Rs.{getTotalCartAmount()+100}</b>
             </div>
           </div>
-            <button type='submit'>Proceed To Payment</button>
+            <button type='submit'>PLACE ORDER</button>
         </div>
 
       </div>

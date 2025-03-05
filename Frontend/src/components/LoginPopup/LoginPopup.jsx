@@ -106,17 +106,18 @@ const LoginPopup = ({ setShowlogin }) => {
           <p>
             Create a new account? {" "}
             <span onClick={() => setCurrState("Sign Up")}>Click Here</span><br />
-            <br />
-            Continue with google
+            
+            <div className="forgot-password">
+            <a href="#">Forgot Password?</a>
+            </div>
+            
           </p>
           
         ) : (
           <p>
             Already have an account?{" "}
             <span onClick={() => setCurrState("Login")}>Login Here</span>
-            <br />
-            <br />
-            Continue with google
+            
           </p>
         )}
       </form>

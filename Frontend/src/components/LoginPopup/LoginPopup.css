@@ -100,6 +100,21 @@
   .password-visibility:hover {
     color: #333; 
   }
+  .forgot-password {
+    text-align: right;
+    margin-top: 10px;
+  }
   
+  .forgot-password a {
+    cursor: pointer;
+    color: tomato;
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: none;
+  }
+  
+ 
 
 

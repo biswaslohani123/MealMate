@@ -41,15 +41,16 @@ const Orders = ({url}) => {
               </p>
               <p className='order-item-name'>{order.address.firstName + " " + order.address.lastName}</p>
               <div className="order-item-address">
-                <p>{order.address.City+ " , " + order.address.street}</p>
+                <p>{order.address.location+ " , " + order.address.street}</p>
               </div>
               <p className='order-item-phone'>{order.address.Phone}</p>
+              <p style={{ fontWeight: "bold", color: "tomato"}}><span>Payment Method:</span> <b>{order.address.paymentMethod}</b></p>
             </div>
             <p>TotalItems : {order.items.length}</p>
             <p>Rs.{order.amount}</p>
 
             <p className={`order-payment ${order.payment ? "paid" : "unpaid"}`}>
-              {order.payment ? "Paid" : "Unpaid"}
+              {order.payment ? "Paid" : ""}
             </p>
             <select>
               <option value="Order Received ">Order Received</option>

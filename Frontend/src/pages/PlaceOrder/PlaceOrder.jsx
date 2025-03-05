@@ -19,7 +19,7 @@ const PlaceOrder = () => {
     phone: ""
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("stripe"); // Default to Stripe
+  
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -114,27 +114,7 @@ const PlaceOrder = () => {
           </div>
           
 
-          <div className="payment-methods">
-           
-            <h2>Payment Method:</h2>
-            <div className="payment-fields">
-            <input type="radio" name='paymentMethod' value='stripe' checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} />
-            Pay With Stripe
-            </div>
-            <br />
-        
-            <div className='payment-fields-2'>
-            <input type="radio" name='paymentMethod' value='cod' checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} />
-             COD(Cash on delivery)
-           
-            </div>
-            <button type='submit'>Proceed To Payment</button>
-    
-             
-           
-            
-            
-          </div>
+         
         </div>
       </div>
       

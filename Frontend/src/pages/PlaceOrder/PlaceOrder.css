@@ -33,4 +33,14 @@
 }
 .place-order .cart-total button{
     margin-top: 30px;
+    
 }
+select{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    outline-color: tomato;
+    border: 2px solid #c5c5c5;
+    cursor: pointer;
+ };
+ 

@@ -47,6 +47,10 @@ const Orders = ({url}) => {
             </div>
             <p>TotalItems : {order.items.length}</p>
             <p>Rs.{order.amount}</p>
+
+            <p className={`order-payment ${order.payment ? "paid" : "unpaid"}`}>
+              {order.payment ? "Paid" : "Unpaid"}
+            </p>
             <select>
               <option value="Order Received ">Order Received</option>
               <option value="Order Processing">Order Processing</option>

@@ -10,17 +10,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 const placeOrder = async (req,res) => {
 
-        const frontend_url = 'http://localhost:5175'
+        const frontend_url = 'http://localhost:5173'
     try {
         const newOrder = new orderModel({
             userId:req.body.userId,
             items:req.body.items,
             amount:req.body.amount,
             address:req.body.address,
+
             
 
         })
-        await newOrder.save();
+       const order =  await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}})
 
        
@@ -47,6 +48,11 @@ const placeOrder = async (req,res) => {
             },
             quantity:1
         })
+        if(req.body.address.paymentMethod !== "stripe"){
+            await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} }, { new: true });
+            res.json({success:true,data:'cod'})
+            return
+        }
         //creating session
         const session = await stripe.checkout.sessions.create({
             line_items:line_items,
@@ -104,7 +110,7 @@ const userOrders = async(req,res) => {
 
 const listOrder = async(req, res) =>{
     try {
-        const orders = await orderModel.find({})
+        const orders = await orderModel.find({}).sort({createdAt: -1}) //newest first
         res.json({success:true,data:orders})
     } catch (error) {
         console.log(error);

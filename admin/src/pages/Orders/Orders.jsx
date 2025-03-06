@@ -21,6 +21,8 @@ const Orders = ({url}) => {
   useEffect(() => {
     fetchAllOrder()
   }, [])
+
+
   
   return (
     <div className='order add'>
@@ -36,6 +38,7 @@ const Orders = ({url}) => {
                     return item.name + " X " + item.quantity
                   } else {
                     return item.name + " x " + item.quantity + ","
+                    
                   }
                 })}
               </p>
@@ -44,14 +47,13 @@ const Orders = ({url}) => {
                 <p>{order.address.location+ " , " + order.address.street}</p>
               </div>
               <p className='order-item-phone'>{order.address.Phone}</p>
-              <p style={{ fontWeight: "bold", color: "tomato"}}><span>Payment Method:</span> <b>{order.address.paymentMethod}</b></p>
+              
+            
             </div>
             <p>TotalItems : {order.items.length}</p>
             <p>Rs.{order.amount}</p>
 
-            <p className={`order-payment ${order.payment ? "paid" : "unpaid"}`}>
-              {order.payment ? "Paid" : ""}
-            </p>
+            
             <select>
               <option value="Order Received ">Order Received</option>
               <option value="Order Processing">Order Processing</option>

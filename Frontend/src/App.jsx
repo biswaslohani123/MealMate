@@ -11,12 +11,14 @@ import MenuBook from "./pages/MenuBook/MenuBook";
 
 import Verify from "./pages/verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const [showlogin, setShowlogin] = useState(false);
 
   return (
     <>
+     <ToastContainer/>
       {showlogin ? <LoginPopup setShowlogin={setShowlogin} /> : <></>}
       <div className="app">
         <Navbar setShowlogin={setShowlogin} />

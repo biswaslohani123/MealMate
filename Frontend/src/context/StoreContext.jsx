@@ -23,7 +23,9 @@ const StoreContextProvider = (props) => {
       
     }
   };
-
+  const clearCart = () => {
+    setCartItems({});
+  };
   const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     if (token) {
@@ -31,6 +33,7 @@ const StoreContextProvider = (props) => {
       
     }
   };
+
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
@@ -77,6 +80,7 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
+    clearCart
   };
   return (
     <StoreContext.Provider value={contextValue}>

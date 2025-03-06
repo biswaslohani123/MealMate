@@ -3,9 +3,9 @@ import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import { toast } from 'react-toastify';
 const PlaceOrder = () => {
-  const {getTotalCartAmount, token,food_list,cartItems,url} = useContext(StoreContext)
+  const {getTotalCartAmount, token,food_list,cartItems,url,clearCart} = useContext(StoreContext)
 
   const [data, setData] = useState({
     firstName:"",
@@ -16,11 +16,18 @@ const PlaceOrder = () => {
     Phone:"",
     paymentMethod:""
   })
+ 
+  const [paymentMethod, setPaymentMethod] = useState('stripe')
+  const navigate = useNavigate();
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setData(data=>({...data,[name]:value}))
   }
+  useEffect(()=>{
+    setData(data=>({...data,paymentMethod:paymentMethod}))
+  
+  },[paymentMethod])
   
   const placeOrder = async (event) =>{
     event.preventDefault();
@@ -36,20 +43,31 @@ const PlaceOrder = () => {
       address: data,
       items:orderItems,
       amount:getTotalCartAmount()+100,
+   
      
     }
+    console.log(orderData);
+    
+
     // calling API
     let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}})
     if (response.data.success) {
-      const {session_url} = response.data;
-      window.location.replace(session_url);
+      if(response.data.data==='cod'){
+       clearCart()
+       toast.success("Your Order has been placed") 
+        navigate('/myorders')
+      }else{
+
+        const {session_url} = response.data;
+        window.location.replace(session_url);
+      }
     }
     else{
       alert("Error");
     }
     
   }
-  const navigate = useNavigate();
+ 
   useEffect(() => {
     if (!token) {
       navigate('/cart')
@@ -82,12 +100,7 @@ const PlaceOrder = () => {
         </div>
         <p>Phone:</p>
       <input name='Phone' onChange={onChangeHandler} value={data.Phone} type="text" placeholder='phone' required />
-      <p>Payment Method:</p>
-        <select name="paymentMethod" onChange={onChangeHandler} value={data.paymentMethod} required>
-          <option value="">Select Payment Method</option>
-          <option value="Cash on Delivery">Cash on Delivery (COD)</option>
-          <option value="Stripe">Pay with Stripe</option>
-        </select>
+     
       </div>
       
        
@@ -110,9 +123,21 @@ const PlaceOrder = () => {
               <b>Total</b>
               <b>Rs.{getTotalCartAmount()+100}</b>
             </div>
+           
           </div>
-            <button type='submit'>PLACE ORDER</button>
+          <h2>Payment Methods:</h2>
+          <div className="payment-1">
+            <input type="radio" name='paymentMethod' value='stripe' checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} />
+            Pay With Stripe
+          </div>
+          <div className="payment-2">
+            <input type="radio" name='paymentMethod' value='cod' checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} />
+            (COD)Cash On Delivery
+          </div>
+          <button type='submit'>PLACE ORDER</button>
+          
         </div>
+        
 
       </div>
     </form>

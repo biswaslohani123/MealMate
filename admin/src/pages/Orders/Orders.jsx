@@ -52,6 +52,8 @@ const Orders = ({url}) => {
             </div>
             <p>TotalItems : {order.items.length}</p>
             <p>Rs.{order.amount}</p>
+            <p><b style={{color:"tomato"}}>Payment Method:</b>{order.address.paymentMethod}</p>
+
 
         
             

@@ -20,3 +20,15 @@
 .navbar .profile:hover{
   transform: scale(1.1);
 }
+.navbar .btn{
+  padding: 12px 15px;
+  border: 1px solid tomato;
+  border-radius: 20px;
+  background-color: tomato;
+  color: white;
+  transition: 0.3s all ease-in-out;
+}
+.navbar .btn:hover{
+  transform: scale(1.1);
+  
+}

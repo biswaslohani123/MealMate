@@ -28,7 +28,7 @@
     transition: 0.3s all ease-in;
 }
 .sidebar-option:hover{
-    background-color: brown;
+    background-color: #ffe1e1;
     color: aliceblue;
    
 }

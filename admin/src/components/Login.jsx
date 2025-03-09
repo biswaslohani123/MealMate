@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { url } from '../assets/assets'
+import { assets, url } from '../assets/assets'
 import { toast } from 'react-toastify'
+import './Login.css'
 
 const Login = ({setToken}) => {
     const  [email, setEmail] = useState('')
@@ -26,19 +27,21 @@ const Login = ({setToken}) => {
         }
     }
   return (
-    <div >
-      <div >
-        <h1 >Admin Panel</h1>
+    <div  className='container'>
+      <div className='login' >
+        <img src={assets.logo} alt="" />
         <form onSubmit={onSubmitHandler}>
-            <div >
+        <h1 >Admin Login</h1>
+            <div box-1>
                 <p >Email Address</p>
                 <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Your@email.com' required />
             </div>
-            <div>
+            <div box-2>
                 <p >Password</p>
                 <input onChange={(e) => setPassword(e.target.value)} value={password}  type="password" placeholder='Enter Your password' required />
             </div>
-            <button type='submit'>Login</button>
+         
+        <button type='submit'>Login</button>
         </form>
       </div>
     </div>

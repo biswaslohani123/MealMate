@@ -20,15 +20,16 @@
 .navbar .profile:hover{
   transform: scale(1.1);
 }
-.navbar .btn{
-  padding: 12px 15px;
+.biswas {
+  padding: 8px 12px;  
+  font-size: 14px;   
   border: 1px solid tomato;
   border-radius: 20px;
   background-color: tomato;
   color: white;
   transition: 0.3s all ease-in-out;
 }
-.navbar .btn:hover{
+
+.biswas:hover {
   transform: scale(1.1);
-  
 }

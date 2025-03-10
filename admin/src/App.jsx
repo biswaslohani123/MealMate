@@ -33,6 +33,7 @@ const App = () => {
               <Route path='/add' element={<Add url={url} token={token}/>} />
               <Route path='/list' element={<List url={url} token={token} />} />
               <Route path='/orders' element={<Orders url={url} token={token} />} />
+              <Route path='/admin-login' element={<Login/>}/>
             </Routes>
           </div>
         </>

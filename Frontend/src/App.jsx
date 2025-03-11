@@ -12,7 +12,7 @@ import MenuBook from "./pages/MenuBook/MenuBook";
 import Verify from "./pages/verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer } from "react-toastify";
-import Login from "../../admin/src/components/Login";
+
 
 const App = () => {
   const [showlogin, setShowlogin] = useState(false);

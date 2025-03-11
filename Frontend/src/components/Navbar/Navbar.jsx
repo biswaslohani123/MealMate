@@ -9,9 +9,7 @@ const Navbar = ({ setShowlogin }) => {
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
 
   const navigate = useNavigate();
-  const handleAdminLogin = () => {
-    window.location.href = '/admin-login'; 
-};
+  
 
   const Logout = () => {
     localStorage.removeItem("token");
@@ -64,7 +62,7 @@ const Navbar = ({ setShowlogin }) => {
     
       
       <div className="navbar-right">
-          <p onClick={handleAdminLogin}>Admin Panel</p>
+        
         <div className="navbar-search-icon">
           <Link to="/cart">
             <img src={assets.basket_icon} alt="" />
@@ -77,11 +75,8 @@ const Navbar = ({ setShowlogin }) => {
           <div className="navbar-profile">
             <img src={assets.profiles_icon} alt="" />
             <ul className="nav-profile-dropdown">
-            <li >
-                <img src={assets.profile_icon} alt="" />
-                <p style={{whiteSpace:"nowrap"}}>My Profile</p>
-              </li>
-              <hr />
+          
+             
               <li onClick={() => navigate('/myorders')}>
                 <img src={assets.bag_icon} alt="" />
                 <p style={{whiteSpace:"nowrap"}}>My Orders</p>

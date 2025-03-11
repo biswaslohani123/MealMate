@@ -23,13 +23,15 @@
 .biswas {
   padding: 8px 12px;  
   font-size: 14px;   
-  border: 1px solid tomato;
+  border: 2px solid tomato;
   border-radius: 20px;
-  background-color: tomato;
-  color: white;
+  background-color: transparent;
+  color: black;
   transition: 0.3s all ease-in-out;
 }
 
 .biswas:hover {
+  background-color: tomato;
   transform: scale(1.1);
+  color: aliceblue;
 }

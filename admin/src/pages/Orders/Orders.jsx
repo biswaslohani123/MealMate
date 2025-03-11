@@ -17,6 +17,17 @@ const Orders = ({url}) => {
       toast.error("Error")
     }
   }
+
+  const statusHandler = async(event,orderId) => {
+    const response = await axios.post(url+"/api/order/status",{
+      orderId,
+      status:event.target.value
+    })
+    if (response.data.success) {
+      await fetchAllOrder();
+    }
+    
+  }
   
   useEffect(() => {
     fetchAllOrder()
@@ -59,7 +70,7 @@ const Orders = ({url}) => {
             
 
             
-            <select>
+            <select onChange={(event) => statusHandler(event,order._id) } value={order.status}>
               <option value="Order Received ">Order Received</option>
               <option value="Order Processing">Order Processing</option>
               <option value="Order Out For Delivery">Order Out For Delivery</option>

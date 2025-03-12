@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
-const List = ({url}) => {
+const List = ({url, token}) => {
 
   const [list, setList] = useState([]);
 
@@ -22,7 +22,7 @@ const List = ({url}) => {
   }
   const removeFood = async(foodId) => {
    //api call
-   const response = await axios.post(`${url}/api/food/remove`,{id:foodId});
+   const response = await axios.post(`${url}/api/food/remove`,{id:foodId}, {headers:{token}});
    await fetchList();
    if (response.data.success) {
       toast.success(response.data.message)

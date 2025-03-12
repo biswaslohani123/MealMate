@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 
-const Add = ({url}) => {
+const Add = ({url, token}) => {
  
     const [image, setImage] = useState(false)
     const [data, setData] = useState({
@@ -33,7 +33,7 @@ const Add = ({url}) => {
         formData.append("image",image)
 
         //APi call
-        const response  = await axios.post(`${url}/api/food/add`,formData);
+        const response  = await axios.post(`${url}/api/food/add`,formData,{headers:{token}});
         if (response.data.success) {
             setData({
                 name:"",

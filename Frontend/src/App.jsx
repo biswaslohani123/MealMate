@@ -12,7 +12,7 @@ import MenuBook from "./pages/MenuBook/MenuBook";
 import Verify from "./pages/verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer } from "react-toastify";
-import Search from "./pages/Search/Search";
+
 
 
 const App = () => {
@@ -33,7 +33,7 @@ const App = () => {
           <Route path="/verify" element={<Verify />} />
           <Route path="/MenuBook" element={<MenuBook />} />
           <Route path="/myOrders" element={<MyOrders />} />
-          <Route path="/search" element={<Search/>} />
+          
           
         </Routes>
       </div>

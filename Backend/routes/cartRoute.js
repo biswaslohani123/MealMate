@@ -6,9 +6,9 @@ import adminAuth from '../middleware/AdminAuth.js';
 
 const cartRouter = express.Router();
 
-cartRouter.post("/add", authMiddleware,adminAuth,addToCart)
-cartRouter.post("/remove",adminAuth, authMiddleware, removeFromCart)
-cartRouter.post("/get",adminAuth, authMiddleware, getCart)
-cartRouter.delete('/delete',adminAuth,authMiddleware,clearCart)
+cartRouter.post("/add",addToCart)
+cartRouter.post("/remove", removeFromCart)
+cartRouter.post("/get", getCart)
+cartRouter.delete('/delete',clearCart)
 
 export default cartRouter;

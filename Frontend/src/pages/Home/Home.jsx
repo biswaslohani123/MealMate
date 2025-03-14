@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Home.css'
 import Header from '../../components/Header/Header'
 import ExploreMenu from '../../components/ExploreMenu/ExploreMenu'
@@ -12,6 +12,9 @@ import OurGallery from '../../components/Gallery/OurGallery'
 
 const Home = () => {
   const [category, setCategory] = useState("All");
+  useEffect(()=>{
+    console.log(category)
+  },[category])
   return (
     <div>
       <Header/>

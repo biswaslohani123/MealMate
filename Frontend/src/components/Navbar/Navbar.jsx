@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
+import { GrFavorite } from "react-icons/gr";
 
 const Navbar = ({ setShowlogin }) => {
   // for Cart signal
@@ -64,6 +65,9 @@ const Navbar = ({ setShowlogin }) => {
       <div className="navbar-right">
         
         <div className="navbar-search-icon">
+          <Link className="Link">
+          <GrFavorite className="favorite-icon"  />
+          </Link>
           <Link to="/cart">
             <img src={assets.basket_icon} alt="" />
           </Link>

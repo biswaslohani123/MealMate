@@ -20,6 +20,7 @@
     align-items: center;
     gap: 40px;
 }
+
 .navbar button {
     background: transparent;
     font-size: 16px;
@@ -48,6 +49,31 @@
     position: relative;
    
 }
+.link {
+    text-decoration: none;
+    color: black;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s ease;
+   
+    
+  }
+  
+
+  
+  .favorite-icon {
+    font-size: 28px;
+    margin-right: 30px;
+    transition: transform 0.3s ease; 
+    
+  
+  }
+  
+  .favorite-icon:hover {
+    transform: scale(1.2); 
+    
+  }
+
 .navbar-search-icon .dot{
     position: absolute;
     min-width: 10px;

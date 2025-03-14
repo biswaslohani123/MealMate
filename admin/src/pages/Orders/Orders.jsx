@@ -18,16 +18,28 @@ const Orders = ({url}) => {
     }
   }
 
-  const statusHandler = async(event,orderId) => {
-    const response = await axios.post(url+"/api/order/status",{
+  const statusHandler = async (event, orderId) => {
+    const newStatus = event.target.value;
+  
+    // Finding the current order status
+    const currentOrder = orders.find(order => order._id === orderId);
+  
+    // implenting Logic
+    if (currentOrder.status === "Order Delivered" && newStatus !== "Order Delivered") {
+      toast.error("You cannot change the status after 'Order Delivered'");
+      return;
+    }
+  
+    const response = await axios.post(url + "/api/order/status", {
       orderId,
-      status:event.target.value
-    })
+      status: newStatus
+    });
+  
     if (response.data.success) {
       await fetchAllOrder();
     }
-    
-  }
+  };
+  
   
   useEffect(() => {
     fetchAllOrder()
@@ -62,8 +74,8 @@ const Orders = ({url}) => {
             
             </div>
             <p>TotalItems : {order.items.length}</p>
-            <p>Rs.{order.amount}</p>
-            <p><b style={{color:"tomato"}}>Payment Method:</b>{order.address.paymentMethod}</p>
+            <p><span>Rs.</span>{order.amount}</p>
+            <p><b style={{color:"tomato"}}>Payment: </b>{order.address.paymentMethod}</p>
 
 
         

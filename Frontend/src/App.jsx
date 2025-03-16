@@ -12,6 +12,8 @@ import MenuBook from "./pages/MenuBook/MenuBook";
 import Verify from "./pages/verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer } from "react-toastify";
+import EmailVerify from "./components/EmailVerify/EmailVerify";
+import ResetPassword from "./components/ResetPasword/ResetPassword";
 
 
 
@@ -29,7 +31,9 @@ const App = () => {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/about" element={<AboutUs />} />
-
+          <Route path="/email-verify" element={<EmailVerify/>}/>
+          <Route path="/reset-password" element={<ResetPassword/>}/>
+          
           <Route path="/verify" element={<Verify />} />
           <Route path="/MenuBook" element={<MenuBook />} />
           <Route path="/myOrders" element={<MyOrders />} />

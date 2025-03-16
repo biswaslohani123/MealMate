@@ -5,6 +5,7 @@ import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowlogin }) => {
   // fetching url using Context Api
@@ -43,6 +44,11 @@ const LoginPopup = ({ setShowlogin }) => {
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       setShowlogin(false);
+      toast.success(currState === "Login" 
+        ? "Logged in successfully!" 
+        : "Account created successfully!", {
+        
+      });
     } else {
       alert(response.data.message);
     }

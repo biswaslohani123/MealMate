@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 const Cart = () => {
@@ -32,7 +33,15 @@ const Cart = () => {
                   <p>Rs.{item.price}</p>
                   <p>{cartItems[item._id]}</p>
                   <p>Rs.{item.price * cartItems[item._id]}</p>
-                  <p onClick={() => removeFromCart(item._id)} className="cross">x</p>
+                  <p 
+                    onClick={() => {
+                      removeFromCart(item._id);
+                      toast.info(`${item.name} removed from cart`);
+                    }} 
+                    className="cross"
+                  >
+                    x
+                  </p>
                 </div>
                 <hr />
               </>

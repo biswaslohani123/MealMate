@@ -2,11 +2,18 @@ import userModel from "../models/userModel.js";
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
+import transporter from "../config/nodemailer.js";
+
+
 
 
 // Login User logic
 const loginUser = async (req,res) => {
     const {email, password} = req.body;
+
+    if (!email || !password) {
+        return res.json({success: false, message : 'Email and password are required'})
+    }
     try {
         const user = await userModel.findOne({email});
 
@@ -17,7 +24,14 @@ const loginUser = async (req,res) => {
         if (!isMatch) {
             return res.json({success: false, message:"Invalid credentials"})
         }
-        const token = createToken(user._id);
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET,{expiresIn: '7d'});
+
+            res.cookie('token', token,{
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none':'strict',
+                maxAge: 7 + 24 * 60 * 60 * 1000
+            })
         res.json({success:true,token})
     } catch (error) {
         console.log(error);
@@ -27,9 +41,7 @@ const loginUser = async (req,res) => {
 
 }
 
-const createToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET)
-}
+
 
 
 
@@ -37,6 +49,10 @@ const createToken = (id) => {
 //register User logic
 const registerUser = async (req, res) => {
     const {name, password, email} = req.body;
+
+    if (!name || !email || !password) {
+        return res.json({success:false, message: 'Missing Details'})
+    }
     
     try{
 
@@ -62,7 +78,25 @@ const registerUser = async (req, res) => {
             password:hashedPassword
         })
             const user = await newUser.save()
-            const token = createToken(user._id)
+            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET,{expiresIn: '7d'});
+
+            res.cookie('token', token,{
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none':'strict',
+                maxAge: 7 + 24 * 60 * 60 * 1000
+            })
+
+            //Sending Welcome email
+            const mailOptions ={
+                from: process.env.SENDER_EMAIL,
+                to: email,
+                subject: 'Welcome TO MealMate🍔',
+                text:`Welcome to MealMate website. Your account has been created with email id: ${email}`
+            }
+            await transporter.sendMail(mailOptions)
+           
+
             res.json({success:true,token})
     }catch(error) {
         console.log(error);

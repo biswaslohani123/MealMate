@@ -1,3 +1,4 @@
+import transporter from "../config/nodemailer.js";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
@@ -25,7 +26,17 @@ const placeOrder = async (req,res) => {
        const order =  await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}})
 
-       
+        const user = await userModel.findById(req.body.userId);
+        const itemList = req.body.items.map(item => `<li>${item.name} x ${item.quantity}</li>`).join("");
+
+       const maiilOptions ={
+        from: process.env.SENDER_EMAIL,
+        to: user.email,
+        subject: 'YOur Order has been  Placed Sucessfully',
+        text: `Dear ${user.name} ,Your Order  has been received, it will be delivered within our standard timing Total amount ${req.body.amount} is you bill`
+
+       }
+       await transporter.sendMail(maiilOptions)
         
 
         const line_items = req.body.items.map((item) => ({

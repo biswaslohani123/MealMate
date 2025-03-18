@@ -8,7 +8,7 @@ const OurGallery = () => {
       
         <h1>Our Gallery</h1>
         
-        <p>We have gathered spectacular pictures of our hotel and location to showcase style & design of our accommodations to inspire you.</p>
+       
       <div className="content">
         <div className="images">
           <img src={assets.img_1} alt="" />

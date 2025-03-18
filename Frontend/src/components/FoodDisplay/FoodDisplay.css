@@ -8,7 +8,13 @@
     font-size: max(2vw, 24px);
     font-weight: 600;
     color: #2C1D16;
+    transition: color 0.3s ease-in-out;
 }
+.food-display h:hover {
+    color: #e74c3c; 
+  
+    
+  }
 .food-display-list{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px,1fr));

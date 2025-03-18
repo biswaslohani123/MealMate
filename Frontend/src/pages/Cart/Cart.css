@@ -1,64 +1,132 @@
-.cart{
+.cart {
     margin-top: 100px;
+    padding: 0 20px;
 }
-.cart-items-title{
+
+.cart-items-title {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
     align-items: center;
-    color: black;
+    color: #333;
     font-size: max(1vw, 12px);
     font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
-.cart-items-item{
-    margin: 10px 0px;
-    color: black;
+
+.cart-items-item {
+    margin: 10px 0;
+    color: #333;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    gap: 10px;
 }
-.cart-items-item img{
+
+.cart-items-item img {
     width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
 }
-.cart hr{
+
+.cart hr {
     height: 1px;
     background-color: #e2e2e2;
     border: none;
+    margin: 15px 0;
 }
+
 .cart-items-item .cross {
     cursor: pointer;
-    
-   
+    color: tomato;
+    transition: color 0.3s ease;
 }
-.cart-bottom{
+
+.cart-items-item .cross:hover {
+    color: darkred;
+}
+
+.cart-bottom {
     margin-top: 80px;
     display: flex;
     justify-content: space-between;
-    gap: max(12vw,20px);
+    gap: max(12vw, 20px);
+    flex-wrap: wrap;
 }
-.cart-total{
+
+.cart-total {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 15px;
+   
+    border-radius: 8px;
+   
+    margin-right: 15px;
 }
-.cart-total-details{
+
+.cart-total-details {
     display: flex;
     justify-content: space-between;
-    color: #555
+    color: #555;
+    font-size: 1em;
 }
-.cart-total hr{
-    margin: 10px 0px ;
+
+.cart-total hr {
+    margin: 10px 0;
 }
-.cart-total button{
+
+.cart-total button {
     border: none;
-    color: white ;
+    color: white;
     background-color: tomato;
     width: max(15vw, 200px);
-    padding: 12px 0px;
+    padding: 12px 0;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    font-size: 1.1em;
+    font-weight: 600;
 }
-.cart-total button:hover{
-    background: tomato;
-    color: white;
+
+.cart-total button:hover {
+    background: darkred;
     transform: scale(1.1);
     box-shadow: 0px 4px 15px rgba(255, 99, 71, 0.5);
+}
+
+@media (max-width: 768px) {
+    .cart-items-title {
+        font-size: max(2vw, 10px);
+    }
+
+    .cart-items-item {
+        grid-template-columns: 1fr 2fr 1fr 1fr 0.5fr;
+    }
+
+    .cart-bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .cart-total button {
+        width: max(25vw, 250px);
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-items-title {
+        font-size: max(3vw, 10px);
+    }
+
+    .cart-items-item {
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+    }
+
+    .cart-total button {
+        width: max(30vw, 260px);
+    }
 }

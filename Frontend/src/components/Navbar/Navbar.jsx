@@ -35,7 +35,6 @@ const Navbar = ({ setShowlogin }) => {
         >
           Home
         </Link>
-        
         <a
           href="#explore-menu"
           onClick={() => setMenu("Menu")}
@@ -43,8 +42,6 @@ const Navbar = ({ setShowlogin }) => {
         >
           Menu
         </a>
-       
-        <Link to='/ourgallery'>
         <a
           href="#Our-gallery"
           onClick={() => setMenu("Our-gallery")}
@@ -52,7 +49,6 @@ const Navbar = ({ setShowlogin }) => {
         >
          Our-gallery
         </a>
-        </Link>
        
         <a
           href="#Footer"

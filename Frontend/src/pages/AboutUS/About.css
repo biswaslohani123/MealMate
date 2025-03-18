@@ -1,67 +1,95 @@
+
+
 .about-us {
-    font-family: outfit;
-    text-align: center;
-    padding: 20px;
-  }
   
-  .container {
-    margin: 20px auto;
-  }
-  
-  .logo {
-    max-width: 500px;
-  }
-  
-  .container-text h2 {
-    font-size: 3em;
-    margin: 20px 5px;
-  }
-  
-  .container-text p {
-    font-size: 1.2em;
-    color: #666;
-    margin: 5px 0 30px;
-  }
-  
-  .our-values h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
-    text-decoration: underline;
-    
-    margin-bottom: 60px;
-    text-decoration-thickness: 3px ;
-  }
-  
-  .values-row {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 100px;
-  }
-  
-  .value-card {
-    background: rgb(247, 247, 247);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 10px 30px tomato;
-  }
-  
-  .value-card img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
-  }
-  
-  .value-card h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-  }
-  
-  .value-card p {
-    font-size: 1em;
-    color: black;
-  }
-  
+  padding: 4rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.container img{
+  width: 500px;
+}
+
+.container-text {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.container-text h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.container-text p {
+  font-size: 1.125rem;
+  color: #4b5563;
+  line-height: 1.75;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.our-values {
+ 
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.our-values h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 3rem;
+}
+
+.values-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.value-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.value-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+}
+
+.value-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.value-card p {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 2rem;
+}

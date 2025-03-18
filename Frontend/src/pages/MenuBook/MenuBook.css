@@ -1,7 +1,28 @@
-
-.menu img{
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    
+    
+  }
   
-    width: 80%;
-    margin-left: 100px;
-    border-radius: 20px;
-}
+  .menu-img-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; 
+    overflow: hidden;
+    border-radius: 8px; 
+  }
+  
+  .menu-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; 
+    transition: transform 0.3s ease-in-out; 
+  }
+  
+  .menu-img:hover {
+    transform: scale(1.05); 
+  }
+  

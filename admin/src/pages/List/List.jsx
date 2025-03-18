@@ -1,5 +1,5 @@
 import React from 'react'
-import './List.css'
+
 import { useState } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -35,10 +35,10 @@ const List = ({url, token}) => {
     fetchList();
   },[])
   return (
-    <div className='list add flex-col'>
+    <div >
       <p >All Foods List</p>
-      <div className="list-table">
-        <div className="list-table-format title">
+      <div >
+        <div >
           <b>Image</b>
           <b>Name</b>
           <b>Category</b>
@@ -47,12 +47,12 @@ const List = ({url, token}) => {
         </div>
         {list.map((item, index) =>  {
           return(
-            <div key={index} className='list-table-format'>
+            <div key={index} >
               <img src={`${url}/images/` + item.image} alt="" />
               <p>{item.name}</p>
               <p>{item.category}</p>
               <p>Rs.{item.price}</p>
-              <p onClick={() => removeFood(item._id)} className='cursor'>X</p>
+              <p onClick={() => removeFood(item._id)} >X</p>
 
             </div>
           )

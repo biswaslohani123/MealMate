@@ -1,62 +1,63 @@
-import React from 'react'
-
-import { assets } from '../../assets/assets'
-import { useState } from 'react'
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Upload } from 'lucide-react';
+import React from "react";
 
 
-const Add = ({url, token}) => {
- 
-    const [image, setImage] = useState(false)
-    const [data, setData] = useState({
-        name:"",
-        description:"",
-        price:"",
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Upload } from "lucide-react";
+
+const Add = ({ url, token }) => {
+  const [image, setImage] = useState(false);
+  const [data, setData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    category: "salad",
+  });
+  const onChangeHandler = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", Number(data.price));
+    formData.append("category", data.category);
+    formData.append("image", image);
+
+    //APi call
+    const response = await axios.post(`${url}/api/food/add`, formData, {
+      headers: { token },
+    });
+    if (response.data.success) {
+      setData({
+        name: "",
+        description: "",
+        price: "",
         category: "salad",
-    })
-    const onChangeHandler = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setData(data=>({...data,[name]:value}))
+      });
+      setImage(false);
+      toast.success(response.data.message);
+    } else {
+      toast.error(response.data.message);
     }
-
-   
-
-    const onSubmitHandler = async (event) => {
-        event.preventDefault()
-        const formData = new  FormData();
-        formData.append("name", data.name)
-        formData.append("description", data.description)
-        formData.append("price",Number(data.price))
-        formData.append("category",(data.category))
-        formData.append("image",image)
-
-        //APi call
-        const response  = await axios.post(`${url}/api/food/add`,formData,{headers:{token}});
-        if (response.data.success) {
-            setData({
-                name:"",
-                description:"",
-                price:"",
-                category: "salad",
-            })
-            setImage(false)
-            toast.success(response.data.message)
-            
-        }else{
-            toast.error(response.data.message)
-        }
-
-    };
+  };
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Item</h2>
-      <form onSubmit={onSubmitHandler} className="space-y-6 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        {/* Image Upload Section */}
+      <form
+        onSubmit={onSubmitHandler}
+        className="space-y-6 bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+      >
+       
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Upload Image
+          </label>
           <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-blue-400 transition-colors duration-200 cursor-pointer">
             <label htmlFor="image" className="w-full cursor-pointer">
               <div className="space-y-1 text-center">
@@ -74,11 +75,17 @@ const Add = ({url, token}) => {
                         Upload an image
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                    
                   </div>
                 )}
               </div>
-              <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" className="sr-only" required />
+              <input
+                onChange={(e) => setImage(e.target.files[0])}
+                type="file"
+                id="image"
+                className="sr-only"
+                required
+              />
             </label>
           </div>
         </div>
@@ -86,7 +93,12 @@ const Add = ({url, token}) => {
         {/* Product Details Section */}
         <div className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Product Name</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Product Name
+            </label>
             <input
               type="text"
               id="name"
@@ -100,7 +112,12 @@ const Add = ({url, token}) => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
@@ -115,7 +132,12 @@ const Add = ({url, token}) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Category
+              </label>
               <select
                 id="category"
                 name="category"
@@ -137,7 +159,12 @@ const Add = ({url, token}) => {
             </div>
 
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price (Rs.)</label>
+              <label
+                htmlFor="price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Price (Rs.)
+              </label>
               <input
                 type="number"
                 id="price"
@@ -164,7 +191,7 @@ const Add = ({url, token}) => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Add
+export default Add;

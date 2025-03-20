@@ -1,6 +1,7 @@
 import express from 'express'
 import { adminDashboard, loginAdmin } from '../controllers/adminController.js'
-import authAdmin from '../middleware/AdminAuth.js'
+import authAdmin from '../middleware/adminAuth.js'
+
 
 
 const adminRouter = express.Router()

@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 
 
 
+
 const App = () => {
   const [showlogin, setShowlogin] = useState(false);
 
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/about" element={<AboutUs />} />
+          
           
           
           <Route path="/verify" element={<Verify />} />

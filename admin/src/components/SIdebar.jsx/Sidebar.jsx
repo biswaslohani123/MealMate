@@ -1,52 +1,56 @@
-import React from 'react'
-
-import { assets } from '../../assets/assets'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { LayoutDashboard, PlusCircle, List, ShoppingBag, Menu } from 'lucide-react';
+import { Tooltip } from 'react-tooltip';
 
 const Sidebar = () => {
+    const [isOpen, setIsOpen] = useState(true);
 
-    
-  return (
-   <div className="bg-[#ffece9] min-h-screen w-64 fixed left-0 top-0 pt-20 text-[#ff6347] ">
-      <div className="flex flex-col space-y-2  p-4">
-        <NavLink 
-          to='/add'
-          className={({ isActive }) =>
-            `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-              isActive ? 'bg-white text-[#ff6347] shadow-sm' : 'hover:bg-[#ffdcd7]'
-            }`
-          }
-        >
-          <img src={assets.add_icon} alt="" className="w-6 h-6" />
-          <p className="font-medium">Add Items</p>
-        </NavLink>
-        
-        <NavLink 
-          to='/list'
-          className={({ isActive }) =>
-            `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-              isActive ? 'bg-white text-[#ff6347] shadow-sm' : 'hover:bg-[#ffdcd7]'
-            }`
-          }
-        >
-          <img src={assets.order_icon} alt="" className="w-6 h-6" />
-          <p className="font-medium">List Items</p>
-        </NavLink>
-        
-        <NavLink 
-          to='/orders'
-          className={({ isActive }) =>
-            `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-              isActive ? 'bg-white text-[#ff6347] shadow-sm' : 'hover:bg-[#ffdcd7]'
-            }`
-          }
-        >
-          <img src={assets.order_icon} alt="" className="w-6 h-6" />
-          <p className="font-medium">Orders</p>
-        </NavLink>
-      </div>
-    </div>
-  )
+    const toggleSidebar = () => setIsOpen(!isOpen);
+
+    const navLinkClasses = ({ isActive }) =>
+        `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 
+        ${isActive ? 'bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg' 
+        : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700'} `;
+
+    return (
+        <div className={`h-screen border-r border-gray-200 bg-white px-4 py-6 transition-all duration-300 shadow-xl sticky top-0 ${isOpen ? 'w-64' : 'w-20'}`}>
+            {/* Toggle Button */}
+            <button 
+                className="flex items-center gap-2 mb-6 text-blue-600 hover:text-blue-800 transition-all"
+                onClick={toggleSidebar}
+            >
+                <Menu size={26} />
+                {isOpen && <span className="font-semibold text-lg">Menu</span>}
+            </button>
+
+            <div className="space-y-2">
+                <NavLink to="/dashboard" className={navLinkClasses} data-tooltip-id="dashboard">
+                    <LayoutDashboard size={22} />
+                    {isOpen && <p className="font-medium">Dashboard</p>}
+                </NavLink>
+                {!isOpen && <Tooltip id="dashboard" content="Dashboard" place="right" />}
+
+                <NavLink to="/add" className={navLinkClasses} data-tooltip-id="add">
+                    <PlusCircle size={22} />
+                    {isOpen && <p className="font-medium">Add Items</p>}
+                </NavLink>
+                {!isOpen && <Tooltip id="add" content="Add Items" place="right" />}
+
+                <NavLink to="/list" className={navLinkClasses} data-tooltip-id="list">
+                    <List size={22} />
+                    {isOpen && <p className="font-medium">List Items</p>}
+                </NavLink>
+                {!isOpen && <Tooltip id="list" content="List Items" place="right" />}
+
+                <NavLink to="/orders" className={navLinkClasses} data-tooltip-id="orders">
+                    <ShoppingBag size={22} />
+                    {isOpen && <p className="font-medium">Orders</p>}
+                </NavLink>
+                {!isOpen && <Tooltip id="orders" content="Orders" place="right" />}
+            </div>
+        </div>
+    );
 }
 
-export default Sidebar
+export default Sidebar;

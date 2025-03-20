@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
+import { toast } from "react-toastify";
 
 
 export const StoreContext = createContext(null);
@@ -9,6 +10,7 @@ const StoreContextProvider = (props) => {
   const url = "http://localhost:4000";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([])
+ 
 
 
   useEffect(()=>{
@@ -78,6 +80,9 @@ const StoreContextProvider = (props) => {
     loadData();
   }, [])
 
+
+  
+
   const contextValue = {
     food_list,
     cartItems,
@@ -88,7 +93,8 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
-    clearCart
+    clearCart,
+   
   };
   return (
     <StoreContext.Provider value={contextValue}>

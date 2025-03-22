@@ -28,7 +28,7 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <Menu size={26} />
-        {isOpen && <span className="font-semibold text-lg">Menu</span>}
+        {isOpen && <span className="font-semibold text-lg cursor-pointer">Menu</span>}
       </button>
 
       <div className="space-y-2">

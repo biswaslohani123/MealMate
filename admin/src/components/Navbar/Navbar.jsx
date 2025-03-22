@@ -2,17 +2,24 @@ import React, { useContext } from "react";
 import { LogOut } from "lucide-react";
 import { assets } from "../../assets/assets";
 import { AdminContext } from "../../context/AdminContext.";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { atoken, setAtoken } = useContext(AdminContext);
+
+  const navigate = useNavigate();
 
   const logout = () => {
     atoken && setAtoken("");
     atoken && localStorage.removeItem("atoken");
   };
+
+  const gpToDashboard = () => {
+    navigate('/dashboard')
+  }
   return (
     <div className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between shadow-sm fixed w-full top-0 z-50">
-      <div className="flex items-center">
+      <div className="flex items-center cursor-pointer" onClick={gpToDashboard}>
         <img src={assets.logo} alt="Logo" className="h-8 w-auto" />
       </div>
 
@@ -29,7 +36,7 @@ const Navbar = () => {
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:bg-cyan-200 transition-colors duration-200"
         >
           <LogOut size={18} />
-          <span className="font-medium ">Logout</span>
+          <span className="font-medium cursor-pointer">Logout</span>
         </button>
       </div>
     </div>

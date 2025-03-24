@@ -18,7 +18,7 @@ const Navbar = () => {
     navigate("/dashboard");
   };
   return (
-    <div className=" form-white border-b border-gray-100 px-6 py-3 flex items-center justify-between shadow-sm fixed w-full top-0 z-50 rounded-2xl">
+    <div className=" form-white border-b bg-white border-gray-100 px-6 py-3 flex items-center justify-between shadow-sm fixed w-full top-0 z-50 rounded-2xl">
       <div className="flex items-center cursor-pointer" onClick={gpToDashboard}>
         <img src={assets.logo} alt="Logo" className="h-8 w-auto" />
       </div>

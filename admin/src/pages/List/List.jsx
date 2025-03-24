@@ -109,7 +109,7 @@ const List = ({ url, token }) => {
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="font-semibold text-stone-900">{item.name}</h3>
                     <span className="text-orange-600 font-medium">
-                      ₹{item.price}
+                      Rs.{item.price}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">

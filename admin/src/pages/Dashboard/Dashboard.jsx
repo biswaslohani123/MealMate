@@ -29,7 +29,7 @@ const Dashboard = () => {
                 <h2 className="text-lg font-medium">Total Orders</h2>
               </div>
               <p className="text-4xl font-bold">{dashdata.orders}</p>
-              <p className="text-sm text-stone-700">Lifetime orders</p>
+            
             </div>
             <div className="bg-white/20 p-3 rounded-xl">
               <Package className="h-8 w-8" />
@@ -90,7 +90,7 @@ const Dashboard = () => {
                               {i.name}
                             </p>
                             <div className="flex items-center text-sm font-medium text-orange-600">
-                              <span>₹ {i.price}</span>
+                              <span>Rs. {i.price}</span>
                             </div>
                           </div>
                         ))}

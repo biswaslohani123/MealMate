@@ -64,7 +64,7 @@ const Add = ({ url, token }) => {
           onSubmit={onSubmitHandler}
           className="space-y-8 bg-white rounded-2xl shadow-lg p-8 border border-stone-100"
         >
-          /* Image Upload Section */
+          
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-stone-700">
               Item Image
@@ -110,7 +110,7 @@ const Add = ({ url, token }) => {
             </div>
           </div>
 
-          /* Product Details Section */
+          
           <div className="grid grid-cols-1 gap-8">
             <div>
               <label
@@ -187,7 +187,7 @@ const Add = ({ url, token }) => {
                 </label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-stone-500">
-                    ₹
+                    Rs.
                   </span>
                   <input
                     type="number"

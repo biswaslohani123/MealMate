@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen border-r bg-amber-50 border-stone-100 bg-gradient-to-b from-white to-orange-50/30 px-4 py-6 transition-all duration-300 shadow-lg sticky top-0 ${
+      className={`h-screen border-r bg-amber-50 border-stone-100 bg-gradient-to-b from-white to-orange-50/30 px-4 py-6 transition-all duration-300 shadow-lg sticky top-0  ${
         isOpen ? "w-64" : "w-20"
       }`}
     >

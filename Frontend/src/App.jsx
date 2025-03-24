@@ -8,7 +8,6 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 import Footer from "./components/Footer/Footer";
 import AboutUs from "./pages/AboutUS/About";
 import MenuBook from "./pages/MenuBook/MenuBook";
-
 import Verify from "./pages/verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer } from "react-toastify";

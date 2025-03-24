@@ -36,6 +36,7 @@ const Navbar = ({ setShowlogin }) => {
           Home
         </Link>
         <a
+        
           href="#explore-menu"
           onClick={() => setMenu("Menu")}
           className={menu === "Menu" ? "active" : ""}

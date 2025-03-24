@@ -49,24 +49,25 @@ const List = ({ url, token }) => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b  to-white p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b  p-6 ">
+      <div className="max-w-7xl mx-auto ">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold">List Items</h1>
+            <h1 className="text-3xl font-bold text-stone-800">Menu Items</h1>
+            
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm mb-6 p-4">
+        <div className="bg-white rounded-xl shadow-lg mb-6 p-4 border border-stone-100">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Search items..."
+                placeholder="Search by name or category..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2"
+                className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
               />
             </div>
           </div>
@@ -75,44 +76,44 @@ const List = ({ url, token }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredList.length === 0 ? (
             <div className="col-span-full text-center py-12">
-              <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                <Search className="h-8 w-8 text-orange-500" />
+              <div className="mx-auto w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mb-4">
+                <Search className="h-8 w-8 text-orange-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">
+              <h3 className="text-lg font-medium text-stone-900 mb-1">
                 No items found
               </h3>
-              <p className="text-gray-500">Enter valid items</p>
+              <p className="text-stone-500">Try adjusting your search criteria</p>
             </div>
           ) : (
             filteredList.map((item, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300"
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-stone-100 group"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src={`${url}/images/${item.image}`}
                     alt={item.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-2 right-2">
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <button
                       onClick={() => removeFood(item._id)}
-                      className="p-2 bg-white/90 rounded-full hover:bg-red-50 text-red-500 transition-colors"
+                      className="p-2 bg-white/90 rounded-full hover:bg-red-50 text-red-500 transition-colors shadow-lg"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={18} className="cursor-pointer" />
                     </button>
                   </div>
                 </div>
                 <div className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900">{item.name}</h3>
+                    <h3 className="font-semibold text-stone-900">{item.name}</h3>
                     <span className="text-orange-600 font-medium">
-                      Rs.{item.price}
+                      ₹{item.price}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border border-orange-200">
                       {item.category}
                     </span>
                   </div>

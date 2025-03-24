@@ -48,15 +48,15 @@ const Orders = ({url}) => {
   const getStatusColor = (status) => {
     switch(status) {
       case "Order Received ":
-        return "bg-amber-50 text-amber-700 border-amber-200";
+        return "bg-orange-50 text-green-700 border-amber-200";
       case "Order Processing":
-        return "bg-blue-50 text-blue-700 border-blue-200";
+        return " bg-orange-50 text-yellow-700 border-amber-200";
       case "Order Out For Delivery":
-        return "bg-purple-50 text-purple-700 border-purple-200";
+        return " bg-orange-50 text-green-700 border-amber-200";
       case "Order Delivered":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
+        return " bg-orange-50 text-red-700 border-amber-200";
       default:
-        return "bg-gray-50 text-gray-700 border-gray-200";
+        return " bg-red-500 text-red-700 border-amber-200";
     }
   };
 
@@ -75,23 +75,31 @@ const Orders = ({url}) => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-b  p-6">
       <div className="max-w-7xl mx-auto">
-       
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Order </h1>
-          
+          <h1 className="text-3xl font-bold text-stone-800">Orders</h1>
+          <p className="mt-2 text-stone-600">Manage and track all customer orders</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm mb-6 p-4">
+        <div className="bg-white rounded-xl shadow-lg mb-6 p-4 border border-stone-100">
           <div className="flex flex-col md:flex-row gap-4">
-          
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-5 w-5" />
+              <input
+                type="text"
+                placeholder="Search by user email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
+              />
+            </div>
             <div className="flex items-center gap-2">
-              <Filter className="h-5 w-5 text-gray-400" />
+              <Filter className="h-5 w-5 text-stone-400" />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-100 focus:border-blue-300"
+                className="border border-stone-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200 bg-amber-50"
               >
                 <option value="all">All Status</option>
                 <option value="Order Received ">Order Received</option>
@@ -103,24 +111,22 @@ const Orders = ({url}) => {
           </div>
         </div>
 
-        {/* Orders List */}
         <div className="space-y-4">
           {filteredOrders.map((order, index) => (
             <div 
               key={index}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md"
+              className="bg-white rounded-xl shadow-lg border border-stone-100 overflow-hidden transition-all duration-200 hover:shadow-xl group"
             >
               <div className="p-6">
                 <div className="flex flex-col lg:flex-row lg:items-center gap-6">
-                
                   <div className="flex-1 space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-50 rounded-lg">
-                        <Package className="h-5 w-5 text-blue-600" />
+                      <div className="p-2 bg-orange-50 rounded-lg">
+                        <Package className="h-5 w-5 text-orange-600" />
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-900">{order.address.firstName} {order.address.lastName}</h3>
-                        <p className="text-sm text-gray-500">
+                        <h3 className="font-medium text-stone-900">{order.address.firstName} {order.address.lastName}</h3>
+                        <p className="text-sm text-stone-500">
                           {new Date().toLocaleDateString('en-US', {
                             month: 'long',
                             day: 'numeric',
@@ -133,53 +139,50 @@ const Orders = ({url}) => {
                     <div className="pl-10">
                       {order.items.map((item, idx) => (
                         <div key={idx} className="flex items-center gap-2 text-sm">
-                          <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
-                          <span className="font-medium text-gray-700">{item.name}</span>
-                          <span className="text-gray-400">×</span>
-                          <span className="text-gray-600">{item.quantity}</span>
+                          <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
+                          <span className="font-medium text-stone-700">{item.name}</span>
+                          <span className="text-stone-400">×</span>
+                          <span className="text-stone-600">{item.quantity}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                 
                   <div className="flex-1 space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <MapPin className="h-4 w-4 text-gray-400" />
+                    <div className="flex items-center gap-2 text-sm text-stone-600">
+                      <MapPin className="h-4 w-4 text-orange-400" />
                       <span>{order.address.location}, {order.address.street}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Mail className="h-4 w-4 text-gray-400" />
+                    <div className="flex items-center gap-2 text-sm text-stone-600">
+                      <Mail className="h-4 w-4 text-orange-400" />
                       <span>{order.address.email}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Phone className="h-4 w-4 text-gray-400" />
+                    <div className="flex items-center gap-2 text-sm text-stone-600">
+                      <Phone className="h-4 w-4 text-orange-400" />
                       <span>{order.address.Phone}</span>
                     </div>
                   </div>
 
-                 
                   <div className="flex-1 space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <ShoppingBag className="h-4 w-4 text-gray-400" />
+                      <div className="flex items-center gap-2 text-stone-600">
+                        <ShoppingBag className="h-4 w-4 text-orange-400" />
                         <span>Total Items:</span>
                       </div>
-                      <span className="font-medium text-gray-900">{order.items.length}</span>
+                      <span className="font-medium text-stone-900">{order.items.length}</span>
                     </div>
 
                     <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <CreditCard className="h-4 w-4 text-gray-400" />
+                      <div className="flex items-center gap-2 text-stone-600">
+                        <CreditCard className="h-4 w-4 text-orange-400" />
                         <span>Payment: {order.address.paymentMethod}</span>
                       </div>
-                      
                     </div>
 
                     <select
                       onChange={(event) => statusHandler(event, order._id)}
                       value={order.status}
-                      className={`w-full px-3 py-2 rounded-lg border ${getStatusColor(order.status)} text-sm font-medium transition-colors`}
+                      className={`w-full px-3 py-2 bg-amber-50 rounded-lg border-1 ${getStatusColor(order.status)} text-sm font-medium transition-colors`}
                     >
                       <option value="Order Received ">Order Received</option>
                       <option value="Order Processing">Processing</option>
@@ -193,12 +196,12 @@ const Orders = ({url}) => {
           ))}
 
           {filteredOrders.length === 0 && (
-            <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-              <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                <Package className="h-6 w-6 text-gray-400" />
+            <div className="text-center py-12 bg-white rounded-xl shadow-lg border border-stone-100">
+              <div className="mx-auto w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mb-4">
+                <Package className="h-6 w-6 text-orange-400" />
               </div>
-              <h3 className="text-gray-900 font-medium mb-1">No Orders Found</h3>
-              <p className="text-gray-500 text-sm">Try adjusting your search or filters</p>
+              <h3 className="text-stone-900 font-medium mb-1">No Orders Found</h3>
+              <p className="text-stone-500 text-sm">Try adjusting your search or filters</p>
             </div>
           )}
         </div>

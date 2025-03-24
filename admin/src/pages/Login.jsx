@@ -34,36 +34,41 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
-      <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5E5E5E] text-sm shadow-lg">
-        <div className="w-full">
-          <p>Email</p>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            className="border border-[#DADADA] rounded w-full p-2 mt-1"
-            type="email"
-            required
-          />
-        </div>
-        <div className="w-full">
-          <p>Password</p>
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            className="border border-[#DADADA] rounded w-full p-2 mt-1"
-            type="password"
-            required
-          />
-        </div>
-        <button
-          style={{ backgroundColor: "#3b82f6", color: "white" }}
-          className="w-full py-2 rounded-md text-base"
-        >
-          Login
-        </button>
+    <form onSubmit={onSubmitHandler} className="min-h-screen flex items-center justify-center bg-blue-50">
+    <div className="flex flex-col gap-6 m-auto items-start p-10 max-w-md w-full bg-white rounded-xl shadow-xl border border-blue-200">
+      <div className="w-full">
+        <label htmlFor="email" className="text-lg font-medium text-gray-700">Email</label>
+        <input
+          id="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          className="border border-blue-300 rounded-lg w-full p-3 mt-2 text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="email"
+          required
+          placeholder="Enter your email"
+        />
       </div>
-    </form>
+      <div className="w-full">
+        <label htmlFor="password" className="text-lg font-medium text-gray-700">Password</label>
+        <input
+          id="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          className="border border-blue-300 rounded-lg w-full p-3 mt-2 text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="password"
+          required
+          placeholder="Enter your password"
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full py-3 bg-amber-500 text-white font-semibold rounded-md text-lg hover:bg-orange-700 transition duration-300"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+  
   );
 };
 

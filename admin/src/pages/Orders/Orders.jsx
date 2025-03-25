@@ -56,7 +56,7 @@ const Orders = ({url}) => {
       case "Order Delivered":
         return " bg-orange-50 text-red-700 border-amber-200";
       default:
-        return " bg-red-500 text-red-700 border-amber-200";
+        return " bg-orange-50 text-red-700 border-amber-200";
     }
   };
 

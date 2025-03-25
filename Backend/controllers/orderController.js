@@ -86,8 +86,17 @@ const placeOrder = async (req,res) => {
 const verifyOrder = async (req,res) => {
     const {orderId,success}  = req.body;
     try {
-        if (success=="true") {
+        if (success==="true") {
             await orderModel.findByIdAndUpdate(orderId,{payment:true});
+
+            const maiilOptions ={
+                from: process.env.SENDER_EMAIL,
+                to: user.email,
+                subject: 'YOur Order has been  Placed Sucessfully',
+                text: `Dear ${user.name} ,Your Order  has been received, it will be delivered within our standard timing Total amount ${req.body.amount} is you bill`
+        
+               }
+               await transporter.sendMail(maiilOptions)
             res.json({success:true,message:"Paid"})
         }
         else{
@@ -131,17 +140,39 @@ const listOrder = async(req, res) =>{
     }
 }
 
-// Api fro Updating Order Status
-const updateStatus = async(req, res) =>{
+
+// Api for Updating Order Status
+const updateStatus = async (req, res) => {
     try {
-        await orderModel.findByIdAndUpdate(req.body.orderId,{status:req.body.status})
-        res.json({success:true,message:"Status Updates"})
+        const order = await orderModel.findByIdAndUpdate(
+            req.body.orderId,
+            { status: req.body.status },
+            { new: true } 
+        );
+
+        if (order) {
+            const user = await userModel.findById(order.userId);
+
+            
+            
+
+            const mailOptions = {
+                from: process.env.SENDER_EMAIL,
+                to: user.email,
+                subject: 'Order Status Update',
+                text: `Dear ${user.name},Your order  is  ${req.body.status}.Thank you for choosing MealMate!`
+            };
+
+            await transporter.sendMail(mailOptions);
+        }
+
+        res.json({ success: true, message: "Status Updated" });
     } catch (error) {
         console.log(error);
-        res.json({success:false,message:"Error"})
-        
+        res.json({ success: false, message: "Error" });
     }
 }
+
 
 
 

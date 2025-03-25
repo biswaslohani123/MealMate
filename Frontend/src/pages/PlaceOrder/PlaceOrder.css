@@ -38,22 +38,24 @@
 .payment-1{
     font-size: 20px;
     font-weight: 500;
-    border: 1px solid brown;
+    border: 2px solid brown;
     padding: 14px;
     width: 260px;
     transition: all 0.2s ease-in;
     cursor: pointer;
+    border-radius: 20px;
 
 
 }
 .payment-2{
     font-size: 20px;
     font-weight: 500;
-    border: 1px solid brown;
+    border: 2px solid brown;
     padding: 14px;
     width: 260px;
     transition: all 0.2s ease-in;
     cursor: pointer;
+    border-radius: 20px;
 
 }
 .payment-1:hover{

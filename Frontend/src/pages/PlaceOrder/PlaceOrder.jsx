@@ -4,6 +4,9 @@ import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import { FaCcStripe } from "react-icons/fa6";
+
+
 const PlaceOrder = () => {
   const {getTotalCartAmount, token,food_list,cartItems,url,clearCart} = useContext(StoreContext)
 
@@ -130,7 +133,7 @@ const PlaceOrder = () => {
           <h2>Payment Methods:</h2>
           <div className="payment-1">
             <input type="radio" name='paymentMethod' value='stripe' checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} />
-            Pay With Stripe
+            <FaCcStripe /> Pay With Stripe
           </div>
           <div className="payment-2">
             <input type="radio" name='paymentMethod' value='cod' checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} />

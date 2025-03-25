@@ -25,10 +25,13 @@ const adminDashboard = async (req, res) => {
         const orders = await orderModel.find({})
         const users = await userModel.find({})
 
+        const totalIncome = orders.reduce((total, order) => total +  order.amount, 0)
+
         const dashdata = {
             orders: orders.length,
             users : users.length,
-            latestorders: orders.reverse().slice(0,5)
+            latestorders: orders.reverse().slice(0,5),
+            totalIncome
 
         }
         res.json({success:true, dashdata})

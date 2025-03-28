@@ -91,7 +91,7 @@ const registerUser = async (req, res) => {
             const mailOptions ={
                 from: process.env.SENDER_EMAIL,
                 to: email,
-                subject: 'Welcome TO MealMate🍔',
+                subject: 'Welcome To MealMate🍔',
                 text:`Welcome to MealMate website. Your account has been created with email id: ${email}`
             }
             await transporter.sendMail(mailOptions)

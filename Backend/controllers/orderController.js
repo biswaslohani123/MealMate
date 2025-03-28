@@ -153,6 +153,8 @@ const updateStatus = async (req, res) => {
         if (order) {
             const user = await userModel.findById(order.userId);
 
+
+            const messageforverystatuschanges  = req.body.status === "Order Out For Delivery"? `Your order is out for delivery .Please be ready to receive it.`:`Your order is: ${req.body.status}.`
             
             
 
@@ -160,7 +162,7 @@ const updateStatus = async (req, res) => {
                 from: process.env.SENDER_EMAIL,
                 to: user.email,
                 subject: 'Order Status Update',
-                text: `Dear ${user.name},Your order  is  ${req.body.status}.Thank you for choosing MealMate!`
+                text: `Dear ${user.name},${messageforverystatuschanges}.Thank you for choosing MealMate!`
             };
 
             await transporter.sendMail(mailOptions);

@@ -22,23 +22,26 @@ const loginAdmin = async(req , res) => {
 
 const adminDashboard = async (req, res) => {
     try {
-        const orders = await orderModel.find({})
-        const users = await userModel.find({})
+        const orders = await orderModel.find({});
+        const users = await userModel.find({});
 
-        const totalIncome = orders.reduce((total, order) => total +  order.amount, 0)
+        // Calculate overall income
+        const totalIncome = orders.reduce((acc, order) => acc + order.amount, 0);
 
         const dashdata = {
             orders: orders.length,
-            users : users.length,
-            latestorders: orders.reverse().slice(0,5),
+            users: users.length,
+            latestorders: orders.reverse().slice(0, 10),
             totalIncome
+        };
 
-        }
-        res.json({success:true, dashdata})
+        res.json({ success: true, dashdata });
 
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: "Error"})
+        res.json({ success: false, message: "Error" });
     }
-}
+};
+
+
 export {loginAdmin,adminDashboard}

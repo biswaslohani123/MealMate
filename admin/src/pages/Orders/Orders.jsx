@@ -47,16 +47,16 @@ const Orders = ({url}) => {
 
   const getStatusColor = (status) => {
     switch(status) {
-      case "Order Received ":
+      case "Order Received":
         return "bg-orange-50 text-green-700 border-amber-200";
       case "Order Processing":
-        return " bg-orange-50 text-yellow-700 border-amber-200";
+        return "bg-orange-50 text-yellow-700 border-amber-200";
       case "Order Out For Delivery":
-        return " bg-orange-50 text-green-700 border-amber-200";
+        return "bg-orange-50 text-green-700 border-amber-200";
       case "Order Delivered":
-        return " bg-orange-50 text-red-700 border-amber-200";
+        return "bg-orange-50 text-red-700 border-amber-200";
       default:
-        return " bg-orange-50 text-red-700 border-amber-200";
+        return "bg-orange-50 text-red-700 border-amber-200";
     }
   };
 
@@ -65,17 +65,18 @@ const Orders = ({url}) => {
   }, []);
 
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = 
+    const matchesSearch =
       order.items.some(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
       order.address.email.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
-    
+
+    const matchesStatus =
+      filterStatus === 'all' || order.status.trim() === filterStatus; 
+
     return matchesSearch && matchesStatus;
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b  p-6">
+    <div className="min-h-screen bg-gradient-to-b p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-stone-800">Orders</h1>
@@ -102,7 +103,7 @@ const Orders = ({url}) => {
                 className="border border-stone-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200 bg-amber-50"
               >
                 <option value="all">All Status</option>
-                <option value="Order Received ">Order Received</option>
+                <option value="Order Received">Order Received</option>
                 <option value="Order Processing">Processing</option>
                 <option value="Order Out For Delivery">Out For Delivery</option>
                 <option value="Order Delivered">Delivered</option>
@@ -184,7 +185,7 @@ const Orders = ({url}) => {
                       value={order.status}
                       className={`w-full px-3 py-2 bg-amber-50 rounded-lg border-1 ${getStatusColor(order.status)} text-sm font-medium transition-colors`}
                     >
-                      <option value="Order Received ">Order Received</option>
+                      <option value="Order Received">Order Received</option>
                       <option value="Order Processing">Processing</option>
                       <option value="Order Out For Delivery">Out For Delivery</option>
                       <option value="Order Delivered">Delivered</option>

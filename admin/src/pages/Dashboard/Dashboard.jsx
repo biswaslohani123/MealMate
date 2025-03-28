@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { AdminContext } from "../../context/AdminContext.";
-import { Package, Users, Clock, Mail, Calendar } from "lucide-react";
+import { Package, Users, Clock, Mail, Calendar,  IndianRupee } from "lucide-react";
+
+
 
 const Dashboard = () => {
   const { atoken, getDashData, dashdata } = useContext(AdminContext);
@@ -20,7 +22,7 @@ const Dashboard = () => {
         <p className="text-stone-600 mt-2">Welcome back to your dashboard</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-gradient-to-r from-orange-300 to-amber-200 rounded-2xl p-6 text-stone-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="flex items-center justify-between">
             <div className="space-y-2">
@@ -29,7 +31,6 @@ const Dashboard = () => {
                 <h2 className="text-lg font-medium">Total Orders</h2>
               </div>
               <p className="text-4xl font-bold">{dashdata.orders}</p>
-            
             </div>
             <div className="bg-white/20 p-3 rounded-xl">
               <Package className="h-8 w-8" />
@@ -49,6 +50,22 @@ const Dashboard = () => {
             </div>
             <div className="bg-white/20 p-3 rounded-xl">
               <Users className="h-8 w-8" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-r from-orange-300 to-amber-200 rounded-2xl p-6 text-stone-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+              
+                <h2 className="text-lg font-medium">Overall Income</h2>
+              </div>
+              <p className="text-4xl font-bold">Rs. {dashdata.totalIncome}</p>
+            </div>
+            <div className="bg-white/20 p-3 rounded-xl">
+            <IndianRupee />
+             
             </div>
           </div>
         </div>
@@ -91,8 +108,11 @@ const Dashboard = () => {
                             </p>
                             <div className="flex items-center text-sm font-medium text-orange-600">
                               <span>Rs. {i.price}</span>
+                              
                             </div>
+                            <span className="text-amber-600">x{i.quantity}</span>
                           </div>
+                          
                         ))}
                       </div>
                       <div className="flex items-center space-x-4 text-sm text-stone-500">

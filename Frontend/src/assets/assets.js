@@ -4,6 +4,7 @@ import header_img from './header_img.png'
 import search_icon from './search_icon.png'
 import cross_icon from './cross_icon.png'
 import profile_pic from './profile_pic.png'
+import edit_profile from './editprofile.jpg'
 import menu_1 from './menu_1.png'
 import menu_2 from './menu_2.png'
 import menu_3 from './menu_3.png'
@@ -93,6 +94,7 @@ import parcel_icon from './parcel_icon.png'
 import profiles_icon from './profiles_icon.png'
 
 
+
 export const assets = {
     logo,
     basket_icon,
@@ -120,6 +122,7 @@ export const assets = {
     values_3,
     profiles_icon,
     profile_pic,
+    edit_profile,
     img_1,
     img_2,
     img_3,

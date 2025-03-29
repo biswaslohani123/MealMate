@@ -11,6 +11,7 @@ import MenuBook from "./pages/MenuBook/MenuBook";
 import Verify from "./pages/verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer } from "react-toastify";
+import MyProfile from "./pages/MyProfile/MyProfile";
 
 
 
@@ -35,7 +36,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           
           
-          
+          <Route path="/myprofile" element={<MyProfile/>}/>
           <Route path="/verify" element={<Verify />} />
           <Route path="/MenuBook" element={<MenuBook />} />
           <Route path="/myOrders" element={<MyOrders />} />

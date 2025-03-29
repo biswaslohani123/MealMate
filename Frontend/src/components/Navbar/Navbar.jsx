@@ -3,6 +3,8 @@ import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
+import { CgProfile } from "react-icons/cg";
+
 
 
 const Navbar = ({ setShowlogin }) => {
@@ -78,6 +80,10 @@ const Navbar = ({ setShowlogin }) => {
           <div className="navbar-profile">
             <img src={assets.profiles_icon} alt="" />
             <ul className="nav-profile-dropdown">
+            <li onClick={() => navigate('/myprofile')}>
+            <CgProfile />
+                <p style={{whiteSpace:"nowrap"}}>My Profile</p>
+              </li>
           
            
               <li onClick={() => navigate('/myorders')}>

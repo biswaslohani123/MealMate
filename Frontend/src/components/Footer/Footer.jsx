@@ -8,7 +8,9 @@ const Footer = () => {
     <div className="Footer" id="Footer">
       <div className="footer-content">
         <div className="footer-content-left">
+          <Link to='/'>
           <img src={assets.logo} alt="" />
+          </Link>
           <p>
             Order online with the city's top-rated Day & Night Food and Cakes
             delivery service. Our Food and Cakes Delivery Service is available
@@ -41,6 +43,19 @@ const Footer = () => {
             
            
             
+          </ul>
+        </div>
+        <div className="footer-content-center">
+          <h2>Payment Modes</h2>
+          <ul>
+            <li>
+              <span>Stripe</span>
+            </li>
+            <li>
+              <span>Cash on Delivery</span>
+            </li>
+           
+
           </ul>
         </div>
         <div className="footer-content-right">

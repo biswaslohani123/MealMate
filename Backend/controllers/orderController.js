@@ -11,7 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 const placeOrder = async (req,res) => {
 
-        const frontend_url = 'http://localhost:5174'
+        const frontend_url = 'http://localhost:5173'
     try {
         const newOrder = new orderModel({
             userId:req.body.userId,
@@ -93,7 +93,7 @@ const verifyOrder = async (req,res) => {
                 from: process.env.SENDER_EMAIL,
                 to: user.email,
                 subject: 'YOur Order has been  Placed Sucessfully',
-                text: `Dear ${user.name} ,Your Order  has been received, it will be delivered within our standard timing Total amount ${req.body.amount} is you bill`
+                text: `Dear ${req.user.name} ,Your Order  has been received, it will be delivered within our standard timing Total amount ${req.body.amount} is you bill`
         
                }
                await transporter.sendMail(maiilOptions)

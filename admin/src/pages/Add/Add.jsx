@@ -92,7 +92,7 @@ const Add = ({ url, token }) => {
                       <ImagePlus className="mx-auto h-16 w-16 text-stone-400 mb-4" />
                       <div className="flex flex-col items-center text-sm text-stone-600">
                         <span className="font-medium text-orange-500">Click to upload</span>
-                        <span className="text-stone-500">or drag and drop</span>
+                       
                        
                       </div>
                     </div>
@@ -126,7 +126,7 @@ const Add = ({ url, token }) => {
                 value={data.name}
                 onChange={onChangeHandler}
                 className="block w-full rounded-lg border-stone-300 shadow-sm focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
-                placeholder="Enter product name"
+                placeholder="Enter Item name"
                 required
               />
             </div>
@@ -145,7 +145,7 @@ const Add = ({ url, token }) => {
                 value={data.description}
                 onChange={onChangeHandler}
                 className="block w-full rounded-lg border-stone-300 shadow-sm focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
-                placeholder="Describe your product in detail"
+                placeholder="Describe your Item in detail"
                 required
               />
             </div>

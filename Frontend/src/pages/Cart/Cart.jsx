@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart, getTotalCartAmount, url } = useContext(StoreContext);
+  const { cartItems, food_list, removeFromCart, getTotalCartAmount, url } =
+    useContext(StoreContext);
 
   // navigation for place Order Page
   const navigate = useNavigate();
@@ -32,11 +32,11 @@ const Cart = () => {
                   <p>Rs.{item.price}</p>
                   <p>{cartItems[item._id]}</p>
                   <p>Rs.{item.price * cartItems[item._id]}</p>
-                  <p 
+                  <p
                     onClick={() => {
                       removeFromCart(item._id);
-                      toast.info(`${item.name} removed from cart`);
-                    }} 
+                   
+                    }}
                     className="cross"
                   >
                     x
@@ -46,7 +46,7 @@ const Cart = () => {
               </div>
             );
           }
-          return null; // To avoid rendering undefined elements
+          return null;
         })}
       </div>
       <div className="cart-bottom">
@@ -68,7 +68,9 @@ const Cart = () => {
               <b>Rs.{getTotalCartAmount() + 100}</b>
             </div>
           </div>
-          <button onClick={() => navigate('/order')}>Proceed To CheckOut</button>
+          <button onClick={() => navigate("/order")}>
+            Proceed To CheckOut
+          </button>
         </div>
       </div>
     </div>

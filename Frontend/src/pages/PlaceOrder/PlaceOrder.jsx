@@ -15,7 +15,6 @@ const PlaceOrder = () => {
     lastName:"",
     email:"",
     location:"",
-    street:"",
     Note:"",
     Phone:"",
     paymentMethod:""
@@ -95,7 +94,7 @@ const PlaceOrder = () => {
         <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email Address' required />
         <p>Your location:</p>
         <input name='location' onChange={onChangeHandler} value={data.location} type="text" placeholder='eg: Enter Your Address' required />
-        <input name='street' onChange={onChangeHandler} value={data.street} type="text" placeholder='eg: Enter Street Number' required />
+        
       
         
         

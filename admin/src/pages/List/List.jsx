@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 const List = ({ url, token }) => {
   const [list, setList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedFoodId, setSelectedFoodId] = useState(null);
 
   const fetchList = async () => {
     try {
@@ -20,21 +22,29 @@ const List = ({ url, token }) => {
     }
   };
 
-  const removeFood = async (foodId) => {
+  const confirmDelete = (foodId) => {
+    setSelectedFoodId(foodId);
+    setShowConfirm(true);
+  };
+
+  const removeFood = async () => {
     try {
       const response = await axios.post(
         `${url}/api/food/remove`,
-        { id: foodId },
+        { id: selectedFoodId },
         { headers: { token } }
       );
       if (response.data.success) {
         toast.success(response.data.message);
-        await fetchList();
+        fetchList();
       } else {
         toast.error("Failed to remove item");
       }
     } catch (error) {
       toast.error("Error removing item");
+    } finally {
+      setShowConfirm(false);
+      setSelectedFoodId(null);
     }
   };
 
@@ -49,13 +59,10 @@ const List = ({ url, token }) => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b  p-6 ">
-      <div className="max-w-7xl mx-auto ">
+    <div className="min-h-screen bg-gradient-to-b p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-stone-800">Menu Items</h1>
-            
-          </div>
+          <h1 className="text-3xl font-bold text-stone-800">Menu Items</h1>
         </div>
 
         <div className="bg-white rounded-xl shadow-lg mb-6 p-4 border border-stone-100">
@@ -82,13 +89,15 @@ const List = ({ url, token }) => {
               <h3 className="text-lg font-medium text-stone-900 mb-1">
                 No items found
               </h3>
-              <p className="text-stone-500">Try adjusting your search criteria</p>
+              <p className="text-stone-500">
+                Try adjusting your search criteria
+              </p>
             </div>
           ) : (
-            filteredList.map((item, index) => (
+            filteredList.map((item) => (
               <div
-                key={index}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-stone-100 group"
+                key={item._id}
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-stone-100 group relative"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -98,7 +107,7 @@ const List = ({ url, token }) => {
                   />
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <button
-                      onClick={() => removeFood(item._id)}
+                      onClick={() => confirmDelete(item._id)}
                       className="p-2 bg-white/90 rounded-full hover:bg-red-50 text-red-500 transition-colors shadow-lg"
                     >
                       <Trash2 size={18} className="cursor-pointer" />
@@ -112,17 +121,41 @@ const List = ({ url, token }) => {
                       Rs.{item.price}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border border-orange-200">
-                      {item.category}
-                    </span>
-                  </div>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border border-orange-200">
+                    {item.category}
+                  </span>
                 </div>
               </div>
             ))
           )}
         </div>
       </div>
+
+      
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/30">
+          <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-80">
+            <h3 className="text-lg font-medium text-stone-900 mb-3">
+              Are you sure?
+            </h3>
+            <p className="text-stone-600 mb-4">Do you want to delete this item?</p>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-3 py-1 rounded text-gray-600 bg-gray-100 hover:bg-gray-200"
+              >
+                No
+              </button>
+              <button
+                onClick={removeFood}
+                className="px-3 py-1 rounded text-white bg-amber-500 hover:bg-amber-600"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import "./FoodItem.css";
 import { assets } from "../../assets/assets";
 import { useContext } from "react";
 import { StoreContext } from "../../context/StoreContext";
-import { toast } from "react-toastify";
+
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const { cartItems, addToCart, removeFromCart, url } =
@@ -37,11 +37,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
             <img
               onClick={() => {
                 addToCart(id);
-                toast.success(`Item added to cart succesfully`, {
-                  position: "top-right",
-                  autoClose: 2000,
-                  theme: "colored",
-                });
+                
               }}
               src={assets.add_icon_green}
               alt=""

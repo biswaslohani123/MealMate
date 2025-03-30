@@ -4,13 +4,18 @@ import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import { CgProfile } from "react-icons/cg";
+import { LogOut } from 'lucide-react';
 
 const Navbar = ({ setShowlogin }) => {
-  const { getTotalCartAmount, token} = useContext(StoreContext);
+  const { getTotalCartAmount, token,setToken } = useContext(StoreContext);
   const navigate = useNavigate();
   const [menu, setMenu] = useState("Home");
 
- 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/");
+  };
 
   return (
     <div className="navbar">
@@ -66,6 +71,10 @@ const Navbar = ({ setShowlogin }) => {
               <li onClick={() => navigate("/account")}>
                 <CgProfile />
                 <p style={{ whiteSpace: "nowrap" }}>Account</p>
+              </li>
+              <li onClick={handleLogout} className="account-item logout">
+                <LogOut />
+                <p>Logout</p>
               </li>
             </ul>
           </div>

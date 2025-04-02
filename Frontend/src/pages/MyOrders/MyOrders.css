@@ -1,21 +1,22 @@
 .my-orders{
     margin: 50px 0px;
 }
+
 .my-orders h2{
     display: flex;
     justify-content: center;
     font-size: 40px;
     color: brown;
-    
     font-family: 'poppins';
- 
 }
+
 .my-orders .container{
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-top: 30px;
 }
+
 .my-orders-order{
     display: grid;
     grid-template-columns: 0.5fr 2fr 1fr 1fr 2fr 1fr 1fr;
@@ -28,26 +29,30 @@
     background-color: #FFF5EC; 
     border-radius: 5px;
 }
+
 .my-orders-order p{
     color: black;
 }
+
 .my-orders-order:hover {
-   
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .my-orders-order img{
     width: 50px;
     border-radius: 5px;
-    border: 2px solid #E65C4F
+    border: 2px solid #E65C4F;
 }
+
 .my-orders-order p span{
     color: red;
 }
+
 .my-orders-order p b{
     font-weight: 500;
     color: #454545;
 }
+
 .my-orders-order button{
     border: none;
     padding: 12px 0px;
@@ -58,23 +63,27 @@
     transition: all 0.3s ease-out;
     border: 1px solid tomato;
 }
+
 .my-orders-order button:hover{
     background-color: tomato;
     transform: scale(1.1);
     color: white;
 }
+
 .view-all-btn-container {
     display: flex;
 }
+
 .view-all-btn-container button{
     padding: 10px;
- margin-left: auto;
- background-color: #E65C4F;
- border-radius: 20px;
- color: white;
-font-weight: 500;
-cursor: pointer;
+    margin-left: auto;
+    background-color: #E65C4F;
+    border-radius: 20px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
 }
+
 .view-all-btn-container button:hover{
     transition: all;
     background-color: #ffe1e1;
@@ -82,14 +91,70 @@ cursor: pointer;
 }
 
 
-@media (max-width:900px){
+
+/* For Tablets */
+@media (max-width: 900px){
     .my-orders-order{
-        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-columns: 1fr 2fr 1fr; 
         row-gap: 5px;
         font-size: 12px;
-
     }
+
     .my-orders-order button{
-        font-size: 10px;
+        font-size: 10px; 
+    }
+}
+
+/* For Mobile */
+@media (max-width: 600px){
+    .my-orders h2{
+        font-size: 28px; 
+    }
+
+    .my-orders-order{
+        grid-template-columns: 1fr 2fr;
+        gap: 15px; 
+        font-size: 12px; 
+    }
+
+    .my-orders-order img{
+        width: 40px; 
+    }
+
+    .my-orders-order button{
+        font-size: 12px; 
+        padding: 8px 0px; 
+    }
+
+    .view-all-btn-container{
+        justify-content: center; 
+    }
+
+    .view-all-btn-container button{
+        font-size: 14px; 
+        width: 100%; 
+    }
+}
+
+
+@media (max-width: 380px){
+    .my-orders h2{
+        font-size: 24px;
+    }
+
+    .my-orders-order{
+        grid-template-columns: 1fr 1.5fr; 
+        gap: 10px; 
+        font-size: 11px; 
+    }
+
+    .my-orders-order button{
+        font-size: 10px; 
+        padding: 6px 0px; 
+    }
+
+    .view-all-btn-container button{
+        font-size: 12px; 
+        padding: 8px 0px; 
     }
 }

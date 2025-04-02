@@ -47,3 +47,56 @@
 .images img:hover {
   transform: scale(1.05);
 }
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .gallery-section h1 {
+    font-size: 40px;
+    margin-left: 350px;
+  }
+
+  .gallery-section p {
+    margin-left: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-section h1 {
+    font-size: 35px;
+    margin-left: 0;
+  }
+
+  .gallery-section p {
+    margin-left: 0;
+    font-size: 16px;
+  }
+
+  .images {
+    gap: 20px;
+  }
+
+  .images img {
+    transition: transform 0.2s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-section h1 {
+    font-size: 30px;
+    margin-left: 0;
+  }
+
+  .gallery-section p {
+    font-size: 14px;
+    margin-left: 0;
+  }
+
+  .images {
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .images img {
+    transition: transform 0.2s ease;
+  }
+}

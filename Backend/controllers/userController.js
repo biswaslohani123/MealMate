@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
 import transporter from "../config/nodemailer.js";
+import fs from 'fs';
 
 
 
@@ -18,7 +19,7 @@ const loginUser = async (req,res) => {
         const user = await userModel.findOne({email});
 
         if (!user) {
-            return res.json({success:false,message:"User doesnot exists"})
+            return res.json({success:false,message:"User does not exists"})
         }
         const isMatch = await bcrypt.compare(password,user.password);
         if (!isMatch) {
@@ -48,7 +49,7 @@ const loginUser = async (req,res) => {
 
 //register User logic
 const registerUser = async (req, res) => {
-    const {name, password, email} = req.body;
+    const {name, password, email, phone} = req.body;
 
     if (!name || !email || !password) {
         return res.json({success:false, message: 'Missing Details'})
@@ -75,7 +76,8 @@ const registerUser = async (req, res) => {
         const newUser = new userModel({
             name:name,
             email:email,
-            password:hashedPassword
+            password:hashedPassword,
+            phone:phone
         })
             const user = await newUser.save()
             const token = jwt.sign({id: user._id}, process.env.JWT_SECRET,{expiresIn: '7d'});
@@ -105,8 +107,71 @@ const registerUser = async (req, res) => {
     }
 }
 
+//Get profile
+const getProfile = async (req, res) => {
+    try {
+        // userId is added by the authMiddleware
+        const { userId } = req.body;
+        console.log(req.body)
+        if (!userId) {
+            return res.json({ success: false, message: "User not authenticated" });
+        }
+        
+        // Find user by ID but exclude the password field for security
+        const user = await userModel.findById(userId).select('-password');
+        
+        if (!user) {
+            return res.json({ success: false, message: "User not found" });
+        }
+        
+        // Return user profile data
+        res.json({ 
+            success: true, 
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                phone:user.phone,
+                image: user.image,
+                address: user.address,
+              
+            } 
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error retrieving user profile" });
+    }
+}
 
- 
+
+// Postupdateprofile
+const updateProfile = async (req, res) => {
+   
+    console.log(req.body)
+
+    const {name, email, phone, address, id} = req.body;
+
+    if (!id) {
+        return res.json({success:false, message:"User not authenticated"})
+    }
+    try {
+        const user = await userModel.findById(id);
+        if (!user) {
+            return res.json({success:false, message:"User not found"})
+        }
+        user.name = name;
+      
+        user.phone = phone;
+        user.address = address;
+       
+        await user.save();
+        res.json({success:true, message:"Profile updated successfully"})
+    } catch (error) {
+        console.log(error);
+        
+        res.json({success:false, message:"Error"})
+    }
+}
 
 
-export {loginUser, registerUser}
+export {loginUser, registerUser, getProfile, updateProfile}

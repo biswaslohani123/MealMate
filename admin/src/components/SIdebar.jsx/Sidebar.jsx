@@ -31,7 +31,7 @@ const Sidebar = () => {
 
       <div className="space-y-3">
         <NavLink
-          to="/dashboard"
+          to="/"
           className={navLinkClasses}
           data-tooltip-id="dashboard"
         >

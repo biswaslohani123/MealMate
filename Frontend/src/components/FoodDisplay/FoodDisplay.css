@@ -1,34 +1,56 @@
-.food-display{
+.food-display {
     margin-top: 30px;
-    
-    
-
-}
-.food-display h2{
+  }
+  
+  .food-display h2 {
     font-size: max(2vw, 24px);
     font-weight: 600;
     color: #2C1D16;
     transition: color 0.3s ease-in-out;
-}
-.food-display h:hover {
-    color: #e74c3c; 
-  
-    
   }
-.food-display-list{
+  
+  .food-display h2:hover {
+    color: #e74c3c; 
+  }
+  
+  .food-display-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     margin-top: 30px;
     gap: 30px;
-    row-gap: 50px ;
-    
-    
-}
-.hero hr{
-    margin: 10px 0px;
-    height: 2px ;
-    background-color:black;
+    row-gap: 50px;
+  }
+  
+  .hero hr {
+    margin: 10px 0;
+    height: 2px;
+    background-color: black;
     border: none;
     margin-top: 80px;
-   
-}
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .food-display h2 {
+      font-size: max(4vw, 20px); 
+    }
+  
+    .food-display-list {
+      gap: 20px; 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .food-display h2 {
+      font-size: max(5vw, 18px); 
+    }
+  
+    .food-display-list {
+      gap: 15px; 
+    }
+  
+    .hero hr {
+      margin-top: 60px; 
+    }
+  }
+  

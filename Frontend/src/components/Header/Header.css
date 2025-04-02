@@ -1,11 +1,12 @@
-.header{
+.header {
     height: 34vw;
     margin: 30px auto;
-    background: url('/header_img.png') no-repeat;
-    background-size: contain;
+    background: url('/header_img.png') no-repeat center center;
+    background-size: cover; 
     position: relative;
 }
-.header-contents{
+
+.header-contents {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -14,15 +15,16 @@
     max-width: 50%;
     bottom: 10%;
     left: 6vw;
-    animation: fadeInUp 1.2s ease-out ;
-
+    animation: fadeInUp 1.2s ease-out;
 }
-.header-contents h2{
+
+.header-contents h2 {
     font-weight: 500;
     color: aliceblue;
     font-size: max(4.5vw, 22px);
 }
-.header-contents p{
+
+.header-contents p {
     color: aliceblue;
     font-size: 1vw;
 }
@@ -39,22 +41,77 @@
 }
 
 
-
-@media (max-width: 1050px){
-   
-    .header-contents{
+@media (max-width: 1050px) {
+    .header-contents {
         max-width: 45%;
     }
 }
-@media (max-width: 750px){
-    
-    .header-contents{
-        max-width: 65%;
+
+@media (max-width: 900px) {
+    .header {
+        height: 40vw; 
     }
+
     .header-contents {
-        display: none;
+        max-width: 55%;
+        bottom: 12%; 
+        left: 8vw;
     }
-    .header-contents button{
+
+    .header-contents h2 {
+        font-size: max(5vw, 20px);
+    }
+
+    .header-contents p {
+        font-size: 1.2vw; 
+    }
+}
+
+@media (max-width: 750px) {
+    .header {
+        height: 45vw; 
+    }
+
+    .header-contents {
+        max-width: 65%;
+        display: block;
+        left: 10%;
+        bottom: 15%;
+    }
+
+    .header-contents h2 {
+        font-size: max(6vw, 20px); 
+    }
+
+    .header-contents p {
+        font-size: 1.5vw;
+    }
+
+    .header-contents button {
         padding: 2vw 4vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        height: 50vw; 
+    }
+
+    .header-contents {
+        max-width: 80%;
+        left: 10%;
+        bottom: 18%;
+    }
+
+    .header-contents h2 {
+        font-size: max(8vw, 18px); 
+    }
+
+    .header-contents p {
+        font-size: 3vw;
+    }
+
+    .header-contents button {
+        padding: 3vw 6vw;
     }
 }

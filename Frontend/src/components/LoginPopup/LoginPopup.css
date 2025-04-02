@@ -63,7 +63,7 @@
 }
 
 .login-popup-container button:hover {
-  background-color: #c0392b; 
+  background-color: #c0392b;
 }
 
 .login-popup span {
@@ -74,7 +74,7 @@
 }
 
 .login-popup span:hover {
-  color: #c0392b; 
+  color: #c0392b;
 }
 
 .login-popup-condition {
@@ -113,7 +113,7 @@
 }
 
 .password-input-container input:focus {
-  border-color: #ff5733; 
+  border-color: #ff5733;
 }
 
 .password-visibility {
@@ -128,7 +128,7 @@
 }
 
 .password-visibility:hover {
-  color: #333; 
+  color: #333;
 }
 
 .forgot-password {
@@ -145,32 +145,91 @@
 
 .forgot-password a:hover {
   color: #c0392b;
-  text-decoration: underline; 
+  text-decoration: underline;
 }
 
 /* Animations */
 @keyframes fadeIn {
   0% {
-      opacity: 0;
+    opacity: 0;
   }
   100% {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
 @keyframes popUp {
   0% {
-      transform: scale(0.9);
-      opacity: 0;
+    transform: scale(0.9);
+    opacity: 0;
   }
   100% {
-      transform: scale(1);
-      opacity: 1;
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 1050px) {
+  .login-popup-container {
+    width: max(30vw, 350px);
   }
 }
 
 @media (max-width: 750px) {
   .login-popup-container {
-      width: 80vw;
+    width: 80vw;
+    padding: 20px 25px;
+  }
+
+  .login-popup-inputs input {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .login-popup-container button {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .password-input-container input {
+    font-size: 16px;
+  }
+
+  .password-visibility {
+    font-size: 20px;
+  }
+
+  .forgot-password a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-popup-container {
+    width: 90vw;
+    padding: 15px 20px;
+  }
+
+  .login-popup-inputs input {
+    font-size: 18px;
+    padding: 14px;
+  }
+
+  .login-popup-container button {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .password-input-container input {
+    font-size: 18px;
+  }
+
+  .password-visibility {
+    font-size: 22px;
+  }
+
+  .forgot-password a {
+    font-size: 18px;
   }
 }

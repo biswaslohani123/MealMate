@@ -31,7 +31,7 @@ const App = () => {
 
         <div className="w-3/4 p-4">
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/add" element={<Add url={url} />} />
             <Route path="/list" element={<List url={url} />} />
             <Route path="/orders" element={<Orders url={url} />} />

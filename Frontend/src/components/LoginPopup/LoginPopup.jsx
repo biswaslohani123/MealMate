@@ -16,6 +16,7 @@ const LoginPopup = ({ setShowlogin }) => {
     name: "",
     email: "",
     password: "",
+    phone:""
   });
 
   // UseState for Password Visibility
@@ -65,6 +66,7 @@ const LoginPopup = ({ setShowlogin }) => {
           {currState === "Login" ? (
             <></>
           ) : (
+            <>
             <input
               name="name"
               onChange={onChangeHandler}
@@ -73,6 +75,16 @@ const LoginPopup = ({ setShowlogin }) => {
               placeholder="Your name"
               required
             />
+            <input
+              name="phone"
+              onChange={onChangeHandler}
+              value={data.phone}
+              type="tel"
+              placeholder="Your phone "
+              required
+            />
+          </>
+            
           )}
           <input
             name="email"
@@ -82,6 +94,7 @@ const LoginPopup = ({ setShowlogin }) => {
             placeholder="Your email"
             required
           />
+        
           <div className="password-input-container">
 
           <input
@@ -92,6 +105,7 @@ const LoginPopup = ({ setShowlogin }) => {
             placeholder="Password"
             required
           />
+          
           <span className="password-visibility" onClick={() => setShowPassword((prev) => !prev)}>
            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash }/>
             
@@ -102,12 +116,7 @@ const LoginPopup = ({ setShowlogin }) => {
         <button type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
-        <div className="login-popup-condition">
-          <input type="checkbox" required />
-          <p>By continuing, I agree to the terms of use & privacy policy.
-           
-          </p>
-        </div>
+        
         {currState === "Login" ? (
           <p>
             Create a new account? {" "}

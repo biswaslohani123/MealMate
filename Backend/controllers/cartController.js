@@ -1,4 +1,6 @@
 import userModel from "../models/userModel.js"
+import foodModel from "../models/foodModel.js";
+
 
 // add items to user cart
 const addToCart = async (req, res) => {
@@ -6,6 +8,17 @@ const addToCart = async (req, res) => {
         let userData = await userModel.findById(req.body.userId);
         console.log(userData)
         let cartData = await userData.cartData;
+
+        //checking if the food items exists or not
+        let foodItem = await foodModel.findById(req.body.itemId);
+        if (!foodItem) {
+            delete cartData[req.body.itemId];
+            await userModel.findByIdAndUpdate(req.body.userId, { cartData });
+            return res.json({success: false, message:"no food items"})
+            
+        }
+
+
         if (!cartData[req.body.itemId])
         {
             cartData[req.body.itemId] = 1

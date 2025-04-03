@@ -110,7 +110,7 @@ const registerUser = async (req, res) => {
 //Get profile
 const getProfile = async (req, res) => {
     try {
-        // userId is added by the authMiddleware
+        
         const { userId } = req.body;
         console.log(req.body)
         if (!userId) {

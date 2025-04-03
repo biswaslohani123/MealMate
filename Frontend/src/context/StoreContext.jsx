@@ -30,7 +30,7 @@ const StoreContextProvider = (props) => {
   const loadCartData = async (token) => {
     try {
       const response = await axios.post(`${url}/api/cart/get`, {}, { headers: { token } });
-      setCartItems(response.data.cartData);
+      setCartItems(response.data.cartData || {});
     } catch (error) {
       console.error("Error loading cart data:", error);
     }
@@ -84,10 +84,11 @@ const StoreContextProvider = (props) => {
   };
 
   const getTotalCartAmount = () => {
-    return Object.keys(cartItems).reduce((total, itemId) => {
-      const itemInfo = food_list.find((product) => product._id === itemId);
-      return itemInfo ? total + itemInfo.price * cartItems[itemId] : total;
-    }, 0);
+    const validCartItems = cartItems || {};
+  return Object.keys(validCartItems).reduce((total, itemId) => {
+    const itemInfo = food_list.find((product) => product._id === itemId);
+    return itemInfo ? total + itemInfo.price * validCartItems[itemId] : total;
+  }, 0);
   };
 
   const contextValue = {

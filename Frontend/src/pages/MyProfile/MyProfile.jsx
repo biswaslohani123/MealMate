@@ -123,7 +123,14 @@ const MyProfile = () => {
       <div className='profile-card'>
         <div className='profile-header'>
           <div className='profile-image-container'>
-            <img src={userData.image} alt="Profile" className='profile-image' />
+          <img 
+  src={
+    userData.image.startsWith('blob:')
+      ? userData.image
+      : `${url}/images/${userData.image}`
+  } 
+  alt="Profile" 
+  className='profile-image'  />
             {isEdit && (
               <div className='image-upload'>
                 <label htmlFor="image-input">

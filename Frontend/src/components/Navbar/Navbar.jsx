@@ -1,15 +1,42 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import { CgProfile } from "react-icons/cg";
-import { LogOut } from 'lucide-react';
+import { LogOut } from "lucide-react";
+import axios from "axios";
 
 const Navbar = ({ setShowlogin }) => {
-  const { getTotalCartAmount, token,setToken } = useContext(StoreContext);
+  const { getTotalCartAmount, token, setToken, url } = useContext(StoreContext);
   const navigate = useNavigate();
   const [menu, setMenu] = useState("Home");
+  const [profileImage, setProfileImage] = useState(assets.profiles_icon); // Default profile icon
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (!token) return;
+
+      try {
+        const response = await axios.get(`${url}/api/user/profile`, {
+          headers: { token },
+        });
+
+        if (response.data.success) {
+          const image = response.data.user.image;
+          setProfileImage(
+            image.startsWith("blob:") || image.startsWith("http")
+              ? image
+              : `${url}/images/${image}`
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [token]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -66,7 +93,7 @@ const Navbar = ({ setShowlogin }) => {
           <button onClick={() => setShowlogin(true)}>Sign Up/Login</button>
         ) : (
           <div className="navbar-profile">
-            <img src={assets.profiles_icon} alt="Profile" />
+            <img src={profileImage} alt="Profile" className="profile-icon" />
             <ul className="nav-profile-dropdown">
               <li onClick={() => navigate("/account")}>
                 <CgProfile />

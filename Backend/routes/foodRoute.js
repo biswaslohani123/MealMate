@@ -20,16 +20,4 @@ foodRouter.post("/add",uploads.single("image"),addFood);
 foodRouter.get("/list" ,listfood);
 foodRouter.post("/remove",  Removefood);
 
-
-
-
-
-
-
-
-
-
-
-
-
 export default foodRouter;

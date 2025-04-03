@@ -149,18 +149,20 @@ const updateProfile = async (req, res) => {
    
     console.log(req.body)
 
-    const {name, email, phone, address, id} = req.body;
+    const {name,image, phone, address, id} = req.body;
 
     if (!id) {
         return res.json({success:false, message:"User not authenticated"})
     }
+    let image_filename = req.file.filename
+
     try {
         const user = await userModel.findById(id);
         if (!user) {
             return res.json({success:false, message:"User not found"})
         }
         user.name = name;
-      
+        user.image=image_filename;
         user.phone = phone;
         user.address = address;
        

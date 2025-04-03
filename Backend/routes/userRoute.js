@@ -3,6 +3,8 @@ import { loginUser, registerUser, getProfile, updateProfile } from "../controlle
 import authMiddleware from "../middleware/Auth.js";
 import multer from 'multer'
 const userRouter = express.Router();
+
+
 const storage = multer.diskStorage({
     destination: "uploads",
     filename:(req,file,cb) => {
@@ -10,6 +12,7 @@ const storage = multer.diskStorage({
     }
 })
 const uploads = multer({storage:storage})
+
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.get("/profile", authMiddleware, getProfile);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Trash2, Search } from "lucide-react";
+import { Trash2, Search, ToggleLeft, ToggleRight } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -8,6 +8,7 @@ const List = ({ url, token }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedFoodId, setSelectedFoodId] = useState(null);
+  const [isToggling, setIsToggling] = useState(false);
 
   const fetchList = async () => {
     try {
@@ -45,6 +46,39 @@ const List = ({ url, token }) => {
     } finally {
       setShowConfirm(false);
       setSelectedFoodId(null);
+    }
+  };
+
+  //  function to toggle active status
+  const toggleFoodStatus = async (foodId, currentStatus) => {
+    if (isToggling) return; 
+    
+    setIsToggling(true);
+    try {
+      const response = await axios.post(
+        `${url}/api/food/toggle-status`,
+        { id: foodId },
+        { headers: { token } }
+      );
+      
+      if (response.data.success) {
+        toast.success(response.data.message);
+        
+        // Update the list  to avoiding refetching
+        setList(prevList => 
+          prevList.map(item => 
+            item._id === foodId 
+              ? { ...item, active: !currentStatus } 
+              : item
+          )
+        );
+      } else {
+        toast.error("Failed to update status");
+      }
+    } catch (error) {
+      toast.error("Error updating status");
+    } finally {
+      setIsToggling(false);
     }
   };
 
@@ -97,7 +131,7 @@ const List = ({ url, token }) => {
             filteredList.map((item) => (
               <div
                 key={item._id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-stone-100 group relative"
+                className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-stone-100 group relative ${!item.active ? 'opacity-70' : ''}`}
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -105,7 +139,7 @@ const List = ({ url, token }) => {
                     alt={item.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
                     <button
                       onClick={() => confirmDelete(item._id)}
                       className="p-2 bg-white/90 rounded-full hover:bg-red-50 text-red-500 transition-colors shadow-lg"
@@ -121,9 +155,26 @@ const List = ({ url, token }) => {
                       Rs.{item.price}
                     </span>
                   </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border border-orange-200">
-                    {item.category}
-                  </span>
+                  <div className="flex justify-between items-center">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border border-orange-200">
+                      {item.category}
+                    </span>
+                    <div className="flex items-center">
+                      <span className={`text-xs mr-2 ${item.active ? 'text-green-600' : 'text-red-600'}`}>
+                        {item.active ? 'Active' : 'Inactive'}
+                      </span>
+                      <button 
+                        onClick={() => toggleFoodStatus(item._id, item.active)}
+                        disabled={isToggling}
+                        className="p-1 rounded-full focus:outline-none"
+                      >
+                        {item.active ? 
+                          <ToggleRight size={24} className="text-green-500" /> : 
+                          <ToggleLeft size={24} className="text-red-500" />
+                        }
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))
@@ -131,7 +182,6 @@ const List = ({ url, token }) => {
         </div>
       </div>
 
-      
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/30">
           <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-80">

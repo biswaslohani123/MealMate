@@ -57,9 +57,34 @@ const Removefood = async(req, res) => {
         
     }
 }
+// food active status
+const FoodStatus = async (req, res) => {
+    try {
+        const foodId = req.body.id;
+        const food = await foodModel.findById(foodId);
+        
+        if (!food) {
+            return res.json({ success: false, message: "Food item not found" });
+        }
+        
+        
+        food.active = !food.active;
+        
+        await food.save();
+        
+        res.json({
+            success: true,
+            message: `Food ${food.active ? 'activated' : 'deactivated'} successfully`,
+            active: food.active
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error toggling food status" });
+    }
+};
 
 
 
 
 
-export {addFood, listfood, Removefood}
+export {addFood, listfood, Removefood, FoodStatus}

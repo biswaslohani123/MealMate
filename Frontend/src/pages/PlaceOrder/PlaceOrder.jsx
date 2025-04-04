@@ -22,6 +22,18 @@ const PlaceOrder = () => {
  
   const [paymentMethod, setPaymentMethod] = useState('stripe')
   const navigate = useNavigate();
+
+  const locations = [
+    'Lakeside',
+    'Nadipur',
+    'Prithvi Chowk',
+    'Pardi',
+    'Ranipawa',
+    'Damside',
+    'Chipledhunga',
+    'Bagar',
+  ]
+
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -92,8 +104,16 @@ const PlaceOrder = () => {
         </div>
         <p>Email:</p>
         <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email Address' required />
+
         <p>Your location:</p>
-        <input name='location' onChange={onChangeHandler} value={data.location} type="text" placeholder='eg: Enter Your Address' required />
+        <select name="location" onChange={onChangeHandler} value={data.location} required>
+          <option value="">Select your location</option>
+          {locations.map((location, index) => (
+            <option key={index} value={location}>
+              {location}
+            </option>
+          ))}
+        </select>
         
       
         

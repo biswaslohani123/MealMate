@@ -4,6 +4,7 @@ import authAdmin from '../middleware/adminAuth.js'
 
 
 
+
 const adminRouter = express.Router()
 
 adminRouter.post('/adminlogin', loginAdmin)

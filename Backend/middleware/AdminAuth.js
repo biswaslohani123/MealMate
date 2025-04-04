@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken'
 
 const authAdmin = async(req, res, next) => {
-
-   
     try {
         const { atoken } = req.headers 
         if (!atoken) {
@@ -20,4 +18,5 @@ const authAdmin = async(req, res, next) => {
         res.json({ success: false, message: "Session Expired. Login Again." })
     }
 }
+
 export default authAdmin

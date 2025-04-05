@@ -117,14 +117,14 @@ const getProfile = async (req, res) => {
             return res.json({ success: false, message: "User not authenticated" });
         }
         
-        // Find user by ID but exclude the password field for security
+        
         const user = await userModel.findById(userId).select('-password');
         
         if (!user) {
             return res.json({ success: false, message: "User not found" });
         }
         
-        // Return user profile data
+        
         res.json({ 
             success: true, 
             user: {

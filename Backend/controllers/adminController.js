@@ -43,5 +43,14 @@ const adminDashboard = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({});
+        res.json({ success: true, users });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error fetching users" });
+    }
+};
 
-export {loginAdmin,adminDashboard}
+export {loginAdmin,adminDashboard, getAllUsers}

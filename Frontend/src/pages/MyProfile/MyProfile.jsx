@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
-import './MyProfile.css'; // We'll create this file next
+import './MyProfile.css'; 
 import { toast } from 'react-toastify';
 
 const MyProfile = () => {

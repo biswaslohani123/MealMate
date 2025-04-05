@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {LayoutDashboard,PlusCircle,List,ShoppingBag,Menu,} from "lucide-react";
+import {LayoutDashboard,PlusCircle,List,ShoppingBag,Menu, User,} from "lucide-react";
 import { Tooltip } from "react-tooltip";
 
 const Sidebar = () => {
@@ -93,6 +93,23 @@ const Sidebar = () => {
           <Tooltip
             id="orders"
             content="Orders"
+            place="right"
+            className="!bg-orange-400 !px-3 !py-2"
+          />
+        )}
+
+        <NavLink
+          to="/users"
+          className={navLinkClasses}
+          data-tooltip-id="orders"
+        >
+          <User size={22} className="transition-transform group-hover:scale-110" />
+          {isOpen && <p className="font-medium">Users</p>}
+        </NavLink>
+        {!isOpen && (
+          <Tooltip
+            id="users"
+            content="users"
             place="right"
             className="!bg-orange-400 !px-3 !py-2"
           />

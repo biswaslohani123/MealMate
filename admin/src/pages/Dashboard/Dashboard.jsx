@@ -19,7 +19,7 @@ const Dashboard = () => {
         <h1 className="text-3xl font-bold text-stone-800">
           MealMate Dashboard
         </h1>
-        <p className="text-stone-600 mt-2">Welcome back to your dashboard</p>
+       
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -44,7 +44,7 @@ const adminDashboard = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-    console.log('hjbudgfhdf')
+    
     try {
         const users = await userModel.find({});
         return res.json({ success: true, users });

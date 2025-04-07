@@ -6,7 +6,7 @@ const adminRouter = express.Router()
 
 adminRouter.post('/adminlogin', loginAdmin)
 adminRouter.get('/dashboard', authAdmin, adminDashboard)
-adminRouter.get('/users', getAllUsers)
+adminRouter.get('/users',getAllUsers)
 
 
 export default adminRouter

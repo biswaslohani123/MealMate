@@ -1,16 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Users as UsersIcon, Search, Eye, Calendar, Mail, Phone, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Users = () => {
-  const [users, SetUsers] = useState([]);
-  const [loading, SetLoading] = useState(true);
+  const url = "http://localhost:4000";
+  
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("atoken");
 
-        const response = await axios.get('/api/admin/users', {
+        const response = await axios.get(url+'/api/admin/users', {
             headers: {
               Authorization: `Bearer ${token}`,
               'Cache-Control': 'no-cache',
@@ -20,47 +25,126 @@ const Users = () => {
           });
           
         if (response.data.success) {
-          SetUsers(response.data.users);
+          setUsers(response.data.users);
+        } else {
+          toast.error("Failed to fetch users");
         }
       } catch (error) {
         console.error("Error fetching users:", error);
+        toast.error("Error loading users");
       } finally {
-        SetLoading(false);
+        setLoading(false);
       }
     };
 
     fetchUsers();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+ 
+  const filteredUsers = users.filter(user =>
+    user.name?.toLowerCase().includes(search.toLowerCase()) ||
+    user.email?.toLowerCase().includes(search.toLowerCase()) ||
+    user.phone?.includes(search)
+  );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white flex items-center justify-center">
+        <div className="flex items-center gap-2 text-orange-500">
+          <Loader2 className="h-6 w-6 animate-spin" />
+          <span className="font-medium">Loading users...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="users-container">
-      <h2>All Users</h2>
-      <table className="users-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Joined On</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.phone || "N/A"}</td>
-              <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-              <td>
-                <button onClick={() => handleViewUser(user._id)}>View</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen  from-stone-50 to-white p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-stone-800">Users List</h1>
+          <p className="mt-2 text-stone-600">
+              Total Users: <span className="font-semibold text-orange-600">{users.length}</span>
+            </p>
+          
+        </div>
+
+        <div className="bg-white rounded-xl shadow-lg mb-6 p-4 border border-stone-100">
+          <div className="flex items-center gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-5 w-5" />
+              <input
+                type="text"
+                placeholder="Search by name, email, or phone..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-lg border border-stone-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-stone-100">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Email</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Phone</th>
+                
+                 
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {filteredUsers.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-8 text-center">
+                      <div className="flex flex-col items-center justify-center">
+                        <div className="p-3 bg-orange-50 rounded-full mb-3">
+                          <UsersIcon className="h-6 w-6 text-orange-400" />
+                        </div>
+                        <h3 className="text-stone-900 font-medium mb-1">No Users Found</h3>
+                       
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredUsers.map((user) => (
+                    <tr 
+                      key={user._id}
+                      className="hover:bg-stone-50 transition-colors duration-150"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-amber-300 flex items-center justify-center text-white font-medium">
+                            {user.name?.charAt(0).toUpperCase() || "U"}
+                          </div>
+                          <span className="font-medium text-stone-900">{user.name}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2 text-stone-600">
+                          <Mail className="h-4 w-4 text-orange-400" />
+                          <span>{user.email}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2 text-stone-600">
+                          <Phone className="h-4 w-4 text-orange-400" />
+                          <span>{user.phone || "N/A"}</span>
+                        </div>
+                      </td>
+                     
+                      
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

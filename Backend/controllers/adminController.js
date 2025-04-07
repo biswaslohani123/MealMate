@@ -35,21 +35,22 @@ const adminDashboard = async (req, res) => {
             totalIncome
         };
 
-        res.json({ success: true, dashdata });
+       return res.json({ success: true, dashdata });
 
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Error" });
+       return res.json({ success: false, message: "Error" });
     }
 };
 
 const getAllUsers = async (req, res) => {
+    console.log('hjbudgfhdf')
     try {
         const users = await userModel.find({});
-        res.json({ success: true, users });
+        return res.json({ success: true, users });
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Error fetching users" });
+       return res.json({ success: false, message: "Error fetching users" });
     }
 };
 

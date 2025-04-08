@@ -146,34 +146,32 @@ const getProfile = async (req, res) => {
 
 // Postupdateprofile
 const updateProfile = async (req, res) => {
-   
-    console.log(req.body)
-
-    const {name,image, phone, address, id} = req.body;
+    const { name, phone, address, id } = req.body;
 
     if (!id) {
-        return res.json({success:false, message:"User not authenticated"})
+        return res.json({ success: false, message: "User not authenticated" });
     }
-    let image_filename = req.file.filename
+
+    const image_filename = req.file ? req.file.filename : null;
 
     try {
         const user = await userModel.findById(id);
         if (!user) {
-            return res.json({success:false, message:"User not found"})
+            return res.json({ success: false, message: "User not found" });
         }
+
         user.name = name;
-        user.image=image_filename;
+        if (image_filename) user.image = image_filename;
         user.phone = phone;
         user.address = address;
-       
+
         await user.save();
-        res.json({success:true, message:"Profile updated successfully"})
+        res.json({ success: true, message: "Profile updated successfully" });
     } catch (error) {
         console.log(error);
-        
-        res.json({success:false, message:"Error"})
+        res.json({ success: false, message: "Error" });
     }
-}
+};
 
 
 export {loginUser, registerUser, getProfile, updateProfile}

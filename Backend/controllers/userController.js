@@ -19,7 +19,7 @@ const loginUser = async (req,res) => {
         const user = await userModel.findOne({email});
 
         if (!user) {
-            return res.json({success:false,message:"User does not exists"})
+            return res.json({success:false,message:"invalid Credentials"})
         }
         const isMatch = await bcrypt.compare(password,user.password);
         if (!isMatch) {
@@ -49,63 +49,74 @@ const loginUser = async (req,res) => {
 
 //register User logic
 const registerUser = async (req, res) => {
-    const {name, password, email, phone} = req.body;
+    const { name, password, email, phone } = req.body;
 
-    if (!name || !email || !password) {
-        return res.json({success:false, message: 'Missing Details'})
+    if (!name || !email || !password || !phone) {
+        return res.json({ success: false, message: 'Missing Details' });
     }
-    
-    try{
 
-        //checking is the user is already exists
-        const exists = await userModel.findOne({email})
-        if (exists) {
-            return res.json({success:false,message:"User already exists"})
-        }
-        // validating email format and strong password
+    try {
+        // Validating email format and strong password
         if (!validator.isEmail(email)) {
-            return res.json({success:false,message:"Please Enter a Valid email"})
+            return res.json({ success: false, message: "Please enter a valid email" });
         }
-        if (password.length<8) {
-            return res.json({success:false,message:"please enter a strong password"})
-        }
-        //hasing userPassword
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password,salt);
+
+        if (password.length < 8 || !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/.test(password)) {
+            return res.json({ success: false, message: "Please enter a strong password (8+ characters, one uppercase, one lowercase, one number, one special character)" });
+          }
+          if (!/^\d{10}$/.test(phone)) {
+            return res.json({ success: false, message: "Phone number must be 10 digits" });
+          }
+
+
+        // Hashing password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new userModel({
-            name:name,
-            email:email,
-            password:hashedPassword,
-            phone:phone
-        })
-            const user = await newUser.save()
-            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET,{expiresIn: '7d'});
+            name,
+            email,
+            password: hashedPassword,
+            phone
+        });
 
-            res.cookie('token', token,{
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none':'strict',
-                maxAge: 7 + 24 * 60 * 60 * 1000
-            })
+        const user = await newUser.save();
 
-            //Sending Welcome email
-            const mailOptions ={
-                from: process.env.SENDER_EMAIL,
-                to: email,
-                subject: 'Welcome To MealMate🍔',
-                text:`Welcome to MealMate website. Your account has been created with email id: ${email}`
-            }
-            await transporter.sendMail(mailOptions)
-           
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-            res.json({success:true,token})
-    }catch(error) {
-        console.log(error);
-        res.json({success:false,message:"Error"})
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
+
+        // Send Welcome Email
+        const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: email,
+            subject: 'Welcome To MealMate 🍔',
+            text: `Welcome to MealMate! Your account has been created with email ID: ${email}`
+        };
+        await transporter.sendMail(mailOptions);
+
+        res.json({ success: true, token });
+
+    } catch (error) {
         
+        if (error.code === 11000) {
+            if (error.keyPattern.email) {
+                return res.json({ success: false, message: "Email already registered" });
+            }
+            if (error.keyPattern.phone) {
+                return res.json({ success: false, message: "Phone number already registered" });
+            }
+        }
+
+        console.error(error);
+        res.json({ success: false, message: "Server Error, please try again later" });
     }
-}
+};
 
 //Get profile
 const getProfile = async (req, res) => {

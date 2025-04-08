@@ -8,50 +8,82 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowlogin }) => {
-  // fetching url using Context Api
   const { url, setToken } = useContext(StoreContext);
 
   const [currState, setCurrState] = useState("Login");
+
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    phone:""
+    phone: "",
   });
 
-  // UseState for Password Visibility
   const [showPassword, setShowPassword] = useState(false);
 
-  const onChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((data) => ({ ...data, [name]: value }));
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const onLogin = async (event) => {
-    event.preventDefault();
+  const validateForm = () => {
+    const { name, email, password, phone } = data;
 
-    //  creating Instance
-    let newUrl = url;
-    if (currState === "Login") {
-      newUrl += "/api/user/login";
-    } else {
-      newUrl += "/api/user/register";
+    // Sign up validations
+    if (currState === "Sign Up") {
+      if (name.trim().length < 5) {
+        toast.error("Name must be at least 5 characters");
+        return false;
+      }
+
+      // Phone number validation 
+      if (!/^\d{10}$/.test(phone)) {
+        toast.error("Phone number must be 10 digits");
+        return false;
+      }
     }
 
-    // Api call
-    const response = await axios.post(newUrl, data);
-    if (response.data.success) {
-      setToken(response.data.token);
-      localStorage.setItem("token", response.data.token);
-      setShowlogin(false);
-      toast.success(currState === "Login" 
-        ? "Logged in successfully!" 
-        : "Account created successfully!", {
+    // Email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Invalid email format");
+      return false;
+    }
+
+    // Password validation (checks for at least one uppercase, one lowercase, one number, and one special character) for signup only
+    if (currState === "Sign Up" && !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/.test(password)) {
+      toast.error("Password must include upper, lower, number & special character");
+      return false;
+    }
+
+    return true;
+  };
+
+  const onLogin = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    const endpoint = currState === "Login" ? "/api/user/login" : "/api/user/register";
+
+    try {
+      const res = await axios.post(`${url}${endpoint}`, data);
+
+      if (res.data.success) {
+        setToken(res.data.token);
+        localStorage.setItem("token", res.data.token);
+        setShowlogin(false);
+        toast.success(
+          currState === "Login"
+            ? "Logged in successfully!"
+            : "Account created successfully!"
+        );
+      } else {
         
-      });
-    } else {
-      alert(response.data.message);
+        toast.error(currState === "Login" ? "Invalid credentials" : res.data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
     }
   };
 
@@ -60,83 +92,82 @@ const LoginPopup = ({ setShowlogin }) => {
       <form onSubmit={onLogin} className="login-popup-container">
         <div className="login-popup-title">
           <h2>{currState}</h2>
-          <img onClick={() => setShowlogin(false)} src={assets.cross_icon} />
+          <img
+            onClick={() => setShowlogin(false)}
+            src={assets.cross_icon}
+            alt="close"
+          />
         </div>
+
         <div className="login-popup-inputs">
-          {currState === "Login" ? (
-            <></>
-          ) : (
+          {currState === "Sign Up" && (
             <>
-            <input
-              name="name"
-              onChange={onChangeHandler}
-              value={data.name}
-              type="text"
-              placeholder="Your name"
-              required
-            />
-            <input
-              name="phone"
-              onChange={onChangeHandler}
-              value={data.phone}
-              type="tel"
-              placeholder="Your phone "
-              required
-            />
-          </>
-            
+              <input
+                name="name"
+                type="text"
+                placeholder="Your name"
+                value={data.name}
+                onChange={onChangeHandler}
+                autoComplete="name"
+                required
+              />
+              <input
+                name="phone"
+                type="tel"
+                placeholder="Your phone"
+                value={data.phone}
+                onChange={onChangeHandler}
+                autoComplete="tel"
+                required
+              />
+            </>
           )}
           <input
             name="email"
-            onChange={onChangeHandler}
-            value={data.email}
             type="email"
             placeholder="Your email"
-            required
-          />
-        
-          <div className="password-input-container">
-
-          <input
-            name="password"
+            value={data.email}
             onChange={onChangeHandler}
-            value={data.password}
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
+            autoComplete="email"
             required
           />
-          
-          <span className="password-visibility" onClick={() => setShowPassword((prev) => !prev)}>
-           <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash }/>
-            
 
-          </span>
-        </div>
+          <div className="password-input-container">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={data.password}
+              onChange={onChangeHandler}
+              autoComplete="current-password"
+              required
+            />
+            <span
+              className="password-visibility"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+            </span>
           </div>
+        </div>
+
         <button type="submit">
-          {currState === "Sign Up" ? "Create account" : "Login"}
+          {currState === "Login" ? "Login" : "Create account"}
         </button>
-        
+
         {currState === "Login" ? (
           <p>
-            Create a new account? {" "}
-            <span onClick={() => setCurrState("Sign Up")}>Click Here</span><br />
-            
-           
-            
+            Create a new account?{" "}
+            <span onClick={() => setCurrState("Sign Up")}>Click Here</span>
           </p>
-          
         ) : (
           <p>
             Already have an account?{" "}
             <span onClick={() => setCurrState("Login")}>Login Here</span>
-            
           </p>
         )}
       </form>
     </div>
-
-    
   );
 };
 

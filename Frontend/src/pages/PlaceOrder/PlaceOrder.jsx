@@ -154,6 +154,7 @@ const PlaceOrder = () => {
                 <input type="radio" name='paymentMethod' value='stripe' checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} />
                 <FaCcStripe /> Pay With Stripe
               </div>
+              
               <div className="payment-2">
                 <input type="radio" name='paymentMethod' value='cod' checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} />
                 (COD) Cash On Delivery

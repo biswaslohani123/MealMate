@@ -57,6 +57,14 @@
 .navbar-search-icon {
     position: relative;
 }
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+  }
+  
 
 .favorite-icon {
     font-size: 28px;

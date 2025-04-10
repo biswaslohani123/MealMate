@@ -102,6 +102,8 @@ const StoreContextProvider = (props) => {
     token,
     setToken,
     clearCart,
+    setFoodList,
+    fetchFoodList
   };
 
   return (

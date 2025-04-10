@@ -24,19 +24,22 @@ const Navbar = ({ setShowlogin }) => {
 
         if (response.data.success) {
           const image = response.data.user.image;
-          setProfileImage(
+
+          const fullImageUrl =
             image.startsWith("blob:") || image.startsWith("http")
               ? image
-              : `${url}/images/${image}`
-          );
+              : `${url}/images/${image}`;
+
+          setProfileImage(fullImageUrl);
         }
       } catch (error) {
         console.error("Error fetching profile image:", error);
+        setProfileImage(assets.profiles_icon); // Fallback in case of error
       }
     };
 
     fetchProfileImage();
-  }, [token]);
+  }, [token, url]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -93,7 +96,12 @@ const Navbar = ({ setShowlogin }) => {
           <button onClick={() => setShowlogin(true)}>Sign Up/Login</button>
         ) : (
           <div className="navbar-profile">
-            <img src={profileImage} alt="Profile" className="profile-icon" />
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="profile-icon"
+              onError={(e) => (e.target.src = assets.profiles_icon)}
+            />
             <ul className="nav-profile-dropdown">
               <li onClick={() => navigate("/account")}>
                 <CgProfile />

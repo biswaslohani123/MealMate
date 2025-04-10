@@ -1,11 +1,15 @@
 import "./FoodItem.css";
 import { assets } from "../../assets/assets";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { StoreContext } from "../../context/StoreContext";
 import { toast } from "react-toastify";
 
 const FoodItem = ({ id, name, price, description, image, active = true }) => {
-  const { cartItems, addToCart, removeFromCart, url } = useContext(StoreContext);
+  const { cartItems, addToCart, removeFromCart, url} = useContext(StoreContext);
+
+ 
+
+  
 
   return (
     <div className={`food-item ${!active ? "food-item-inactive" : ""}`}>

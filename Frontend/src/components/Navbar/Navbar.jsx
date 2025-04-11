@@ -80,8 +80,15 @@ const Navbar = ({ setShowlogin }) => {
           onClick={() => setMenu("Contact Us")}
           className={menu === "Contact Us" ? "active" : ""}
         >
-          Contact Us
+          Contact US
         </a>
+        <Link
+          to="/about"
+          onClick={() => setMenu("about")}
+          className={menu === "about" ? "active" : ""}
+        >
+          About Us
+        </Link>
       </ul>
 
       <div className="navbar-right">

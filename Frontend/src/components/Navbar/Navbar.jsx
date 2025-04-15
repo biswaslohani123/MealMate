@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import { CgProfile } from "react-icons/cg";
 import { LogOut } from "lucide-react";
@@ -10,6 +10,9 @@ import axios from "axios";
 const Navbar = ({ setShowlogin }) => {
   const { getTotalCartAmount, token, setToken, url } = useContext(StoreContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   const [menu, setMenu] = useState("Home");
   const [profileImage, setProfileImage] = useState(assets.profiles_icon); // Default profile icon
 
@@ -54,33 +57,37 @@ const Navbar = ({ setShowlogin }) => {
       </Link>
 
       <ul className="navbar-menu">
-        <Link
-          to="/"
-          onClick={() => setMenu("Home")}
-          className={menu === "Home" ? "active" : ""}
-        >
-          Home
-        </Link>
-        <a
-          href="#explore-menu"
-          onClick={() => setMenu("Menu")}
-          className={menu === "Menu" ? "active" : ""}
-        >
-          Menu
-        </a>
-        <a
-          href="#Our-gallery"
-          onClick={() => setMenu("Our-gallery")}
-          className={menu === "Our-gallery" ? "active" : ""}
-        >
-          Our Gallery
-        </a>
+        {isHome && (
+          <>
+            <Link
+              to="/"
+              onClick={() => setMenu("Home")}
+              className={menu === "Home" ? "active" : ""}
+            >
+              Home
+            </Link>
+            <a
+              href="#explore-menu"
+              onClick={() => setMenu("Menu")}
+              className={menu === "Menu" ? "active" : ""}
+            >
+              Menu
+            </a>
+            <a
+              href="#Our-gallery"
+              onClick={() => setMenu("Our-gallery")}
+              className={menu === "Our-gallery" ? "active" : ""}
+            >
+              Our Gallery
+            </a>
+          </>
+        )}
         <a
           href="#Footer"
           onClick={() => setMenu("Contact Us")}
           className={menu === "Contact Us" ? "active" : ""}
         >
-          Contact US
+          Contact Us
         </a>
         <Link
           to="/about"
@@ -91,37 +98,39 @@ const Navbar = ({ setShowlogin }) => {
         </Link>
       </ul>
 
-      <div className="navbar-right">
-        <div className="navbar-search-icon">
-          <Link to="/cart">
-            <img src={assets.basket_icon} alt="Cart" />
-          </Link>
-          <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
-        </div>
-
-        {!token ? (
-          <button onClick={() => setShowlogin(true)}>Sign Up/Login</button>
-        ) : (
-          <div className="navbar-profile">
-            <img
-              src={profileImage}
-              alt="Profile"
-              className="profile-icon"
-              onError={(e) => (e.target.src = assets.profiles_icon)}
-            />
-            <ul className="nav-profile-dropdown">
-              <li onClick={() => navigate("/account")}>
-                <CgProfile />
-                <p style={{ whiteSpace: "nowrap" }}>Account</p>
-              </li>
-              <li onClick={handleLogout} className="account-item logout">
-                <LogOut />
-                <p>Logout</p>
-              </li>
-            </ul>
+      {isHome && (
+        <div className="navbar-right">
+          <div className="navbar-search-icon">
+            <Link to="/cart">
+              <img src={assets.basket_icon} alt="Cart" />
+            </Link>
+            <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
           </div>
-        )}
-      </div>
+
+          {!token ? (
+            <button onClick={() => setShowlogin(true)}>Sign Up/Login</button>
+          ) : (
+            <div className="navbar-profile">
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="profile-icon"
+                onError={(e) => (e.target.src = assets.profiles_icon)}
+              />
+              <ul className="nav-profile-dropdown">
+                <li onClick={() => navigate("/account")}>
+                  <CgProfile />
+                  <p style={{ whiteSpace: "nowrap" }}>Account</p>
+                </li>
+                <li onClick={handleLogout} className="account-item logout">
+                  <LogOut />
+                  <p>Logout</p>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

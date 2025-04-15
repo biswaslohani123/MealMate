@@ -73,6 +73,8 @@ const PlaceOrder = () => {
         } else {
           const { session_url } = response.data;
           window.location.replace(session_url);
+        
+        
         }
       } else {
         toast.error("Error placing order.");

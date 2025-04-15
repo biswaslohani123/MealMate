@@ -15,16 +15,16 @@ const Verify = () => {
     const navigate = useNavigate();
 
     const verifyPayment = async () => {
-        // calling API
-        const response = await axios.post(url+"/api/order/verify",{success,orderId})
+        //calling API
+        const response = await axios.post(url + "/api/order/verify", { success, orderId });
+        console.log("Verify Payment Response: ", response.data);
         if (response.data.success) {
-            navigate("/myorders")
-    
-        }
-        else{
-            navigate("/")
+            navigate('/myorders');
+        } else {
+            navigate("/");
         }
     }
+    
     useEffect(() => {
         verifyPayment();
     },[])

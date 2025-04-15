@@ -84,33 +84,35 @@ const placeOrder = async (req,res) => {
 
 }
 
-const verifyOrder = async (req,res) => {
-    const {orderId,success}  = req.body;
+const verifyOrder = async (req, res) => {
+    const { orderId, success } = req.body;
     try {
-        if (success==="true") {
-            await orderModel.findByIdAndUpdate(orderId,{payment:true});
+        if (success === "true") {
+            await orderModel.findByIdAndUpdate(orderId, { payment: true });
 
-            const maiilOptions ={
+            const order = await orderModel.findById(orderId);
+            const user = await userModel.findById(order.userId); 
+
+            const mailOptions = {
                 from: process.env.SENDER_EMAIL,
                 to: user.email,
-                subject: 'YOur Order has been  Placed Sucessfully',
-                text: `Dear ${req.user.name} ,Your Order  has been received, it will be delivered within our standard timing Total amount ${req.body.amount} is you bill`
-        
-               }
-               await transporter.sendMail(maiilOptions)
-            res.json({success:true,message:"Paid"})
-        }
-        else{
+                subject: 'Your Order has been Placed Successfully',
+                text: `Dear ${user.name}, your order has been received and it will be delivered within our standard timing.`
+            };
+
+            await transporter.sendMail(mailOptions);
+
+            res.json({ success: true, message: "Paid" });
+        } else {
             await orderModel.findByIdAndDelete(orderId);
-            res.json({success:false,message:"Not Paid"})
+            res.json({ success: false, message: "Not Paid" });
         }
     } catch (error) {
         console.log(error);
-        res.json({success:false,message:"Error"})
-        
+        res.json({ success: false, message: "Error" });
     }
+};
 
-}
 
 // user orders page for frontend
 

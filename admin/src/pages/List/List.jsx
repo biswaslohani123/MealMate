@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Trash2, Search, ToggleLeft, ToggleRight } from "lucide-react";
+import { Trash2, Search, ToggleLeft, ToggleRight, X } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -9,12 +9,17 @@ const List = ({ url, token }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedFoodId, setSelectedFoodId] = useState(null);
   const [isToggling, setIsToggling] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
 
   const fetchList = async () => {
     try {
       const response = await axios.get(`${url}/api/food/list`);
       if (response.data.success) {
         setList(response.data.data);
+       
+        const categories = [...new Set(response.data.data.map(item => item.category))];
+        setAllCategories(categories);
       } else {
         toast.error("Error fetching items");
       }
@@ -49,9 +54,8 @@ const List = ({ url, token }) => {
     }
   };
 
-  //  function to toggle active status
   const toggleFoodStatus = async (foodId, currentStatus) => {
-    if (isToggling) return; 
+    if (isToggling) return;
     
     setIsToggling(true);
     try {
@@ -63,8 +67,6 @@ const List = ({ url, token }) => {
       
       if (response.data.success) {
         toast.success(response.data.message);
-        
-        // Update the list  to avoiding refetching
         setList(prevList => 
           prevList.map(item => 
             item._id === foodId 
@@ -82,15 +84,26 @@ const List = ({ url, token }) => {
     }
   };
 
+  const toggleCategory = (category) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(category)) {
+        return prev.filter(c => c !== category);
+      } else {
+        return [...prev, category];
+      }
+    });
+  };
+
   useEffect(() => {
     fetchList();
   }, []);
 
-  const filteredList = list.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredList = list.filter(item => {
+    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         item.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategories = selectedCategories.length === 0 || selectedCategories.includes(item.category);
+    return matchesSearch && matchesCategories;
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-b p-6">
@@ -100,7 +113,7 @@ const List = ({ url, token }) => {
         </div>
 
         <div className="bg-white rounded-xl shadow-lg mb-6 p-4 border border-stone-100">
-          <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-col gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-5 w-5" />
               <input
@@ -110,6 +123,25 @@ const List = ({ url, token }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
               />
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {allCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => toggleCategory(category)}
+                  className={`px-4 py-2 ml-4 cursor-pointer rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2
+                    ${selectedCategories.includes(category)
+                      ? 'bg-orange-500 text-white hover:bg-orange-600'
+                      : 'bg-orange-50 text-orange-700 hover:bg-orange-100'
+                    }`}
+                >
+                  {category}
+                  {selectedCategories.includes(category) && (
+                    <X className="h-4 w-4" />
+                  )}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -124,7 +156,7 @@ const List = ({ url, token }) => {
                 No items found
               </h3>
               <p className="text-stone-500">
-                Try adjusting your search criteria
+                Try adjusting your search criteria or category filters
               </p>
             </div>
           ) : (

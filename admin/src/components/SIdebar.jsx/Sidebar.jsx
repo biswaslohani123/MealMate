@@ -11,7 +11,7 @@ const Sidebar = () => {
   const navLinkClasses = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
       isActive
-        ? "bg-gradient-to-r from-orange-300 to-amber-200 text-stone-800 shadow-lg"
+        ? "bg-gradient-to-r from-orange-200 to-amber-100 text-stone-800 shadow-lg"
         : "text-stone-600 hover:bg-orange-50 hover:text-orange-600"
     }`;
 

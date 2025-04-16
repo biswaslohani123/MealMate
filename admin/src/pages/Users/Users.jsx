@@ -119,7 +119,7 @@ const Users = () => {
 
             <button
               onClick={handleRestore}
-              className="bg-orange-100 hover:bg-orange-200 text-orange-600 font-medium px-4 py-2 rounded-lg transition-colors duration-200"
+              className=" cursor-pointer bg-orange-50 hover:bg-orange-200 font-medium px-4 py-2 rounded-lg transition-colors duration-200"
             >
               Restore All Users
             </button>
@@ -190,7 +190,7 @@ const Users = () => {
                       <td className="px-6 py-4">
                         <button
                           onClick={() => handleDelete(user._id)}
-                          className="text-red-500 hover:bg-amber-200 px-2 py-3 rounded-3xl font-medium"
+                          className="cursor-pointer text-red-500 hover:bg-amber-200 px-2 py-3 rounded-3xl font-medium"
                         >
                           Delete
                         </button>

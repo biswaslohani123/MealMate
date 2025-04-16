@@ -63,8 +63,8 @@ const Dashboard = () => {
               </div>
               <h2 className="text-lg font-semibold text-stone-700">Overall Income</h2>
             </div>
-            <p className="text-4xl font-bold text-stone-800 mb-2 flex items-center">
-              <CountUp end={dashdata.totalIncome || 0} duration={2}  />
+            <p className="text-4xl font-bold text-stone-800 mb-2 flex items-center gap-2">
+              Rs<CountUp end={dashdata.totalIncome || 0} duration={2}  />
             </p>
             <p className="text-sm text-stone-500">Total Income</p>
           </div>
@@ -102,10 +102,11 @@ const Dashboard = () => {
                             {i.name}
                           </p>
                           <div className="flex items-center space-x-3">
-                            <span className="text-sm font-medium text-orange-600">
+                            <span className="text-sm font-medium ">
+                             
                               Rs.{i.price}
                             </span>
-                            <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-medium">
+                            <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-bold">
                               ×{i.quantity}
                             </span>
                           </div>

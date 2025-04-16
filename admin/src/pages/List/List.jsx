@@ -191,14 +191,14 @@ const List = ({ url, token }) => {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border border-orange-200">
                       {item.category}
                     </span>
-                    <div className="flex items-center">
-                      <span className={`text-xs mr-2 ${item.active ? 'text-green-600' : 'text-red-600'}`}>
+                    <div className="flex items-center ">
+                      <span className={` text-xs mr-2 ${item.active ? 'text-green-600' : 'text-red-600'}`}>
                         {item.active ? 'Active' : 'Inactive'}
                       </span>
                       <button 
                         onClick={() => toggleFoodStatus(item._id, item.active)}
                         disabled={isToggling}
-                        className="p-1 rounded-full focus:outline-none"
+                        className="p-1 cursor-pointer rounded-full focus:outline-none"
                       >
                         {item.active ? 
                           <ToggleRight size={24} className="text-green-500" /> : 

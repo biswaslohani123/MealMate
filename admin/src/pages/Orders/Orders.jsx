@@ -18,9 +18,7 @@ import {
   AlertCircle,
   Clock3,
   RefreshCw,
- 
   Calendar,
- 
 } from "lucide-react"
 import axios from "axios"
 import { toast } from "react-toastify"
@@ -31,7 +29,6 @@ const Orders = ({ url }) => {
   const [filterStatus, setFilterStatus] = useState("all")
   const [expandedOrder, setExpandedOrder] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  
 
   const fetchAllOrder = async () => {
     setIsLoading(true)
@@ -127,8 +124,8 @@ const Orders = ({ url }) => {
   })
 
   // Calculate total amount for each order
-  const calculateTotal = (items) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0)
+  const calculateTotal = (items, deliveryCharge = 100) => {
+    return items.reduce((total, item) => total + item.price * item.quantity, 0) + deliveryCharge
   }
 
   // Format date and time
@@ -162,7 +159,6 @@ const Orders = ({ url }) => {
   return (
     <div className="min-h-screen via-white to-orange-50 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg">
@@ -177,13 +173,11 @@ const Orders = ({ url }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            
             <button
               onClick={fetchAllOrder}
               className="p-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
             >
               <RefreshCw className="h-5 w-5" />
-              
             </button>
           </div>
         </div>
@@ -219,8 +213,6 @@ const Orders = ({ url }) => {
                   <option value="Order Delivered">Delivered</option>
                 </select>
               </div>
-
-              
             </div>
           </div>
         </div>
@@ -272,7 +264,6 @@ const Orders = ({ url }) => {
                             <h3 className="font-semibold text-gray-900">
                               {order.address.firstName} {order.address.lastName}
                             </h3>
-                           
                           </div>
                           <div className="flex flex-wrap items-center gap-4 mt-1">
                             <p className="text-xs text-gray-600 flex items-center gap-1">
@@ -333,7 +324,9 @@ const Orders = ({ url }) => {
                     <div className="flex flex-col gap-2 pl-10 lg:pl-0 mt-2 lg:mt-0">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium text-gray-700">Total:</span>
-                        <span className="font-bold text-gray-900">Rs. {calculateTotal(order.items)}</span>
+                        <span className="font-bold text-gray-900">
+                          Rs. {calculateTotal(order.items, order.deliveryCharge || 100)}
+                        </span>
                       </div>
 
                       <div className="relative">
@@ -373,7 +366,6 @@ const Orders = ({ url }) => {
                   <div className="p-5 border-t border-amber-100 animate-slideDown ">
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="font-medium text-gray-900">Order Details</h4>
-                      
                     </div>
 
                     <div className="bg-white rounded-xl border border-amber-100 overflow-hidden mb-5">
@@ -420,6 +412,17 @@ const Orders = ({ url }) => {
                                 </td>
                               </tr>
                             ))}
+                            <tr>
+                              <td
+                                colSpan={3}
+                                className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900 text-right"
+                              >
+                                Delivery Charge:
+                              </td>
+                              <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900">
+                                Rs. {order.deliveryCharge || 100}
+                              </td>
+                            </tr>
                             <tr className="bg-amber-50">
                               <td
                                 colSpan={3}
@@ -428,7 +431,7 @@ const Orders = ({ url }) => {
                                 Total Amount:
                               </td>
                               <td className="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900">
-                                Rs. {calculateTotal(order.items)}
+                                Rs. {calculateTotal(order.items, order.deliveryCharge || 100)}
                               </td>
                             </tr>
                           </tbody>
@@ -492,8 +495,14 @@ const Orders = ({ url }) => {
                             </p>
                           </div>
                           <div>
+                            <p className="text-gray-500 text-xs mb-1">Delivery Charge</p>
+                            <p className="text-gray-900">Rs. {order.deliveryCharge || 100}</p>
+                          </div>
+                          <div>
                             <p className="text-gray-500 text-xs mb-1">Total Amount</p>
-                            <p className="text-gray-900 font-bold">Rs. {calculateTotal(order.items)}</p>
+                            <p className="text-gray-900 font-bold">
+                              Rs. {calculateTotal(order.items, order.deliveryCharge || 100)}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -510,7 +519,6 @@ const Orders = ({ url }) => {
                 </div>
                 <h3 className="text-gray-900 font-medium text-xl mb-2">No Orders Found</h3>
                 <p className="text-gray-700 max-w-md mx-auto">Try adjusting your search criteria or filters</p>
-               
               </div>
             )}
           </div>

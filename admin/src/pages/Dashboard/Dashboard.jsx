@@ -1,24 +1,127 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 import { AdminContext } from "../../context/AdminContext.";
-import { Package, Users, Clock, Mail, Calendar, IndianRupee } from "lucide-react";
-import CountUp from 'react-countup';
+import {
+  Package,
+  Users,
+  Clock,
+  Mail,
+  Calendar,
+  IndianRupee,
+  RefreshCw,
+  Filter,
+  ChevronDown,
+  Bell,
+  ShoppingBag,
+  BarChart3,
+  Utensils,
+  TrendingUp,
+} from "lucide-react";
+import CountUp from "react-countup";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const Dashboard = () => {
   const { atoken, getDashData, dashdata } = useContext(AdminContext);
+  const [timeFilter, setTimeFilter] = useState("week");
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (atoken) {
       getDashData();
     }
-  }, [atoken]);
+  }, [atoken, getDashData]);
+
+  const refreshData = () => {
+    setIsRefreshing(true);
+    getDashData().finally(() => {
+      setTimeout(() => {
+        setIsRefreshing(false);
+      }, 1000);
+    });
+  };
+
+  // geneating sales data 
+  const generateSalesData = () => {
+    if (!dashdata.latestorders || dashdata.latestorders.length === 0) {
+      return [];
+    }
+
+   
+    const salesByDate = {};
+    dashdata.latestorders.forEach((order) => {
+      const date = new Date(order.date).toLocaleDateString("en-US", {
+        weekday: "short",
+      });
+      const orderTotal = order.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      const deliveryCharge = order.deliveryCharge || 0;
+
+      if (!salesByDate[date]) {
+        salesByDate[date] = 0;
+      }
+      salesByDate[date] += orderTotal + deliveryCharge;
+    });
+
+    //  array format for chart
+    return Object.keys(salesByDate).map((date) => ({
+      name: date,
+      sales: salesByDate[date],
+    }));
+  };
+
+  // getting most ordered items
+  const getMostOrderedItems = useMemo(() => {
+    if (!dashdata.latestorders || dashdata.latestorders.length === 0) {
+      return [];
+    }
+
+    const itemCounts = {};
+
+    
+    dashdata.latestorders.forEach((order) => {
+      order.items.forEach((item) => {
+        if (!itemCounts[item.name]) {
+          itemCounts[item.name] = {
+            name: item.name,
+            count: 0,
+            price: item.price,
+            totalQuantity: 0,
+          };
+        }
+        itemCounts[item.name].count += 1;
+        itemCounts[item.name].totalQuantity += item.quantity;
+      });
+    });
+
+    
+    return Object.values(itemCounts)
+      .sort((a, b) => b.totalQuantity - a.totalQuantity)
+      .slice(0, 5);
+  }, [dashdata.latestorders]);
+
+  const salesData = generateSalesData();
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold text-stone-800 mb-3">
-          MealMate Dashboard
-        </h1>
-        <div className="h-1 w-24 bg-orange-400 mx-auto rounded-full"></div>
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">
+            MealMate Dashboard
+          </h1>
+          <div className="h-1 w-24 bg-orange-400 mx-auto md:mx-0 rounded-full"></div>
+        </div>
+
+      
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -29,7 +132,9 @@ const Dashboard = () => {
               <div className="p-2 bg-orange-100 rounded-lg">
                 <Package className="h-6 w-6 text-orange-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">Total Orders</h2>
+              <h2 className="text-lg font-semibold text-stone-700">
+                Total Orders
+              </h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2">
               <CountUp end={dashdata.orders || 0} duration={2} />
@@ -45,7 +150,9 @@ const Dashboard = () => {
               <div className="p-2 bg-amber-100 rounded-lg">
                 <Users className="h-6 w-6 text-amber-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">Total Users</h2>
+              <h2 className="text-lg font-semibold text-stone-700">
+                Total Users
+              </h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2">
               <CountUp end={dashdata.users || 0} duration={2} />
@@ -61,12 +168,131 @@ const Dashboard = () => {
               <div className="p-2 bg-orange-100 rounded-lg">
                 <IndianRupee className="h-6 w-6 text-orange-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">Overall Income</h2>
+              <h2 className="text-lg font-semibold text-stone-700">
+                Overall Income
+              </h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2 flex items-center gap-2">
-              Rs<CountUp end={dashdata.totalIncome || 0} duration={2}  />
+              Rs
+              <CountUp end={dashdata.totalIncome || 0} duration={2} />
             </p>
             <p className="text-sm text-stone-500">Total Income</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        {salesData.length > 0 && (
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden">
+            <div className="px-6 py-5 border-b border-stone-100">
+              <div className="flex items-center space-x-3">
+                <BarChart3 className="h-5 w-5 text-orange-500" />
+                <h2 className="text-xl font-semibold text-stone-800">
+                  Sales 
+                </h2>
+              </div>
+            </div>
+            <div className="p-6 h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={salesData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    vertical={false}
+                    stroke="#f1f5f9"
+                  />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                  <YAxis axisLine={false} tickLine={false} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "white",
+                      border: "none",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    }}
+                    formatter={(value) => [`Rs ${value}`, "Sales"]}
+                    labelStyle={{ color: "#64748b", fontWeight: 500 }}
+                  />
+                  <Bar
+                    dataKey="sales"
+                    fill="url(#colorGradient)"
+                    radius={[4, 4, 0, 0]}
+                    barSize={40}
+                    animationDuration={1500}
+                  />
+                  <defs>
+                    <linearGradient
+                      id="colorGradient"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor="#f97316" stopOpacity={1} />
+                      <stop offset="100%" stopColor="#fdba74" stopOpacity={1} />
+                    </linearGradient>
+                  </defs>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden">
+          <div className="px-6 py-5 border-b border-stone-100">
+            <div className="flex items-center space-x-3">
+              <Utensils className="h-5 w-5 text-orange-500" />
+              <h2 className="text-xl font-semibold text-stone-800">
+                Most Ordered Items
+              </h2>
+            </div>
+          </div>
+          <div className="divide-y divide-stone-100">
+            {getMostOrderedItems.length > 0 ? (
+              getMostOrderedItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="p-5 hover:bg-stone-50/50 transition-colors duration-200"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 text-orange-600 font-bold text-sm">
+                        {index + 1}
+                      </div>
+                      <div>
+                        <h3 className="font-medium text-stone-800">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-stone-500">
+                          Rs.{item.price}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-medium text-stone-700">
+                        {item.totalQuantity} ordered
+                      </div>
+                      <div className="text-xs text-emerald-600 mt-1 flex items-center justify-end">
+                        <TrendingUp className="h-3 w-3 inline mr-0.5" />
+                        Popular
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="py-12 text-center">
+                <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-50 rounded-full flex items-center justify-center mb-4">
+                  <Utensils className="h-8 w-8 text-orange-600" />
+                </div>
+                <h3 className="text-lg font-medium text-stone-800 mb-1">
+                  No Data Available
+                </h3>
+                <p className="text-stone-500">No order data </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -75,7 +301,9 @@ const Dashboard = () => {
         <div className="px-6 py-5 border-b border-stone-100">
           <div className="flex items-center space-x-3">
             <Clock className="h-5 w-5 text-orange-500" />
-            <h2 className="text-xl font-semibold text-stone-800">Latest Orders</h2>
+            <h2 className="text-xl font-semibold text-stone-800">
+              Latest Orders
+            </h2>
           </div>
         </div>
 
@@ -102,8 +330,7 @@ const Dashboard = () => {
                             {i.name}
                           </p>
                           <div className="flex items-center space-x-3">
-                            <span className="text-sm font-medium ">
-                             
+                            <span className="text-sm font-medium">
                               Rs.{i.price}
                             </span>
                             <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-bold">
@@ -113,21 +340,24 @@ const Dashboard = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-stone-500">
-                      <div className="flex items-center space-x-1.5">
-                        <Mail className="h-4 w-4 text-orange-400" />
-                        <span>{item.address.email}</span>
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                      <div className="flex flex-col md:flex-row md:items-center gap-4 text-sm text-stone-500">
+                        <div className="flex items-center space-x-1.5">
+                          <Mail className="h-4 w-4 text-orange-400" />
+                          <span>{item.address.email}</span>
+                        </div>
+                        <div className="flex items-center space-x-1.5">
+                          <Calendar className="h-4 w-4 text-orange-400" />
+                          <span>
+                            {new Date(item.date).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-1.5">
-                        <Calendar className="h-4 w-4 text-orange-400" />
-                        <span>
-                          {new Date(item.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
+                    
                     </div>
                   </div>
                 </div>
@@ -138,7 +368,9 @@ const Dashboard = () => {
               <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-50 rounded-full flex items-center justify-center mb-4">
                 <Package className="h-8 w-8 text-orange-600" />
               </div>
-              <h3 className="text-lg font-medium text-stone-800 mb-1">No Orders Yet</h3>
+              <h3 className="text-lg font-medium text-stone-800 mb-1">
+                No Orders Yet
+              </h3>
               <p className="text-stone-500">
                 No recent orders have been placed.
               </p>

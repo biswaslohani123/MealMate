@@ -15,7 +15,7 @@ const placeOrder = async (req, res) => {
       items: req.body.items,
       amount: req.body.amount,
       address: req.body.address,
-      paymentMethod: req.body.paymentMethod, // Fixed the mistake: 'address' -> 'paymentMethod'
+      paymentMethod: req.body.paymentMethod, 
     });
 
     const order = await newOrder.save();
@@ -35,7 +35,7 @@ const placeOrder = async (req, res) => {
           <p>Your order has been received and will be delivered within our standard timing.</p>
           <h4>Order Details:</h4>
           <ul>${itemList}</ul>
-          <p><strong>Total Amount:</strong> Rs. ${req.body.amount}</p>
+          <p><strong>Total Amount added with delivery charges:</strong> Rs. ${req.body.amount}</p>
           <p>We hope you enjoy your meal!</p>
         </div>
       `,

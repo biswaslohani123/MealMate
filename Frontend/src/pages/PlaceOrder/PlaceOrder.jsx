@@ -58,6 +58,7 @@ const PlaceOrder = () => {
       address: data,
       items: orderItems,
       amount: getTotalCartAmount() + 100,
+      paymentMethod: paymentMethod
     }
 
     setLoading(true); 

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import orderModel from '../models/orderModel.js'
 import userModel from '../models/userModel.js'
+import foodModel from '../models/foodModel.js'
 
 const loginAdmin = async(req , res) => {
     try {
@@ -24,6 +25,7 @@ const adminDashboard = async (req, res) => {
     try {
         const orders = await orderModel.find({});
         const users = await userModel.find({});
+        const foods = await foodModel.find({})
 
         // Calculate overall income
         const totalIncome = orders.reduce((acc, order) => acc + order.amount, 0);
@@ -31,7 +33,8 @@ const adminDashboard = async (req, res) => {
         const dashdata = {
             orders: orders.length,
             users: users.length,
-            latestorders: orders.reverse().slice(0, 10),
+            totalFoods: foods.length,
+            latestorders: orders.reverse().slice(0, 5),
             totalIncome
         };
 

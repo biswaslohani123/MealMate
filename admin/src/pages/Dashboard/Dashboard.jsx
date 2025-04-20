@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AdminContext } from "../../context/AdminContext.";
 import {
   Package,
@@ -7,10 +7,10 @@ import {
   Mail,
   Calendar,
   IndianRupee,
-  
   BarChart3,
   Utensils,
   TrendingUp,
+  ListCollapse
 } from "lucide-react";
 import CountUp from "react-countup";
 import {
@@ -25,8 +25,6 @@ import {
 
 const Dashboard = () => {
   const { atoken, getDashData, dashdata } = useContext(AdminContext);
-  
- 
 
   useEffect(() => {
     if (atoken) {
@@ -43,34 +41,53 @@ const Dashboard = () => {
     });
   };
 
-  // geneating sales data 
+  // Replace the existing generateSalesData function with this updated version that filters by current week
   const generateSalesData = () => {
     if (!dashdata.latestorders || dashdata.latestorders.length === 0) {
       return [];
     }
 
-   
+    // Get current date and start of the week (Sunday)
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    // Get end of the week (Saturday)
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    // Filter orders to only include current week
+    const currentWeekOrders = dashdata.latestorders.filter((order) => {
+      const orderDate = new Date(order.date);
+      return orderDate >= startOfWeek && orderDate <= endOfWeek;
+    });
+
+    // Initialize all days of the week with zero sales
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const salesByDate = {};
-    dashdata.latestorders.forEach((order) => {
-      const date = new Date(order.date).toLocaleDateString("en-US", {
-        weekday: "short",
-      });
+    daysOfWeek.forEach((day) => {
+      salesByDate[day] = 0;
+    });
+
+    // Calculate sales for each day in the current week
+    currentWeekOrders.forEach((order) => {
+      const orderDate = new Date(order.date);
+      const day = daysOfWeek[orderDate.getDay()];
       const orderTotal = order.items.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0
       );
       const deliveryCharge = order.deliveryCharge || 0;
 
-      if (!salesByDate[date]) {
-        salesByDate[date] = 0;
-      }
-      salesByDate[date] += orderTotal + deliveryCharge;
+      salesByDate[day] += orderTotal + deliveryCharge;
     });
 
-    //  array format for chart
-    return Object.keys(salesByDate).map((date) => ({
-      name: date,
-      sales: salesByDate[date],
+    // Convert to array format for chart, maintaining day order
+    return daysOfWeek.map((day) => ({
+      name: day,
+      sales: salesByDate[day],
     }));
   };
 
@@ -82,7 +99,6 @@ const Dashboard = () => {
 
     const itemCounts = {};
 
-    
     dashdata.latestorders.forEach((order) => {
       order.items.forEach((item) => {
         if (!itemCounts[item.name]) {
@@ -98,7 +114,6 @@ const Dashboard = () => {
       });
     });
 
-    
     return Object.values(itemCounts)
       .sort((a, b) => b.totalQuantity - a.totalQuantity)
       .slice(0, 5);
@@ -115,8 +130,6 @@ const Dashboard = () => {
           </h1>
           <div className="h-1 w-24 bg-orange-400 mx-auto md:mx-0 rounded-full"></div>
         </div>
-
-      
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -135,6 +148,23 @@ const Dashboard = () => {
               <CountUp end={dashdata.orders || 0} duration={2} />
             </p>
             <p className="text-sm text-stone-500">Total orders received</p>
+          </div>
+        </div>
+        <div className="relative overflow-hidden bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300">
+          <div className="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 bg-gradient-to-br from-orange-100 to-amber-50 rounded-full opacity-50"></div>
+          <div className="relative">
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <ListCollapse  className="h-6 w-6 text-orange-600" />
+              </div>
+              <h2 className="text-lg font-semibold text-stone-700">
+                Total FoodItems
+              </h2>
+            </div>
+            <p className="text-4xl font-bold text-stone-800 mb-2">
+              <CountUp end={dashdata.totalFoods || 0} duration={2} />
+            </p>
+            <p className="text-sm text-stone-500">Total FoodItems</p>
           </div>
         </div>
 
@@ -182,9 +212,7 @@ const Dashboard = () => {
             <div className="px-6 py-5 border-b border-stone-100">
               <div className="flex items-center space-x-3">
                 <BarChart3 className="h-5 w-5 text-orange-500" />
-                <h2 className="text-xl font-semibold text-stone-800">
-                  Sales 
-                </h2>
+                <h2 className="text-xl font-semibold text-stone-800">Sales</h2>
               </div>
             </div>
             <div className="p-6 h-80">
@@ -192,6 +220,8 @@ const Dashboard = () => {
                 <BarChart
                   data={salesData}
                   margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  barGap={8}
+                  barCategoryGap={16}
                 >
                   <CartesianGrid
                     strokeDasharray="3 3"
@@ -206,9 +236,11 @@ const Dashboard = () => {
                       border: "none",
                       borderRadius: "8px",
                       boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                      padding: "8px 12px",
                     }}
                     formatter={(value) => [`Rs ${value}`, "Sales"]}
                     labelStyle={{ color: "#64748b", fontWeight: 500 }}
+                    cursor={{ fill: "rgba(249, 115, 22, 0.1)" }}
                   />
                   <Bar
                     dataKey="sales"
@@ -216,6 +248,7 @@ const Dashboard = () => {
                     radius={[4, 4, 0, 0]}
                     barSize={40}
                     animationDuration={1500}
+                    animationEasing="ease-out"
                   />
                   <defs>
                     <linearGradient
@@ -352,7 +385,6 @@ const Dashboard = () => {
                           </span>
                         </div>
                       </div>
-                    
                     </div>
                   </div>
                 </div>

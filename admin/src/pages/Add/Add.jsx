@@ -145,7 +145,7 @@ const Add = ({ url, token }) => {
                 value={data.description}
                 onChange={onChangeHandler}
                 className="block w-full rounded-lg border-stone-300 shadow-sm focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
-                placeholder="Describe your Item in detail"
+                placeholder=" Item description"
                 required
               />
             </div>

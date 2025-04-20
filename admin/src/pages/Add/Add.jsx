@@ -209,7 +209,7 @@ const Add = ({ url, token }) => {
           <div className="pt-6">
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border rounded-3xl bg-amber-200 font-bold cursor-pointer"
+              className="w-full flex justify-center py-3 px-4 border text-white rounded-3xl bg-orange-500 font-bold cursor-pointer"
             >
               Add Product
             </button>

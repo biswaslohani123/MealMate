@@ -1,5 +1,7 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { AdminContext } from "../../context/AdminContext.";
+"use client"
+
+import { useContext, useEffect, useMemo } from "react"
+import { AdminContext } from "../../context/AdminContext."
 import {
   Package,
   Users,
@@ -10,94 +12,77 @@ import {
   BarChart3,
   Utensils,
   TrendingUp,
-  ListCollapse
-} from "lucide-react";
-import CountUp from "react-countup";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  ListCollapse,
+} from "lucide-react"
+import CountUp from "react-countup"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
 const Dashboard = () => {
-  const { atoken, getDashData, dashdata } = useContext(AdminContext);
+  const { atoken, getDashData, dashdata } = useContext(AdminContext)
 
   useEffect(() => {
     if (atoken) {
-      getDashData();
+      getDashData()
     }
-  }, [atoken, getDashData]);
-
-  const refreshData = () => {
-    setIsRefreshing(true);
-    getDashData().finally(() => {
-      setTimeout(() => {
-        setIsRefreshing(false);
-      }, 1000);
-    });
-  };
+  }, [atoken, getDashData])
 
   // Replace the existing generateSalesData function with this updated version that filters by current week
   const generateSalesData = () => {
     if (!dashdata.latestorders || dashdata.latestorders.length === 0) {
-      return [];
+      return []
     }
 
     // Get current date and start of the week (Sunday)
-    const today = new Date();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    startOfWeek.setHours(0, 0, 0, 0);
+    const today = new Date()
+    const startOfWeek = new Date(today)
+    startOfWeek.setDate(today.getDate() - today.getDay())
+    startOfWeek.setHours(0, 0, 0, 0)
 
     // Get end of the week (Saturday)
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    endOfWeek.setHours(23, 59, 59, 999);
+    const endOfWeek = new Date(startOfWeek)
+    endOfWeek.setDate(startOfWeek.getDate() + 6)
+    endOfWeek.setHours(23, 59, 59, 999)
 
     // Filter orders to only include current week
     const currentWeekOrders = dashdata.latestorders.filter((order) => {
-      const orderDate = new Date(order.date);
-      return orderDate >= startOfWeek && orderDate <= endOfWeek;
-    });
+      const orderDate = new Date(order.date)
+      return orderDate >= startOfWeek && orderDate <= endOfWeek
+    })
 
     // Initialize all days of the week with zero sales
-    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const salesByDate = {};
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    const salesByDate = {}
     daysOfWeek.forEach((day) => {
-      salesByDate[day] = 0;
-    });
+      salesByDate[day] = 0
+    })
 
     // Calculate sales for each day in the current week
     currentWeekOrders.forEach((order) => {
-      const orderDate = new Date(order.date);
-      const day = daysOfWeek[orderDate.getDay()];
-      const orderTotal = order.items.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      );
-      const deliveryCharge = order.deliveryCharge || 0;
+      const orderDate = new Date(order.date)
+      const day = daysOfWeek[orderDate.getDay()]
 
-      salesByDate[day] += orderTotal + deliveryCharge;
-    });
+      // Use the full order amount which includes delivery charge
+      // This matches how totalIncome is calculated in your backend
+      salesByDate[day] += order.amount
+
+      // Log for debugging
+      console.log(`Order on ${day}: Amount=${order.amount}`)
+    })
 
     // Convert to array format for chart, maintaining day order
     return daysOfWeek.map((day) => ({
       name: day,
       sales: salesByDate[day],
-    }));
-  };
+    }))
+  }
 
   // getting most ordered items
   const getMostOrderedItems = useMemo(() => {
     if (!dashdata.latestorders || dashdata.latestorders.length === 0) {
-      return [];
+      return []
     }
 
-    const itemCounts = {};
+    const itemCounts = {}
 
     dashdata.latestorders.forEach((order) => {
       order.items.forEach((item) => {
@@ -107,27 +92,25 @@ const Dashboard = () => {
             count: 0,
             price: item.price,
             totalQuantity: 0,
-          };
+          }
         }
-        itemCounts[item.name].count += 1;
-        itemCounts[item.name].totalQuantity += item.quantity;
-      });
-    });
+        itemCounts[item.name].count += 1
+        itemCounts[item.name].totalQuantity += item.quantity
+      })
+    })
 
     return Object.values(itemCounts)
       .sort((a, b) => b.totalQuantity - a.totalQuantity)
-      .slice(0, 5);
-  }, [dashdata.latestorders]);
+      .slice(0, 5)
+  }, [dashdata.latestorders])
 
-  const salesData = generateSalesData();
+  const salesData = generateSalesData()
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">
-            MealMate Dashboard
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">MealMate Dashboard</h1>
           <div className="h-1 w-24 bg-orange-400 mx-auto md:mx-0 rounded-full"></div>
         </div>
       </div>
@@ -140,9 +123,7 @@ const Dashboard = () => {
               <div className="p-2 bg-orange-100 rounded-lg">
                 <Package className="h-6 w-6 text-orange-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">
-                Total Orders
-              </h2>
+              <h2 className="text-lg font-semibold text-stone-700">Total Orders</h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2">
               <CountUp end={dashdata.orders || 0} duration={2} />
@@ -155,11 +136,9 @@ const Dashboard = () => {
           <div className="relative">
             <div className="flex items-center space-x-2 mb-4">
               <div className="p-2 bg-orange-100 rounded-lg">
-                <ListCollapse  className="h-6 w-6 text-orange-600" />
+                <ListCollapse className="h-6 w-6 text-orange-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">
-                Total FoodItems
-              </h2>
+              <h2 className="text-lg font-semibold text-stone-700">Total FoodItems</h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2">
               <CountUp end={dashdata.totalFoods || 0} duration={2} />
@@ -175,9 +154,7 @@ const Dashboard = () => {
               <div className="p-2 bg-amber-100 rounded-lg">
                 <Users className="h-6 w-6 text-amber-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">
-                Total Users
-              </h2>
+              <h2 className="text-lg font-semibold text-stone-700">Total Users</h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2">
               <CountUp end={dashdata.users || 0} duration={2} />
@@ -193,9 +170,7 @@ const Dashboard = () => {
               <div className="p-2 bg-orange-100 rounded-lg">
                 <IndianRupee className="h-6 w-6 text-orange-600" />
               </div>
-              <h2 className="text-lg font-semibold text-stone-700">
-                Overall Income
-              </h2>
+              <h2 className="text-lg font-semibold text-stone-700">Overall Income</h2>
             </div>
             <p className="text-4xl font-bold text-stone-800 mb-2 flex items-center gap-2">
               Rs
@@ -223,11 +198,7 @@ const Dashboard = () => {
                   barGap={8}
                   barCategoryGap={16}
                 >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    vertical={false}
-                    stroke="#f1f5f9"
-                  />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
                   <Tooltip
@@ -251,13 +222,7 @@ const Dashboard = () => {
                     animationEasing="ease-out"
                   />
                   <defs>
-                    <linearGradient
-                      id="colorGradient"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
+                    <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#f97316" stopOpacity={1} />
                       <stop offset="100%" stopColor="#fdba74" stopOpacity={1} />
                     </linearGradient>
@@ -272,36 +237,25 @@ const Dashboard = () => {
           <div className="px-6 py-5 border-b border-stone-100">
             <div className="flex items-center space-x-3">
               <Utensils className="h-5 w-5 text-orange-500" />
-              <h2 className="text-xl font-semibold text-stone-800">
-                Most Ordered Items
-              </h2>
+              <h2 className="text-xl font-semibold text-stone-800">Most Ordered Items</h2>
             </div>
           </div>
           <div className="divide-y divide-stone-100">
             {getMostOrderedItems.length > 0 ? (
               getMostOrderedItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="p-5 hover:bg-stone-50/50 transition-colors duration-200"
-                >
+                <div key={index} className="p-5 hover:bg-stone-50/50 transition-colors duration-200">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 text-orange-600 font-bold text-sm">
                         {index + 1}
                       </div>
                       <div>
-                        <h3 className="font-medium text-stone-800">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-stone-500">
-                          Rs.{item.price}
-                        </p>
+                        <h3 className="font-medium text-stone-800">{item.name}</h3>
+                        <p className="text-sm text-stone-500">Rs.{item.price}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-stone-700">
-                        {item.totalQuantity} ordered
-                      </div>
+                      <div className="text-sm font-medium text-stone-700">{item.totalQuantity} ordered</div>
                       <div className="text-xs text-emerald-600 mt-1 flex items-center justify-end">
                         <TrendingUp className="h-3 w-3 inline mr-0.5" />
                         Popular
@@ -315,9 +269,7 @@ const Dashboard = () => {
                 <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-50 rounded-full flex items-center justify-center mb-4">
                   <Utensils className="h-8 w-8 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-medium text-stone-800 mb-1">
-                  No Data Available
-                </h3>
+                <h3 className="text-lg font-medium text-stone-800 mb-1">No Data Available</h3>
                 <p className="text-stone-500">No order data </p>
               </div>
             )}
@@ -329,19 +281,14 @@ const Dashboard = () => {
         <div className="px-6 py-5 border-b border-stone-100">
           <div className="flex items-center space-x-3">
             <Clock className="h-5 w-5 text-orange-500" />
-            <h2 className="text-xl font-semibold text-stone-800">
-              Latest Orders
-            </h2>
+            <h2 className="text-xl font-semibold text-stone-800">Latest Orders</h2>
           </div>
         </div>
 
         <div className="divide-y divide-stone-100">
           {dashdata.latestorders && dashdata.latestorders.length > 0 ? (
             dashdata.latestorders.map((item, index) => (
-              <div
-                key={index}
-                className="p-6 hover:bg-stone-50/50 transition-colors duration-200"
-              >
+              <div key={index} className="p-6 hover:bg-stone-50/50 transition-colors duration-200">
                 <div className="flex items-start space-x-4">
                   <div className="p-3 bg-gradient-to-br from-orange-100 to-amber-50 rounded-xl">
                     <Package className="h-6 w-6 text-orange-600" />
@@ -349,18 +296,11 @@ const Dashboard = () => {
                   <div className="flex-1 space-y-3">
                     <div className="space-y-2">
                       {item.items.map((i) => (
-                        <div
-                          key={i._id}
-                          className="flex items-center space-x-3"
-                        >
+                        <div key={i._id} className="flex items-center space-x-3">
                           <span className="flex-shrink-0 w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
-                          <p className="text-sm font-medium text-stone-800 flex-1">
-                            {i.name}
-                          </p>
+                          <p className="text-sm font-medium text-stone-800 flex-1">{i.name}</p>
                           <div className="flex items-center space-x-3">
-                            <span className="text-sm font-medium">
-                              Rs.{i.price}
-                            </span>
+                            <span className="text-sm font-medium">Rs.{i.price}</span>
                             <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-bold">
                               ×{i.quantity}
                             </span>
@@ -395,18 +335,14 @@ const Dashboard = () => {
               <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-50 rounded-full flex items-center justify-center mb-4">
                 <Package className="h-8 w-8 text-orange-600" />
               </div>
-              <h3 className="text-lg font-medium text-stone-800 mb-1">
-                No Orders Yet
-              </h3>
-              <p className="text-stone-500">
-                No recent orders have been placed.
-              </p>
+              <h3 className="text-lg font-medium text-stone-800 mb-1">No Orders Yet</h3>
+              <p className="text-stone-500">No recent orders have been placed.</p>
             </div>
           )}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

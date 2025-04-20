@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import { Trash2, Search, ToggleLeft, ToggleRight, X } from "lucide-react"
 import axios from "axios"
@@ -116,6 +114,7 @@ const List = ({ url, token }) => {
               />
             </div>
 
+{/* categories */}
             <div className="mt-2 ">
               <h3 className=" font-medium mb-4  text-amber-600 mb-3 cursor-pointer">Categories</h3>
               <div className="flex flex-wrap gap-2 cursor-pointer">

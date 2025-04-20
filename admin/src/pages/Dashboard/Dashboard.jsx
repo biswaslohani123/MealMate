@@ -7,11 +7,7 @@ import {
   Mail,
   Calendar,
   IndianRupee,
-  RefreshCw,
-  Filter,
-  ChevronDown,
-  Bell,
-  ShoppingBag,
+  
   BarChart3,
   Utensils,
   TrendingUp,
@@ -29,9 +25,8 @@ import {
 
 const Dashboard = () => {
   const { atoken, getDashData, dashdata } = useContext(AdminContext);
-  const [timeFilter, setTimeFilter] = useState("week");
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  
+ 
 
   useEffect(() => {
     if (atoken) {

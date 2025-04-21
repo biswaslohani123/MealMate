@@ -1,12 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Users as UsersIcon,
-  Search,
-  Mail,
-  Phone,
-  Loader2,
-} from "lucide-react";
+import { Users as UsersIcon, Search, Mail, Phone, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 const Users = () => {
@@ -41,7 +35,7 @@ const Users = () => {
 
             return {
               ...user,
-              formattedDate,  
+              formattedDate,
             };
           });
 
@@ -63,25 +57,6 @@ const Users = () => {
 
     fetchUsers();
   }, []);
-
-  const handleDelete = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to remove this user from the list?"
-    );
-    if (confirmDelete) {
-      const deletedUsers =
-        JSON.parse(localStorage.getItem("deletedUsers")) || [];
-      localStorage.setItem("deletedUsers", JSON.stringify([...deletedUsers, id]));
-
-      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-      toast.success("User removed from the list");
-    }
-  };
-
-  const handleRestore = () => {
-    localStorage.removeItem("deletedUsers");
-    window.location.reload();
-  };
 
   const filteredUsers = users.filter(
     (user) =>
@@ -124,13 +99,6 @@ const Users = () => {
                 className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
               />
             </div>
-
-            <button
-              onClick={handleRestore}
-              className=" cursor-pointer bg-orange-50 hover:bg-orange-200 font-medium px-4 py-2 rounded-lg transition-colors duration-200"
-            >
-              Restore All Users
-            </button>
           </div>
         </div>
 
@@ -151,15 +119,12 @@ const Users = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
                     Joined Date
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Action
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center">
+                    <td colSpan={4} className="px-6 py-8 text-center">
                       <div className="flex flex-col items-center justify-center">
                         <div className="p-3 bg-orange-50 rounded-full mb-3">
                           <UsersIcon className="h-6 w-6 text-orange-400" />
@@ -199,14 +164,6 @@ const Users = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">{user.formattedDate}</td>
-                      <td className="px-6 py-4">
-                        <button
-                          onClick={() => handleDelete(user._id)}
-                          className="cursor-pointer text-red-500 hover:bg-amber-200 px-2 py-3 rounded-3xl font-medium"
-                        >
-                          Remove User
-                        </button>
-                      </td>
                     </tr>
                   ))
                 )}

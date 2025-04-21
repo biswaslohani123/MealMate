@@ -204,7 +204,7 @@ const Users = () => {
                           onClick={() => handleDelete(user._id)}
                           className="cursor-pointer text-red-500 hover:bg-amber-200 px-2 py-3 rounded-3xl font-medium"
                         >
-                          Delete
+                          Remove User
                         </button>
                       </td>
                     </tr>

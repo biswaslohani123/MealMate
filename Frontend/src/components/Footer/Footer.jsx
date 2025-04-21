@@ -74,7 +74,7 @@ const Footer = () => {
       <hr />
       <p className="footer-copyright">
         
-        Copyright 2024 © MealMate.com - All Right Reserved{" "}
+        Copyright {new Date().getFullYear()} © MealMate.com - All Right Reserved{" "}
       </p>
     </div>
   );

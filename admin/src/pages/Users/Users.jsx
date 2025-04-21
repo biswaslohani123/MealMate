@@ -31,11 +31,21 @@ const Users = () => {
         });
 
         if (response.data.success) {
-         
           const deletedUsers =
             JSON.parse(localStorage.getItem("deletedUsers")) || [];
 
-          const filtered = response.data.users.filter(
+          const usersData = response.data.users.map((user) => {
+            // Ensure valid date format
+            const createdAt = new Date(user.createdAt);
+            const formattedDate = createdAt.toLocaleDateString("en-US");
+
+            return {
+              ...user,
+              formattedDate,  
+            };
+          });
+
+          const filtered = usersData.filter(
             (user) => !deletedUsers.includes(user._id)
           );
 
@@ -70,7 +80,7 @@ const Users = () => {
 
   const handleRestore = () => {
     localStorage.removeItem("deletedUsers");
-    window.location.reload(); 
+    window.location.reload();
   };
 
   const filteredUsers = users.filter(
@@ -98,9 +108,7 @@ const Users = () => {
           <h1 className="text-3xl font-bold text-stone-800">Users List</h1>
           <p className="mt-2 text-stone-600">
             Total Users:{" "}
-            <span className="font-semibold text-orange-600">
-              {users.length}
-            </span>
+            <span className="font-semibold text-orange-600">{users.length}</span>
           </p>
         </div>
 
@@ -141,6 +149,9 @@ const Users = () => {
                     Phone
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
+                    Joined Date
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
                     Action
                   </th>
                 </tr>
@@ -148,7 +159,7 @@ const Users = () => {
               <tbody className="divide-y divide-stone-100">
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-8 text-center">
+                    <td colSpan={5} className="px-6 py-8 text-center">
                       <div className="flex flex-col items-center justify-center">
                         <div className="p-3 bg-orange-50 rounded-full mb-3">
                           <UsersIcon className="h-6 w-6 text-orange-400" />
@@ -187,6 +198,7 @@ const Users = () => {
                           <span>{user.phone || "N/A"}</span>
                         </div>
                       </td>
+                      <td className="px-6 py-4">{user.formattedDate}</td>
                       <td className="px-6 py-4">
                         <button
                           onClick={() => handleDelete(user._id)}

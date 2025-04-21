@@ -49,7 +49,7 @@ const adminDashboard = async (req, res) => {
 const getAllUsers = async (req, res) => {
     
     try {
-        const users = await userModel.find({});
+        const users = await userModel.find({}, { name: 1, email: 1, phone: 1, createdAt: 1 });
         return res.json({ success: true, users });
     } catch (error) {
         console.log(error);

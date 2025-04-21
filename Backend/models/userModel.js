@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     address:{type:String ,default:""},
     password:{type:String,required:true},
     cartData:{type:Object,default:{}}
-},{minimize:false})
+},{minimize:false, timestamps:true})
 
 const userModel = mongoose.models.user || mongoose.model("user", userSchema)
 

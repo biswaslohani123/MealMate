@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Users as UsersIcon, Search, Mail, Phone, Loader2 } from "lucide-react";
+import { Users as UsersIcon, Search, Mail, Phone, Loader2, RefreshCcw } from "lucide-react";
 import { toast } from "react-toastify";
 
 const Users = () => {
@@ -10,53 +10,60 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const token = localStorage.getItem("atoken");
+  // Function to fetch users
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("atoken");
 
-        const response = await axios.get(url + "/api/admin/users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Cache-Control": "no-cache",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
+      const response = await axios.get(url + "/api/admin/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      });
+
+      if (response.data.success) {
+        const deletedUsers =
+          JSON.parse(localStorage.getItem("deletedUsers")) || [];
+
+        const usersData = response.data.users.map((user) => {
+          // Ensure valid date format
+          const createdAt = new Date(user.createdAt);
+          const formattedDate = createdAt.toLocaleDateString("en-US");
+
+          return {
+            ...user,
+            formattedDate,
+          };
         });
 
-        if (response.data.success) {
-          const deletedUsers =
-            JSON.parse(localStorage.getItem("deletedUsers")) || [];
+        const filtered = usersData.filter(
+          (user) => !deletedUsers.includes(user._id)
+        );
 
-          const usersData = response.data.users.map((user) => {
-            // Ensure valid date format
-            const createdAt = new Date(user.createdAt);
-            const formattedDate = createdAt.toLocaleDateString("en-US");
-
-            return {
-              ...user,
-              formattedDate,
-            };
-          });
-
-          const filtered = usersData.filter(
-            (user) => !deletedUsers.includes(user._id)
-          );
-
-          setUsers(filtered);
-        } else {
-          toast.error("Failed to fetch users");
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        toast.error("Error loading users");
-      } finally {
-        setLoading(false);
+        setUsers(filtered);
+      } else {
+        toast.error("Failed to fetch users");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast.error("Error loading users");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Fetch users on initial load
+  useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleRefresh = () => {
+    fetchUsers();
+  };
 
   const filteredUsers = users.filter(
     (user) =>
@@ -99,6 +106,14 @@ const Users = () => {
                 className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
               />
             </div>
+          
+            <button
+              onClick={handleRefresh}
+              className="flex items-center gap-2 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-200"
+            >
+              <RefreshCcw className="h-5 w-5" />
+              Refresh
+            </button>
           </div>
         </div>
 

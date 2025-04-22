@@ -79,7 +79,11 @@ const LoginPopup = ({ setShowlogin }) => {
         );
       } else {
         
-        toast.error(currState === "Login" ? "Invalid credentials" : res.data.message || "Something went wrong");
+        if (currState === "Login" && res.data.message === "User Not Found") {
+          toast.error("User not found");
+        } else {
+          toast.error(currState === "Login" ? "Invalid credentials" : res.data.message || "Something went wrong");
+        }
       }
     } catch (error) {
       console.error(error);

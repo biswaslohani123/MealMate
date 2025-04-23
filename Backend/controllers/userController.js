@@ -163,12 +163,25 @@ const updateProfile = async (req, res) => {
         return res.json({ success: false, message: "User not authenticated" });
     }
 
+    // checking if the number meets the requirement or not
+
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone)) {
+        return res.json({ success: false, message: "Phone number must be  10 digits" });
+    }
+
     const image_filename = req.file ? req.file.filename : null;
 
     try {
         const user = await userModel.findById(id);
         if (!user) {
             return res.json({ success: false, message: "User not found" });
+        }
+        //checking if the phone number is already is use by another one or not
+        const existinguser = await userModel.findOne({phone});
+        if (existinguser && existinguser._id.toString() !== id) {
+            return res.json({success: false, message: "Phone number already in use"})
+            
         }
 
         user.name = name;

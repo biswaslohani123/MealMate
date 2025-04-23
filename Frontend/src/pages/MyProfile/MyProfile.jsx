@@ -65,6 +65,18 @@ const MyProfile = () => {
     };
 
     const updateProfile = async () => {
+       //phone number checking
+
+       const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(userData.phone)) {
+        setMessage({ text: 'Phone number must be 10 digits', type: 'error' });
+        setTimeout(() => {
+            setMessage({ text: '', type: '' });
+        }, 10000);
+        return; 
+    }
+
+
         try {
             setIsLoading(true);
             
@@ -94,6 +106,10 @@ const MyProfile = () => {
                 setIsEdit(false);
             } else {
                 setMessage({ text: response.data.message || 'Update failed', type: 'error' });
+
+                setTimeout(() => {
+                  setMessage({ text: '', type: '' });
+              }, 10000);
             }
             setIsLoading(false);
         } catch (error) {

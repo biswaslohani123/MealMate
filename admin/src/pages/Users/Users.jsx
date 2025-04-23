@@ -84,7 +84,7 @@ const Users = () => {
     );
     setShowPopup(false);
     setUserToDelete(null);
-    toast.success("User removed from view");
+    toast.success("User Deleted");
   };
 
   const cancelDelete = () => {
@@ -119,7 +119,7 @@ const Users = () => {
   return (
     <div className="min-h-screen from-stone-50 to-white p-6 relative">
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-xl max-w-sm text-center">
             <h2 className="text-lg font-semibold mb-4 text-stone-800">
               Are you sure you want to delete this user?
@@ -127,7 +127,7 @@ const Users = () => {
             <div className="flex justify-center gap-4">
               <button
                 onClick={confirmDelete}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
               >
                 Yes, Delete
               </button>

@@ -1,6 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Users as UsersIcon, Search, Mail, Phone, Loader2, RefreshCcw } from "lucide-react";
+import {
+  Users as UsersIcon,
+  Search,
+  Mail,
+  Phone,
+  Loader2,
+  RefreshCcw,
+  Trash2,
+} from "lucide-react";
 import { toast } from "react-toastify";
 
 const Users = () => {
@@ -9,8 +17,9 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
-  // Function to fetch users
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -30,14 +39,9 @@ const Users = () => {
           JSON.parse(localStorage.getItem("deletedUsers")) || [];
 
         const usersData = response.data.users.map((user) => {
-          // Ensure valid date format
           const createdAt = new Date(user.createdAt);
           const formattedDate = createdAt.toLocaleDateString("en-US");
-
-          return {
-            ...user,
-            formattedDate,
-          };
+          return { ...user, formattedDate };
         });
 
         const filtered = usersData.filter(
@@ -56,13 +60,42 @@ const Users = () => {
     }
   };
 
-  // Fetch users on initial load
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const handleRefresh = () => {
     fetchUsers();
+  };
+
+  const handleDelete = (userId) => {
+    setUserToDelete(userId);
+    setShowPopup(true);
+  };
+
+  const confirmDelete = () => {
+    const updatedDeletedUsers =
+      JSON.parse(localStorage.getItem("deletedUsers")) || [];
+    updatedDeletedUsers.push(userToDelete);
+    localStorage.setItem("deletedUsers", JSON.stringify(updatedDeletedUsers));
+
+    setUsers((prevUsers) =>
+      prevUsers.filter((user) => user._id !== userToDelete)
+    );
+    setShowPopup(false);
+    setUserToDelete(null);
+    toast.success("User removed from view");
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+    setUserToDelete(null);
+  };
+
+  const handleRestoreAll = () => {
+    localStorage.removeItem("deletedUsers");
+    fetchUsers();
+   
   };
 
   const filteredUsers = users.filter(
@@ -84,7 +117,31 @@ const Users = () => {
   }
 
   return (
-    <div className="min-h-screen from-stone-50 to-white p-6">
+    <div className="min-h-screen from-stone-50 to-white p-6 relative">
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow-xl max-w-sm text-center">
+            <h2 className="text-lg font-semibold mb-4 text-stone-800">
+              Are you sure you want to delete this user?
+            </h2>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={confirmDelete}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={cancelDelete}
+                className="bg-stone-300 text-stone-800 px-4 py-2 rounded-lg hover:bg-stone-400 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-stone-800">Users List</h1>
@@ -106,14 +163,22 @@ const Users = () => {
                 className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
               />
             </div>
-          
-            <button
-              onClick={handleRefresh}
-              className="flex items-center gap-2 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-200"
-            >
-              <RefreshCcw className="h-5 w-5" />
-              Refresh
-            </button>
+
+            <div className="flex gap-2">
+              <button
+                onClick={handleRefresh}
+                className="flex items-center gap-2 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-200"
+              >
+                <RefreshCcw className="h-5 w-5" />
+                Refresh
+              </button>
+              <button
+                onClick={handleRestoreAll}
+                className="flex cursor-pointer items-center gap-2 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-200"
+              >
+                Restore All Users
+              </button>
+            </div>
           </div>
         </div>
 
@@ -122,24 +187,17 @@ const Users = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-stone-100">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Name
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Email
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Phone
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Joined Date
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Email</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Phone</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Joined Date</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-8 text-center">
+                    <td colSpan={5} className="px-6 py-8 text-center">
                       <div className="flex flex-col items-center justify-center">
                         <div className="p-3 bg-orange-50 rounded-full mb-3">
                           <UsersIcon className="h-6 w-6 text-orange-400" />
@@ -179,6 +237,14 @@ const Users = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">{user.formattedDate}</td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleDelete(user._id)}
+                          className="text-red-500 hover:text-red-600 transition-colors"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 )}

@@ -92,6 +92,7 @@ const verifyOrder = async (req, res) => {
 
       const order = await orderModel.findById(orderId);
       const user = await userModel.findById(order.userId);
+      
 
       const mailOptions = {
         from: process.env.SENDER_EMAIL,
@@ -99,9 +100,15 @@ const verifyOrder = async (req, res) => {
         subject: 'Your Order Has Been Successfully Paid',
         html: `
           <div style="font-family: Arial, sans-serif; padding: 20px;">
-            <h2>Dear ${user.name},</h2>
-            <p>Your order has been successfully paid and will be delivered soon.</p>
-            <p>We are processing your order and will send you an update once it’s out for delivery.</p>
+            <h2 style="color: green;">Payment Successfully Processed</h2>
+            <p>Dear ${user.name},</p>
+            <p>We are pleased to inform you that your payment has been successfully processed for your recent order at MealMate.</p>
+            <p><strong>Order Details:</strong></p>
+            <ul>
+              ${order.items.map(item => `<li>${item.name} x ${item.quantity}</li>`).join("")}
+            </ul>
+            <p><strong>Total Paid:</strong> Rs. ${order.amount}</p>
+            <p>Your order will be delivered soon, and we will notify you once it's out for delivery.</p>
             <p>Thank you for choosing MealMate!</p>
           </div>
         `,

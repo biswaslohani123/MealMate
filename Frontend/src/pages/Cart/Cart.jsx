@@ -71,12 +71,7 @@ const Cart = () => {
           </div>
           <button
             onClick={() => {
-              if (!user) {
-                toast.warn("Please log in to proceed to checkout.");
-                navigate("/");
-              } else {
-                navigate("/order");
-              }
+              navigate('/order')
             }}
           >
             Proceed To CheckOut

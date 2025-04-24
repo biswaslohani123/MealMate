@@ -8,6 +8,8 @@ const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const [user, setUser ] = useState(null); //fro not login user
+
   const url = "http://localhost:4000";
 
   useEffect(() => {
@@ -103,7 +105,8 @@ const StoreContextProvider = (props) => {
     setToken,
     clearCart,
     setFoodList,
-    fetchFoodList
+    fetchFoodList,
+    user
   };
 
   return (

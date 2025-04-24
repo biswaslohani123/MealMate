@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart, getTotalCartAmount, url } =
+  const { cartItems, food_list, removeFromCart, getTotalCartAmount, url, user } =
     useContext(StoreContext);
 
   // navigation for place Order Page
@@ -36,8 +36,7 @@ const Cart = () => {
                   <p
                     onClick={() => {
                       removeFromCart(item._id);
-                      toast.info("Item Removed from Cart")
-                   
+                      toast.info("Item Removed from Cart");
                     }}
                     className="cross"
                   >
@@ -70,7 +69,16 @@ const Cart = () => {
               <b>Rs.{getTotalCartAmount() + 100}</b>
             </div>
           </div>
-          <button onClick={() => navigate("/order")}>
+          <button
+            onClick={() => {
+              if (!user) {
+                toast.warn("Please log in to proceed to checkout.");
+                navigate("/");
+              } else {
+                navigate("/order");
+              }
+            }}
+          >
             Proceed To CheckOut
           </button>
         </div>

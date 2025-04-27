@@ -19,4 +19,5 @@ userRouter.get("/profile", authMiddleware, getProfile);
 userRouter.post("/update", uploads.single("image"), updateProfile);
 
 
+
 export default userRouter;

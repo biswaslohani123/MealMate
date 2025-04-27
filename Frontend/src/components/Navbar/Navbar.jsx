@@ -6,6 +6,7 @@ import { StoreContext } from "../../context/StoreContext";
 import { CgProfile } from "react-icons/cg";
 import { LogOut } from "lucide-react";
 import axios from "axios";
+import Notification from "../Notification/Notification"; // ✅ Importing Notification
 
 const Navbar = ({ setShowlogin }) => {
   const { getTotalCartAmount, token, setToken, url } = useContext(StoreContext);
@@ -100,6 +101,8 @@ const Navbar = ({ setShowlogin }) => {
 
       {isHome && (
         <div className="navbar-right">
+          <Notification /> {/* ✅ Notification Icon added here */}
+
           <div className="navbar-search-icon">
             <Link to="/cart">
               <img src={assets.basket_icon} alt="Cart" />

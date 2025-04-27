@@ -89,7 +89,8 @@ const PlaceOrder = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/cart')
+      toast.warning("please Login to proceed")
+      navigate('/')
     } else if (getTotalCartAmount() === 0) {
       navigate('/cart')
     }

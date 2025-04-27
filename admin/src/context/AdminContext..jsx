@@ -15,11 +15,11 @@ const  AdminContextProvider = (props) => {
 
     const getDashData = async () => {
         try {
-            console.log(atoken)
+            
             const { data } = await axios.get(url + '/api/admin/dashboard',{headers:{ atoken }})
             if (data.success) {
                 setDashData(data.dashdata)
-                console.log(data.dashdata);
+                
                   
             }else{
                 toast.error('Error')

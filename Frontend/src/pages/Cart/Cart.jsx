@@ -5,8 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart, getTotalCartAmount, url, user } =
-    useContext(StoreContext);
+  const {
+    cartItems,
+    food_list,
+    removeFromCart,
+    getTotalCartAmount,
+    url,
+    user,
+  } = useContext(StoreContext);
 
   // navigation for place Order Page
   const navigate = useNavigate();
@@ -53,25 +59,26 @@ const Cart = () => {
       <div className="cart-bottom">
         <div className="cart-total">
           <h2>Cart Totals</h2>
-          <div>
-            <div className="cart-total-details">
-              <p>Subtotal</p>
-              <p>Rs.{getTotalCartAmount()}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <p>Delivery charge</p>
-              <p>Rs.{100}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <b>Total</b>
-              <b>Rs.{getTotalCartAmount() + 100}</b>
-            </div>
+          <div className="cart-total-details">
+            <p>Subtotal</p>
+            <p>Rs.{getTotalCartAmount()}</p>
           </div>
+          <hr />
+          <div className="cart-total-details">
+            <p>Delivery charge</p>
+            <p>Rs.{getTotalCartAmount() > 0 ? 100 : 0}</p>
+          </div>
+          <hr />
+          <div className="cart-total-details">
+            <b>Total</b>
+            <b>
+              Rs.{getTotalCartAmount() > 0 ? getTotalCartAmount() + 100 : 0}
+            </b>
+          </div>
+
           <button
             onClick={() => {
-              navigate('/order')
+              navigate("/order");
             }}
           >
             Proceed To CheckOut

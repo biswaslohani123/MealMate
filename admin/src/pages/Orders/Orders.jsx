@@ -1,6 +1,4 @@
-"use client"
-
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
   Package,
   Phone,
@@ -19,118 +17,139 @@ import {
   Clock3,
   RefreshCw,
   Calendar,
-} from "lucide-react"
-import axios from "axios"
-import { toast } from "react-toastify"
+} from "lucide-react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Orders = ({ url }) => {
-  const [orders, setOrders] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterStatus, setFilterStatus] = useState("all")
-  const [expandedOrder, setExpandedOrder] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [orders, setOrders] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [expandedOrder, setExpandedOrder] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchAllOrder = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const response = await axios.get(`${url}/api/order/list`)
+      const response = await axios.get(`${url}/api/order/list`);
       if (response.data.success) {
-        setOrders(response.data.data)
+        setOrders(response.data.data);
       } else {
-        toast.error("Error fetching orders")
+        toast.error("Error fetching orders");
       }
     } catch (error) {
-      toast.error("Failed to load orders")
+      toast.error("Failed to load orders");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const statusHandler = async (event, orderId) => {
-    const newStatus = event.target.value
-    const currentOrder = orders.find((order) => order._id === orderId)
+    const newStatus = event.target.value;
+    const currentOrder = orders.find((order) => order._id === orderId);
 
-    if (currentOrder.status === "Order Delivered" && newStatus !== "Order Delivered") {
-      toast.error("You cannot change the status after 'Order Delivered'")
-      return
+    if (
+      currentOrder.status === "Order Delivered" &&
+      newStatus !== "Order Delivered"
+    ) {
+      toast.error("You cannot change the status after 'Order Delivered'");
+      return;
     }
 
     try {
       const response = await axios.post(`${url}/api/order/status`, {
         orderId,
         status: newStatus,
-      })
+      });
 
       if (response.data.success) {
-        await fetchAllOrder()
-        toast.success("Order status updated successfully")
+        await fetchAllOrder();
+        toast.success("Order status updated successfully");
       }
     } catch (error) {
-      toast.error("Failed to update order status")
+      toast.error("Failed to update order status");
     }
-  }
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
       case "Order Received":
-        return "bg-amber-50 text-amber-700 border-amber-200"
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "Order Processing":
-        return "bg-orange-50 text-orange-700 border-orange-200"
+        return "bg-orange-50 text-orange-700 border-orange-200";
       case "Order Out For Delivery":
-        return "bg-yellow-50 text-yellow-700 border-yellow-200"
+        return "bg-yellow-50 text-yellow-700 border-yellow-200";
       case "Order Delivered":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200"
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       default:
-        return "bg-gray-50 text-gray-700 border-gray-200"
+        return "bg-gray-50 text-gray-700 border-gray-200";
     }
-  }
+  };
 
   const getStatusIcon = (status) => {
     switch (status) {
       case "Order Received":
-        return <AlertCircle className="h-4 w-4" />
+        return <AlertCircle className="h-4 w-4" />;
       case "Order Processing":
-        return <Clock3 className="h-4 w-4" />
+        return <Clock3 className="h-4 w-4" />;
       case "Order Out For Delivery":
-        return <Truck className="h-4 w-4" />
+        return <Truck className="h-4 w-4" />;
       case "Order Delivered":
-        return <CheckCircle className="h-4 w-4" />
+        return <CheckCircle className="h-4 w-4" />;
       default:
-        return <AlertCircle className="h-4 w-4" />
+        return <AlertCircle className="h-4 w-4" />;
     }
-  }
+  };
 
   const toggleOrderExpand = (orderId) => {
     if (expandedOrder === orderId) {
-      setExpandedOrder(null)
+      setExpandedOrder(null);
     } else {
-      setExpandedOrder(orderId)
+      setExpandedOrder(orderId);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchAllOrder()
-  }, [])
+    fetchAllOrder();
+  }, []);
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
-      order.items.some((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      order.items.some((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) ||
       order.address.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      `${order.address.firstName} ${order.address.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+      `${order.address.firstName} ${order.address.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    const matchesStatus = filterStatus === "all" || order.status.trim() === filterStatus
+    const matchesStatus =
+      filterStatus === "all" || order.status.trim() === filterStatus;
 
-    return matchesSearch && matchesStatus
-  })
+    return matchesSearch && matchesStatus;
+  });
 
   // Calculate total amount for each order
   const calculateTotal = (items, deliveryCharge = 100) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0) + deliveryCharge
-  }
-
-  // Format date and time
+    return (
+      items.reduce((total, item) => total + item.price * item.quantity, 0) +
+      deliveryCharge
+    );
+  };
+//date and time
   const formatDateTime = (dateString) => {
-    const date = dateString ? new Date(dateString) : new Date()
+
+    if (!dateString || isNaN(new Date(dateString).getTime())) {
+      console.log("Invalid date received:", dateString);
+      return {
+        date: "Date unavailable",
+        time: "Time unavailable",
+        fullDate: "Date unavailable",
+        fullDateTime: "Date and time unavailable",
+      };
+    }
+    
+    const date = new Date(dateString);
     return {
       date: date.toLocaleDateString("en-US", {
         month: "short",
@@ -153,8 +172,8 @@ const Orders = ({ url }) => {
         hour: "2-digit",
         minute: "2-digit",
       }),
-    }
-  }
+    };
+  };
 
   return (
     <div className="min-h-screen via-white to-orange-50 p-4 md:p-6">
@@ -168,7 +187,9 @@ const Orders = ({ url }) => {
               <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                 Orders
               </h1>
-              <p className="text-gray-700 text-sm">Manage and track all customer orders</p>
+              <p className="text-gray-700 text-sm">
+                Manage and track all customer orders
+              </p>
             </div>
           </div>
 
@@ -209,7 +230,9 @@ const Orders = ({ url }) => {
                   <option value="all">All Status</option>
                   <option value="Order Received">Order Received</option>
                   <option value="Order Processing">Processing</option>
-                  <option value="Order Out For Delivery">Out For Delivery</option>
+                  <option value="Order Out For Delivery">
+                    Out For Delivery
+                  </option>
                   <option value="Order Delivered">Delivered</option>
                 </select>
               </div>
@@ -221,7 +244,10 @@ const Orders = ({ url }) => {
         {isLoading ? (
           <div className="space-y-4">
             {[1, 2, 3].map((_, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-md border border-amber-100 p-6 animate-pulse">
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-md border border-amber-100 p-6 animate-pulse"
+              >
                 <div className="flex flex-col lg:flex-row gap-6">
                   <div className="flex-1 space-y-4">
                     <div className="h-6 bg-amber-200 rounded w-1/3"></div>
@@ -252,7 +278,10 @@ const Orders = ({ url }) => {
                 key={index}
                 className="bg-white rounded-2xl shadow-lg border border-amber-100 overflow-hidden transition-all duration-300 hover:shadow-xl"
               >
-                <div className="p-4 md:p-5 cursor-pointer" onClick={() => toggleOrderExpand(order._id)}>
+                <div
+                  className="p-4 md:p-5 cursor-pointer"
+                  onClick={() => toggleOrderExpand(order._id)}
+                >
                   <div className="flex flex-col lg:flex-row lg:items-center gap-4 md:gap-6">
                     <div className="flex-1">
                       <div className="flex items-start gap-3">
@@ -276,7 +305,7 @@ const Orders = ({ url }) => {
                             </p>
                             <p className="text-xs text-gray-600 flex items-center gap-1">
                               <CreditCard className="h-3 w-3" />
-                              {order.address.paymentMethod}
+                              {order.paymentMethod || order.address.paymentMethod}
                             </p>
                           </div>
 
@@ -313,7 +342,9 @@ const Orders = ({ url }) => {
                     <div className="flex flex-row lg:flex-col gap-4 pl-10 lg:pl-0 mt-2 lg:mt-0 lg:items-end">
                       <div className="flex items-center gap-2 text-sm text-gray-700">
                         <MapPin className="h-4 w-4 text-orange-500" />
-                        <span className="truncate">{order.address.location}</span>
+                        <span className="truncate">
+                          {order.address.location}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-700">
                         <ShoppingBag className="h-4 w-4 text-orange-500" />
@@ -323,9 +354,15 @@ const Orders = ({ url }) => {
 
                     <div className="flex flex-col gap-2 pl-10 lg:pl-0 mt-2 lg:mt-0">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">Total:</span>
+                        <span className="text-sm font-medium text-gray-700">
+                          Total:
+                        </span>
                         <span className="font-bold text-gray-900">
-                          Rs. {calculateTotal(order.items, order.deliveryCharge || 100)}
+                          Rs.{" "}
+                          {calculateTotal(
+                            order.items,
+                            order.deliveryCharge || 100
+                          )}
                         </span>
                       </div>
 
@@ -334,17 +371,21 @@ const Orders = ({ url }) => {
                           onChange={(event) => statusHandler(event, order._id)}
                           value={order.status}
                           className={`w-full px-3 py-2 rounded-lg border ${getStatusColor(
-                            order.status,
+                            order.status
                           )} text-sm font-medium transition-colors appearance-none pr-10`}
                         >
                           <option value="Order Received">Order Received</option>
                           <option value="Order Processing">Processing</option>
-                          <option value="Order Out For Delivery">Out For Delivery</option>
+                          <option value="Order Out For Delivery">
+                            Out For Delivery
+                          </option>
                           <option value="Order Delivered">Delivered</option>
                         </select>
                         <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                           <div
-                            className={`flex items-center justify-center ${getStatusColor(order.status).split(" ")[1]}`}
+                            className={`flex items-center justify-center ${
+                              getStatusColor(order.status).split(" ")[1]
+                            }`}
                           >
                             {getStatusIcon(order.status)}
                           </div>
@@ -365,7 +406,9 @@ const Orders = ({ url }) => {
                 {expandedOrder === order._id && (
                   <div className="p-5 border-t border-amber-100 animate-slideDown ">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="font-medium text-gray-900">Order Details</h4>
+                      <h4 className="font-medium text-gray-900">
+                        Order Details
+                      </h4>
                     </div>
 
                     <div className="bg-white rounded-xl border border-amber-100 overflow-hidden mb-5">
@@ -405,8 +448,12 @@ const Orders = ({ url }) => {
                                 <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
                                   {item.name}
                                 </td>
-                                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-700">{item.quantity}</td>
-                                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-700">Rs. {item.price}</td>
+                                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-700">
+                                  {item.quantity}
+                                </td>
+                                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-700">
+                                  Rs. {item.price}
+                                </td>
                                 <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
                                   Rs. {item.price * item.quantity}
                                 </td>
@@ -431,7 +478,11 @@ const Orders = ({ url }) => {
                                 Total Amount:
                               </td>
                               <td className="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900">
-                                Rs. {calculateTotal(order.items, order.deliveryCharge || 100)}
+                                Rs.{" "}
+                                {calculateTotal(
+                                  order.items,
+                                  order.deliveryCharge || 100
+                                )}
                               </td>
                             </tr>
                           </tbody>
@@ -447,22 +498,32 @@ const Orders = ({ url }) => {
                         </h5>
                         <div className="grid grid-cols-2 gap-3 text-sm">
                           <div>
-                            <p className="text-gray-500 text-xs mb-1">Customer Name</p>
+                            <p className="text-gray-500 text-xs mb-1">
+                              Customer Name
+                            </p>
                             <p className="text-gray-900">
                               {order.address.firstName} {order.address.lastName}
                             </p>
                           </div>
                           <div>
                             <p className="text-gray-500 text-xs mb-1">Phone</p>
-                            <p className="text-gray-900">{order.address.Phone}</p>
+                            <p className="text-gray-900">
+                              {order.address.Phone}
+                            </p>
                           </div>
                           <div>
                             <p className="text-gray-500 text-xs mb-1">Email</p>
-                            <p className="text-gray-900">{order.address.email}</p>
+                            <p className="text-gray-900">
+                              {order.address.email}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-gray-500 text-xs mb-1">Location</p>
-                            <p className="text-gray-900">{order.address.location}</p>
+                            <p className="text-gray-500 text-xs mb-1">
+                              Location
+                            </p>
+                            <p className="text-gray-900">
+                              {order.address.location}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -475,13 +536,15 @@ const Orders = ({ url }) => {
                         <div className="grid grid-cols-2 gap-3 text-sm">
                           <div>
                             <p className="text-gray-500 text-xs mb-1">Method</p>
-                            <p className="text-gray-900 capitalize">{order.address.paymentMethod}</p>
+                            <p className="text-gray-900 capitalize">
+                              {order.paymentMethod || order.address.paymentMethod}
+                            </p>
                           </div>
                           <div>
                             <p className="text-gray-500 text-xs mb-1">Status</p>
                             <span
                               className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${getStatusColor(
-                                order.status,
+                                order.status
                               )}`}
                             >
                               {getStatusIcon(order.status)}
@@ -489,19 +552,31 @@ const Orders = ({ url }) => {
                             </span>
                           </div>
                           <div>
-                            <p className="text-gray-500 text-xs mb-1">Order Date & Time</p>
+                            <p className="text-gray-500 text-xs mb-1">
+                              Order Date & Time
+                            </p>
                             <p className="text-gray-900">
-                              {formatDateTime(order.createdAt).date}, {formatDateTime(order.createdAt).time}
+                              {formatDateTime(order.createdAt).fullDateTime}
                             </p>
                           </div>
                           <div>
-                            <p className="text-gray-500 text-xs mb-1">Delivery Charge</p>
-                            <p className="text-gray-900">Rs. {order.deliveryCharge || 100}</p>
+                            <p className="text-gray-500 text-xs mb-1">
+                              Delivery Charge
+                            </p>
+                            <p className="text-gray-900">
+                              Rs. {order.deliveryCharge || 100}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-gray-500 text-xs mb-1">Total Amount</p>
+                            <p className="text-gray-500 text-xs mb-1">
+                              Total Amount
+                            </p>
                             <p className="text-gray-900 font-bold">
-                              Rs. {calculateTotal(order.items, order.deliveryCharge || 100)}
+                              Rs.{" "}
+                              {calculateTotal(
+                                order.items,
+                                order.deliveryCharge || 100
+                              )}
                             </p>
                           </div>
                         </div>
@@ -517,15 +592,19 @@ const Orders = ({ url }) => {
                 <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center mb-4">
                   <Package className="h-8 w-8 text-orange-600" />
                 </div>
-                <h3 className="text-gray-900 font-medium text-xl mb-2">No Orders Found</h3>
-                <p className="text-gray-700 max-w-md mx-auto">Try adjusting your search criteria or filters</p>
+                <h3 className="text-gray-900 font-medium text-xl mb-2">
+                  No Orders Found
+                </h3>
+                <p className="text-gray-700 max-w-md mx-auto">
+                  Try adjusting your search criteria or filters
+                </p>
               </div>
             )}
           </div>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Orders
+export default Orders;

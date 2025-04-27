@@ -1,4 +1,5 @@
 import transporter from "../config/nodemailer.js";
+import notificationModel from "../models/NotificationModel.js";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
@@ -20,6 +21,14 @@ const placeOrder = async (req, res) => {
 
     const order = await newOrder.save();
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+
+    //creating order placed notification
+    await notificationModel.create({
+      userId: req.body.userId,
+      message: "Your order has been placed successfully",
+      type: "orderPlaced",
+      relatedOrderId: order._id,
+    })
 
     const user = await userModel.findById(req.body.userId);
     const itemList = req.body.items.map(item => `<li>${item.name} x ${item.quantity}</li>`).join("");
@@ -141,6 +150,7 @@ const userOrders = async (req, res) => {
 const listOrder = async (req, res) => {
   try {
     const orders = await orderModel.find({}).sort({ createdAt: -1 });
+    
     res.json({ success: true, data: orders });
   } catch (error) {
     console.log(error);
@@ -178,6 +188,14 @@ const updateStatus = async (req, res) => {
       };
 
       await transporter.sendMail(mailOptions);
+
+      //creating status update notification
+      await notificationModel.create({
+        userId: order.userId,
+        message: `Order status updated to: ${req.body.status}`,
+        type: "orderStatusChanged",
+        relatedOrderId: order._id
+      })
     }
 
     res.json({ success: true, message: "Order status updated." });

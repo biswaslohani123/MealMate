@@ -19,7 +19,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 const Dashboard = () => {
   const { atoken, getDashData, dashdata } = useContext(AdminContext)
-  const [dateFilter, setDateFilter] = useState("week") // Options: "week", "month", "year"
+  const [dateFilter, setDateFilter] = useState("week") 
 
   useEffect(() => {
     if (atoken) {
@@ -27,7 +27,7 @@ const Dashboard = () => {
     }
   }, [atoken, getDashData])
 
-  // Updated function to handle year view with months
+  
   const generateSalesData = () => {
     if (!dashdata.latestorders || dashdata.latestorders.length === 0) {
       return []
@@ -37,10 +37,10 @@ const Dashboard = () => {
     let startDate, endDate
     let dateFormat, groupByKey
 
-    // Set date range based on filter
+    
     switch (dateFilter) {
       case "week":
-        // Current week (Sunday to Saturday)
+        
         startDate = new Date(today)
         startDate.setDate(today.getDate() - today.getDay())
         startDate.setHours(0, 0, 0, 0)
@@ -54,7 +54,7 @@ const Dashboard = () => {
         break
 
       case "month":
-        // Current month
+        
         startDate = new Date(today.getFullYear(), today.getMonth(), 1)
         endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999)
 
@@ -63,7 +63,7 @@ const Dashboard = () => {
         break
 
       case "year":
-        // Current year
+        
         startDate = new Date(today.getFullYear(), 0, 1)
         endDate = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999)
 
@@ -72,36 +72,36 @@ const Dashboard = () => {
         break
     }
 
-    // Filter orders by date range
+    
     const filteredOrders = dashdata.latestorders.filter((order) => {
       const orderDate = new Date(order.date)
       return orderDate >= startDate && orderDate <= endDate
     })
 
-    // Initialize data structure based on date format
+    
     const salesByDate = {}
 
     if (dateFilter === "week") {
-      // For week view, initialize all days
+      
       const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
       daysOfWeek.forEach((day) => {
         salesByDate[day] = 0
       })
     } else if (dateFilter === "month") {
-      // For month view, initialize all days of the month
+      
       const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
       for (let i = 1; i <= daysInMonth; i++) {
         salesByDate[i] = 0
       }
     } else if (dateFilter === "year") {
-      // For year view, initialize all months
+      
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
       months.forEach((month, index) => {
         salesByDate[month] = 0
       })
     }
 
-    // Calculate sales for each period
+    
     filteredOrders.forEach((order) => {
       const orderDate = new Date(order.date)
       let key
@@ -120,7 +120,7 @@ const Dashboard = () => {
       salesByDate[key] += order.amount
     })
 
-    // Convert to array format for chart
+    // Converting to array format for chart
     if (dateFilter === "month") {
       // For month view, sort by date numerically
       return Object.entries(salesByDate)

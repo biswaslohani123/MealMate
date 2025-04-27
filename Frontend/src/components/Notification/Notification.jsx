@@ -16,10 +16,27 @@ const Notification = () => {
       });
       if (res.data.success) {
         setNotifications(res.data.data);
-        console.log(res.data)
+        console.log(res.data);
       }
     } catch (err) {
       console.error("Error fetching notifications", err);
+    }
+  };
+
+  const markNotificationAsRead = async (notificationId) => {
+    try {
+      await axios.post(`${url}/api/notification/read`,  
+        { notificationId },
+        { headers: { token } }
+      );
+      // Updating  after marking as read
+      setNotifications((prev) =>
+        prev.map((note) =>
+          note._id === notificationId ? { ...note, isRead: true } : note
+        )
+      );
+    } catch (err) {
+      console.error("Error marking notification as read", err);
     }
   };
 
@@ -35,7 +52,9 @@ const Notification = () => {
         className="notification-icon"
         onClick={() => setShowDropdown(!showDropdown)}
       />
-      {notifications.length > 0 && <span className="notification-dot"></span>}
+      {notifications.some((note) => !note.isRead) && (
+        <span className="notification-dot"></span>
+      )}
 
       {showDropdown && (
         <div className="notification-dropdown">
@@ -43,7 +62,11 @@ const Notification = () => {
             <p className="no-notification">No notifications</p>
           ) : (
             notifications.map((note, index) => (
-              <div key={index} className="notification-item">
+              <div
+                key={index}
+                className={`notification-item ${note.isRead ? "read" : "unread"}`}
+                onClick={() => markNotificationAsRead(note._id)}
+              >
                 <p>{note.message}</p>
                 <span>{new Date(note.createdAt).toLocaleString()}</span>
               </div>

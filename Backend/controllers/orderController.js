@@ -192,7 +192,7 @@ const updateStatus = async (req, res) => {
       //creating status update notification
       await notificationModel.create({
         userId: order.userId,
-        message: `Order status updated to: ${req.body.status}`,
+        message: `Your Order is ${req.body.status}`,
         type: "orderStatusChanged",
         relatedOrderId: order._id
       })

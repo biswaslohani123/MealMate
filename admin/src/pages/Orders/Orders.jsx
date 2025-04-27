@@ -136,9 +136,8 @@ const Orders = ({ url }) => {
       deliveryCharge
     );
   };
-//date and time
+  //date and time
   const formatDateTime = (dateString) => {
-
     if (!dateString || isNaN(new Date(dateString).getTime())) {
       console.log("Invalid date received:", dateString);
       return {
@@ -148,7 +147,7 @@ const Orders = ({ url }) => {
         fullDateTime: "Date and time unavailable",
       };
     }
-    
+
     const date = new Date(dateString);
     return {
       date: date.toLocaleDateString("en-US", {
@@ -305,7 +304,8 @@ const Orders = ({ url }) => {
                             </p>
                             <p className="text-xs text-gray-600 flex items-center gap-1">
                               <CreditCard className="h-3 w-3" />
-                              {order.paymentMethod || order.address.paymentMethod}
+                              {order.paymentMethod ||
+                                order.address.paymentMethod}
                             </p>
                           </div>
 
@@ -537,7 +537,8 @@ const Orders = ({ url }) => {
                           <div>
                             <p className="text-gray-500 text-xs mb-1">Method</p>
                             <p className="text-gray-900 capitalize">
-                              {order.paymentMethod || order.address.paymentMethod}
+                              {order.paymentMethod ||
+                                order.address.paymentMethod}
                             </p>
                           </div>
                           <div>

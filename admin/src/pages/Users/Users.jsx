@@ -95,7 +95,6 @@ const Users = () => {
   const handleRestoreAll = () => {
     localStorage.removeItem("deletedUsers");
     fetchUsers();
-   
   };
 
   const filteredUsers = users.filter(
@@ -147,7 +146,9 @@ const Users = () => {
           <h1 className="text-3xl font-bold text-stone-800">Users List</h1>
           <p className="mt-2 text-stone-600">
             Total Users:{" "}
-            <span className="font-semibold text-orange-600">{users.length}</span>
+            <span className="font-semibold text-orange-600">
+              {users.length}
+            </span>
           </p>
         </div>
 
@@ -187,11 +188,21 @@ const Users = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-stone-100">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Name</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Email</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Phone</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Joined Date</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
+                    Name
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
+                    Email
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
+                    Phone
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
+                    Joined Date
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">

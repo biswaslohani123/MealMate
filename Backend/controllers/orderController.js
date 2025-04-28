@@ -23,6 +23,9 @@ const placeOrder = async (req, res) => {
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
     //creating order placed notification
+    if (req.body.paymentMethod !== "stripe") {
+      
+    }
     await notificationModel.create({
       userId: req.body.userId,
       message: "Your order has been placed successfully",

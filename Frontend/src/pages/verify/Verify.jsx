@@ -29,12 +29,12 @@ const Verify = () => {
                 launchConfetti();
                 setTimeout(() => {
                     navigate('/myorders');
-                }, 4000);
+                }, 2000);
             } else {
                 setStatus("failed");
                 setTimeout(() => {
                     navigate('/');
-                }, 3000);
+                }, 2000);
             }
         } catch (err) {
             setStatus("error");

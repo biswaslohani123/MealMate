@@ -106,6 +106,7 @@ const PlaceOrder = () => {
       ) : (
         <form onSubmit={placeOrder} className='place-order'>
           <div className="place-order-left">
+          
             <p className='title'>Delivery Information</p>
             <div className='multi-fields'>
               <p>First Name:</p>
@@ -164,6 +165,8 @@ const PlaceOrder = () => {
                 (COD) Cash On Delivery
               </div>
               <button type='submit'>PLACE ORDER</button>
+               <b className='bold'><span className='note'>Note:</span>Order cannot be cancelled after order is placed!!</b>
+             
             </div>
           </div>
         </form>

@@ -5,7 +5,7 @@ const getUserNotifications = async (req, res) => {
     try {
       console.log(req.body.userId)
       const notifications = await notificationModel.find({ userId: req.body.userId }).sort({ createdAt: -1 });
-      console.log(notifications)
+   
       res.json({ success: true, data: notifications });
     } catch (error) {
       console.log(error);

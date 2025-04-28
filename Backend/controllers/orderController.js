@@ -22,35 +22,45 @@ const placeOrder = async (req, res) => {
     const order = await newOrder.save();
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
-    //creating order placed notification
-    await notificationModel.create({
-      userId: req.body.userId,
-      message: "Your order has been placed successfully",
-      type: "orderPlaced",
-      relatedOrderId: order._id,
-    })
+      
+    // For COD orders, create notification immediately and clear cart
+    if (req.body.paymentMethod !== "stripe") {
+      // Create notification for COD order
+      await notificationModel.create({
+        userId: req.body.userId,
+        message: "Your order has been placed successfully",
+        type: "orderPlaced",
+        relatedOrderId: order._id,
+      });
+      
+      // Clear cart for COD orders
+      await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+      
+      // Send email notification for COD order
+      const user = await userModel.findById(req.body.userId);
+      const itemList = req.body.items.map(item => `<li>${item.name} x ${item.quantity}</li>`).join("");
+      
+      const mailOptions = {
+        from: process.env.SENDER_EMAIL,
+        to: user.email,
+        subject: 'Your Order Has Been Placed Successfully',
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2 style="color: tomato;">Thank you for your order, ${user.name}!</h2>
+            <p>Your order has been received and will be delivered within our standard timing.</p>
+            <h4>Order Details:</h4>
+            <ul>${itemList}</ul>
+            <p><strong>Total Amount added with delivery charges:</strong> Rs. ${req.body.amount}</p>
+            <p>We hope you enjoy your meal!</p>
+          </div>
+        `,
+      };
 
-    const user = await userModel.findById(req.body.userId);
-    const itemList = req.body.items.map(item => `<li>${item.name} x ${item.quantity}</li>`).join("");
-
-    // Sending email notification to the user
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL,
-      to: user.email,
-      subject: 'Your Order Has Been Placed Successfully',
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2 style="color: tomato;">Thank you for your order, ${user.name}!</h2>
-          <p>Your order has been received and will be delivered within our standard timing.</p>
-          <h4>Order Details:</h4>
-          <ul>${itemList}</ul>
-          <p><strong>Total Amount added with delivery charges:</strong> Rs. ${req.body.amount}</p>
-          <p>We hope you enjoy your meal!</p>
-        </div>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
+      
+      return res.json({ success: true, data: 'cod' });
+    }
+    
 
     // Preparing line items for Stripe
     const line_items = req.body.items.map((item) => ({
@@ -100,6 +110,15 @@ const verifyOrder = async (req, res) => {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
 
       const order = await orderModel.findById(orderId);
+      await notificationModel.create({
+        userId: order.userId,
+        message: "Your order has been placed successfully",
+        type: "orderPlaced",
+        relatedOrderId: order._id,
+      });
+      
+      // Clear cart after successful payment
+      await userModel.findByIdAndUpdate(order.userId, { cartData: {} });
       const user = await userModel.findById(order.userId);
       
 

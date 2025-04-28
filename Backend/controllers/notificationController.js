@@ -3,7 +3,7 @@ import notificationModel from "../models/NotificationModel.js";
 // Get all notifications for a user
 const getUserNotifications = async (req, res) => {
     try {
-      console.log(req.body.userId)
+    
       const notifications = await notificationModel.find({ userId: req.body.userId }).sort({ createdAt: -1 });
    
       res.json({ success: true, data: notifications });

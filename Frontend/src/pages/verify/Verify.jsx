@@ -62,7 +62,7 @@ const Verify = () => {
 
             {status === "failed" && (
                 <div className="party-box failed animate">
-                    <h2> Payment Failed</h2>
+                    <h2> Payment Cancelled</h2>
                     <p>Redirecting to homepage</p>
                 </div>
             )}

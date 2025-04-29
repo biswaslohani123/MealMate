@@ -28,6 +28,14 @@ const Orders = ({ url }) => {
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  
+  const statusOrder = [
+    "Order Received",
+    "Order Processing",
+    "Order Out For Delivery",
+    "Order Delivered"
+  ];
+
   const fetchAllOrder = async () => {
     setIsLoading(true);
     try {
@@ -47,12 +55,24 @@ const Orders = ({ url }) => {
   const statusHandler = async (event, orderId) => {
     const newStatus = event.target.value;
     const currentOrder = orders.find((order) => order._id === orderId);
+    const currentStatusIndex = statusOrder.indexOf(currentOrder.status);
+    const newStatusIndex = statusOrder.indexOf(newStatus);
 
-    if (
-      currentOrder.status === "Order Delivered" &&
-      newStatus !== "Order Delivered"
-    ) {
+  
+    if (currentOrder.status === "Order Delivered") {
       toast.error("You cannot change the status after 'Order Delivered'");
+      return;
+    }
+    
+    // If trying to move backward in status flow
+    if (newStatusIndex < currentStatusIndex) {
+      toast.error(`You cannot change from '${currentOrder.status}' back to '${newStatus}'`);
+      return;
+    }
+    
+    // If trying to skip statuses 
+    if (newStatusIndex > currentStatusIndex + 1) {
+      toast.error(`You cannot skip statuses. Please update to the next status in order.`);
       return;
     }
 
@@ -99,6 +119,19 @@ const Orders = ({ url }) => {
       default:
         return <AlertCircle className="h-4 w-4" />;
     }
+  };
+
+  // this will get next status
+  const getAvailableStatusOptions = (currentStatus) => {
+    const currentStatusIndex = statusOrder.indexOf(currentStatus);
+    
+    // If the order is deleived it will show onlky delivered
+    if (currentStatus === "Order Delivered") {
+      return [currentStatus];
+    }
+    
+    // Otherwise, show current status and next status only
+    return statusOrder.slice(0, currentStatusIndex + 2);
   };
 
   const toggleOrderExpand = (orderId) => {
@@ -374,12 +407,14 @@ const Orders = ({ url }) => {
                             order.status
                           )} text-sm font-medium transition-colors appearance-none pr-10`}
                         >
-                          <option value="Order Received">Order Received</option>
-                          <option value="Order Processing">Processing</option>
-                          <option value="Order Out For Delivery">
-                            Out For Delivery
-                          </option>
-                          <option value="Order Delivered">Delivered</option>
+                          {getAvailableStatusOptions(order.status).map((status) => (
+                            <option key={status} value={status}>
+                              {status === "Order Received" ? "Order Received" :
+                               status === "Order Processing" ? "Processing" :
+                               status === "Order Out For Delivery" ? "Out For Delivery" :
+                               "Delivered"}
+                            </option>
+                          ))}
                         </select>
                         <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                           <div

@@ -36,6 +36,7 @@ const Login = () => {
   return (
     <form onSubmit={onSubmitHandler} className="min-h-screen flex items-center justify-center bg-blue-50">
     <div className="flex flex-col gap-6 m-auto items-start p-10 max-w-md w-full bg-white rounded-xl shadow-xl border border-blue-200">
+      <h1 className="font-bold text-3xl">Admin Login</h1>
       <div className="w-full">
         <label htmlFor="email" className="text-lg font-medium text-gray-700">Email</label>
         <input

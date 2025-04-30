@@ -139,6 +139,15 @@ select option{
     font-size: 18px;
     font-weight: bold;
   }
+  .note {
+    color: red;
+    font-weight: bold;
+  }
+  .bold {
+    display: block;
+    margin-top: 10px;
+  }
+  
  
   
 

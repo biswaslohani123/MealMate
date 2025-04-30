@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
-import './PlaceOrder.css'
-import { StoreContext } from '../../context/StoreContext'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify';
+import React, { useContext, useEffect, useState } from "react";
+import "./PlaceOrder.css";
+import { StoreContext } from "../../context/StoreContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { FaCcStripe } from "react-icons/fa6";
 
 const PlaceOrder = () => {
-  const { getTotalCartAmount, token, food_list, cartItems, url, clearCart } = useContext(StoreContext)
+  const { getTotalCartAmount, token, food_list, cartItems, url, clearCart } =
+    useContext(StoreContext);
 
   const [data, setData] = useState({
     firstName: "",
@@ -16,33 +17,33 @@ const PlaceOrder = () => {
     location: "",
     Note: "",
     Phone: "",
-    paymentMethod: ""
-  })
- 
-  const [paymentMethod, setPaymentMethod] = useState('stripe')
-  const [loading, setLoading] = useState(false); 
+    paymentMethod: "",
+  });
+
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const locations = [
-    'Lakeside',
-    'Nadipur',
-    'Prithvi Chowk',
-    'Pardi',
-    'Ranipawa',
-    'Damside',
-    'Chipledhunga',
-    'Bagar',
-  ]
+    "Lakeside",
+    "Nadipur",
+    "Prithvi Chowk",
+    "Pardi",
+    "Ranipawa",
+    "Damside",
+    "Chipledhunga",
+    "Bagar",
+  ];
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setData(data => ({ ...data, [name]: value }))
-  }
+    setData((data) => ({ ...data, [name]: value }));
+  };
 
   useEffect(() => {
-    setData(data => ({ ...data, paymentMethod: paymentMethod }))
-  }, [paymentMethod])
+    setData((data) => ({ ...data, paymentMethod: paymentMethod }));
+  }, [paymentMethod]);
 
   const placeOrder = async (event) => {
     event.preventDefault();
@@ -50,32 +51,32 @@ const PlaceOrder = () => {
     food_list.map((item) => {
       if (cartItems[item._id] > 0) {
         let itemInfo = item;
-        itemInfo["quantity"] = cartItems[item._id]
-        orderItems.push(itemInfo)
+        itemInfo["quantity"] = cartItems[item._id];
+        orderItems.push(itemInfo);
       }
-    })
+    });
     let orderData = {
       address: data,
       items: orderItems,
       amount: getTotalCartAmount() + 100,
-      paymentMethod: paymentMethod
-    }
+      paymentMethod: paymentMethod,
+    };
 
-    setLoading(true); 
+    setLoading(true);
 
     try {
       // calling API
-      let response = await axios.post(url + "/api/order/place", orderData, { headers: { token } })
+      let response = await axios.post(url + "/api/order/place", orderData, {
+        headers: { token },
+      });
       if (response.data.success) {
-        if (response.data.data === 'cod') {
-          clearCart()
-          toast.success("Your Order has been placed")
-          navigate('/myorders')
+        if (response.data.data === "cod") {
+          clearCart();
+          toast.success("Your Order has been placed");
+          navigate("/myorders");
         } else {
           const { session_url } = response.data;
           window.location.replace(session_url);
-        
-        
         }
       } else {
         toast.error("Error placing order.");
@@ -83,18 +84,18 @@ const PlaceOrder = () => {
     } catch (error) {
       toast.error("Error placing order.");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (!token) {
-      toast.warning("please Login to proceed")
-      navigate('/')
+      toast.warning("please Login to proceed");
+      navigate("/");
     } else if (getTotalCartAmount() === 0) {
-      navigate('/cart')
+      navigate("/cart");
     }
-  }, [token])
+  }, [token]);
 
   return (
     <>
@@ -104,21 +105,46 @@ const PlaceOrder = () => {
           <p>Placing your order...</p>
         </div>
       ) : (
-        <form onSubmit={placeOrder} className='place-order'>
+        <form onSubmit={placeOrder} className="place-order">
           <div className="place-order-left">
-          
-            <p className='title'>Delivery Information</p>
-            <div className='multi-fields'>
+            <p className="title">Delivery Information</p>
+            <div className="multi-fields">
               <p>First Name:</p>
-              <input name='firstName' onChange={onChangeHandler} value={data.firstName} type="text" placeholder='First Name' required />
+              <input
+                name="firstName"
+                onChange={onChangeHandler}
+                value={data.firstName}
+                type="text"
+                placeholder="First Name"
+                required
+              />
               <p>Last Name:</p>
-              <input name='lastName' onChange={onChangeHandler} value={data.lastName} type="text" placeholder='Last Name' required />
+              <input
+                name="lastName"
+                onChange={onChangeHandler}
+                value={data.lastName}
+                type="text"
+                placeholder="Last Name"
+                required
+              />
             </div>
             <p>Email:</p>
-            <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email Address' required />
+            <input
+              name="email"
+              onChange={onChangeHandler}
+              value={data.email}
+              type="email"
+              placeholder="Email Address"
+              required
+            />
 
             <p>Your location:</p>
-            <select name="location" onChange={onChangeHandler} value={data.location} required>
+            <select
+              name="location"
+              onChange={onChangeHandler}
+              value={data.location}
+              required
+            >
               <option value="">Select your location</option>
               {locations.map((location, index) => (
                 <option key={index} value={location}>
@@ -127,12 +153,26 @@ const PlaceOrder = () => {
               ))}
             </select>
 
-            <div className='multi-fields'>
+            <div className="multi-fields">
               <p>Order Note (any message for us)</p>
-              <input name='Note' onChange={onChangeHandler} value={data.Note} type="text" placeholder='Any Message' required />
+              <input
+                name="Note"
+                onChange={onChangeHandler}
+                value={data.Note}
+                type="text"
+                placeholder="Any Message"
+                required
+              />
             </div>
             <p>Phone:</p>
-            <input name='Phone' onChange={onChangeHandler} value={data.Phone} type="text" placeholder='Phone' required />
+            <input
+              name="Phone"
+              onChange={onChangeHandler}
+              value={data.Phone}
+              type="text"
+              placeholder="Phone"
+              required
+            />
           </div>
 
           <div className="place-order-right">
@@ -156,23 +196,37 @@ const PlaceOrder = () => {
               </div>
               <h2>Payment Methods:</h2>
               <div className="payment-1">
-                <input type="radio" name='paymentMethod' value='stripe' checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} />
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="stripe"
+                  checked={paymentMethod === "stripe"}
+                  onChange={() => setPaymentMethod("stripe")}
+                />
                 <FaCcStripe /> Pay With Stripe
               </div>
-              
+
               <div className="payment-2">
-                <input type="radio" name='paymentMethod' value='cod' checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} />
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cod"
+                  checked={paymentMethod === "cod"}
+                  onChange={() => setPaymentMethod("cod")}
+                />
                 (COD) Cash On Delivery
               </div>
-              <button type='submit'>PLACE ORDER</button>
-               <b className='bold'><span className='note'>Note:</span>Order cannot be cancelled after order is placed!!</b>
-             
+              <button type="submit">PLACE ORDER</button>
+              <b className="bold">
+                <span className="note">Note:</span> You will not be able to
+                cancel your order once it is placed.
+              </b>
             </div>
           </div>
         </form>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PlaceOrder
+export default PlaceOrder;

@@ -5,6 +5,9 @@ import search_icon from './search_icon.png'
 import cross_icon from './cross_icon.png'
 import profile_pic from './profile_pic.png'
 import edit_profile from './editprofile.jpg'
+
+
+
 import menu_1 from './menu_1.png'
 import menu_2 from './menu_2.png'
 import menu_3 from './menu_3.png'
@@ -16,6 +19,7 @@ import menu_8 from './menu_8.png'
 import menu_9 from './menu_9.png'
 import menu_10 from './menu_10.png'
 import Aboutus_icon from './Aboutus_icon.jpg'
+import deliveryboy_img from './deliveryboy_img.jpg'
 import About_img from './About_img.avif'
 import values_1 from './values_1.png'
 import values_2 from './values_2.png'
@@ -112,6 +116,8 @@ export const assets = {
     facebook_icon,
     instagram_icon,
     About_img,
+    deliveryboy_img,
+    
 
     selector_icon,
     profile_icon,

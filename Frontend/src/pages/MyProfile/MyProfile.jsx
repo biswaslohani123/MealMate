@@ -4,6 +4,7 @@ import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
 import './MyProfile.css'; 
 import { toast } from 'react-toastify';
+import { User } from 'lucide-react'; 
 
 const MyProfile = () => {
     const { url, token } = useContext(StoreContext);
@@ -34,7 +35,7 @@ const MyProfile = () => {
                     email: user.email,
                     phone: user.phone || '',
                     address: user.address || '',
-                    image: user.image || assets.profile_pic,
+                    image: user.image || '',
                     id: user.id
                 }));
             }
@@ -102,7 +103,7 @@ const MyProfile = () => {
             );
             
             if (response.data.success) {
-               toast.success("profile Updated Successfully")
+               toast.success("Profile Updated Successfully")
                 setIsEdit(false);
             } else {
                 setMessage({ text: response.data.message || 'Update failed', type: 'error' });
@@ -125,6 +126,30 @@ const MyProfile = () => {
         }
     }, [token]);
 
+  //  render profile image or default avatar
+  const renderProfileImage = () => {
+    if (userData.image) {
+      // If there's an image, render it
+      return (
+        <img 
+          src={
+            userData.image.startsWith('blob:')
+              ? userData.image
+              : `${url}/images/${userData.image}`
+          } 
+          alt="Profile" 
+          className='profile-image' 
+        />
+      );
+    } else {
+      // If no image, rendering the Lucide User icon as default avatar
+      return (
+        <div className="default-avatar">
+          <User size={64} color="#555" />
+        </div>
+      );
+    }
+  };
   
   return (
     <div className='profile-container'>
@@ -139,14 +164,7 @@ const MyProfile = () => {
       <div className='profile-card'>
         <div className='profile-header'>
           <div className='profile-image-container'>
-          <img 
-  src={
-    userData.image.startsWith('blob:')
-      ? userData.image
-      : `${url}/images/${userData.image}`
-  } 
-  alt="Profile" 
-  className='profile-image'  />
+            {renderProfileImage()}
             {isEdit && (
               <div className='image-upload'>
                 <label htmlFor="image-input">

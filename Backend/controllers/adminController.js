@@ -3,20 +3,22 @@ import orderModel from '../models/orderModel.js'
 import userModel from '../models/userModel.js'
 import foodModel from '../models/foodModel.js'
 
-const loginAdmin = async(req , res) => {
+const loginAdmin = async(req, res) => {
     try {
         const {email, password} = req.body
 
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign({email,password},process.env.JWT_SECRET)
-            res.json({success:true, token})
+            // Create the token
+            const token = jwt.sign({email}, process.env.JWT_SECRET, { expiresIn: '1d' })
             
-        }else{
-            res.json({success:false, message:"Invalid Credentials"})
+            // Return it in the response
+            res.json({success: true, token})
+        } else {
+            res.json({success: false, message: "Invalid Credentials"})
         }
     } catch (error) {
         console.log(error);
-        res.json({success:false, message:"Error"})
+        res.json({success: false, message: "Error"})
     }
 }
 //Api to get dashboard data fro admin panel

@@ -32,11 +32,17 @@
     z-index: 10;
     border-radius: 8px;
     padding: 10px;
+   
+  }
+  .notification-dropdown:hover{
+        background-color: aliceblue;
+        
   }
   
   .notification-item {
     border-bottom: 1px solid #eee;
     padding: 5px 0;
+   
   }
   
   .notification-item p {

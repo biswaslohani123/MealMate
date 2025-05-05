@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header'
 import ExploreMenu from '../../components/ExploreMenu/ExploreMenu'
 import FoodDisplay from '../../components/FoodDisplay/FoodDisplay'
 import OurGallery from '../../components/Gallery/OurGallery'
-import Promotional from '../../components/Promotional/Promotional'
+
 
 
 
@@ -18,7 +18,7 @@ const Home = () => {
   },[category])
   return (
     <div>
-      <Promotional/>
+      
       <Header/>
       <ExploreMenu category={category} setCategory={setCategory}/>
       <FoodDisplay category={category}/>

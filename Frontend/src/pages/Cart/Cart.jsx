@@ -3,6 +3,7 @@ import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { faDivide } from "@fortawesome/free-solid-svg-icons";
 
 const Cart = () => {
   const {
@@ -11,14 +12,17 @@ const Cart = () => {
     removeFromCart,
     getTotalCartAmount,
     url,
-    user,
+    
   } = useContext(StoreContext);
 
   // navigation for place Order Page
   const navigate = useNavigate();
   return (
+    
     <div className="cart">
+     
       <div className="cart-items">
+       
         <div className="cart-items-title">
           <p>Items</p>
           <p>Item name</p>

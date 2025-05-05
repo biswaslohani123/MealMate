@@ -6,7 +6,7 @@ import { StoreContext } from "../../context/StoreContext";
 import { CgProfile } from "react-icons/cg";
 import { LogOut } from "lucide-react";
 import axios from "axios";
-import Notification from "../Notification/Notification"; 
+import Notification from "../Notification/Notification";
 
 const Navbar = ({ setShowlogin }) => {
   const { getTotalCartAmount, token, setToken, url } = useContext(StoreContext);
@@ -51,6 +51,18 @@ const Navbar = ({ setShowlogin }) => {
     navigate("/");
   };
 
+  const scrollToSection = (id, label) => {
+    setMenu(label);
+    if (isHome) {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/", { state: { scrollTo: id } });
+    }
+  };
+
   return (
     <div className="navbar">
       <Link to="/">
@@ -67,25 +79,22 @@ const Navbar = ({ setShowlogin }) => {
             >
               Home
             </Link>
-            <a
-              href="#explore-menu"
-              onClick={() => setMenu("Menu")}
-              className={menu === "Menu" ? "active" : ""}
-            >
-              Menu
-            </a>
-            <a
-              href="#Our-gallery"
-              onClick={() => setMenu("Our-gallery")}
-              className={menu === "Our-gallery" ? "active" : ""}
-            >
-              Our Gallery
-            </a>
           </>
         )}
         <a
-          href="#Footer"
-          onClick={() => setMenu("Contact Us")}
+          onClick={() => scrollToSection("Our-gallery", "Our-gallery")}
+          className={menu === "Our-gallery" ? "active" : ""}
+        >
+          Our Gallery
+        </a>
+        <a
+          onClick={() => scrollToSection("explore-menu", "Menu")}
+          className={menu === "Menu" ? "active" : ""}
+        >
+          Menu
+        </a>
+        <a
+          onClick={() => scrollToSection("Footer", "Contact Us")}
           className={menu === "Contact Us" ? "active" : ""}
         >
           Contact Us
@@ -101,7 +110,7 @@ const Navbar = ({ setShowlogin }) => {
 
       {isHome && (
         <div className="navbar-right">
-          <Notification /> 
+          <Notification />
 
           <div className="navbar-search-icon">
             <Link to="/cart">

@@ -7,7 +7,7 @@ const adminRouter = express.Router()
 adminRouter.post('/adminlogin', loginAdmin)
 adminRouter.get('/dashboard', authAdmin, adminDashboard)
 adminRouter.get('/users',getAllUsers)
-adminRouter.delete('/users/:id', authAdmin,deleteUser)
+
 
 
 export default adminRouter

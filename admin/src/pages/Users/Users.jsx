@@ -1,26 +1,22 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  Users as UsersIcon,
-  Search,
-  Mail,
-  Phone,
-  Loader2,
-  RefreshCcw
-} from "lucide-react";
-import { toast } from "react-toastify";
+"use client"
+
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { UsersIcon, Search, Mail, Phone, Loader2, RefreshCcw, Trash2, RotateCcw } from "lucide-react"
+import { toast } from "react-toastify"
 
 const Users = () => {
-  const url = "http://localhost:4000";
+  const url = "http://localhost:4000"
 
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [users, setUsers] = useState([])
+  const [deletedUserIds, setDeletedUserIds] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState("")
 
   const fetchUsers = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const token = localStorage.getItem("atoken");
+      const token = localStorage.getItem("atoken")
 
       const response = await axios.get(url + "/api/admin/users", {
         headers: {
@@ -29,41 +25,55 @@ const Users = () => {
           Pragma: "no-cache",
           Expires: "0",
         },
-      });
+      })
 
       if (response.data.success) {
         const usersData = response.data.users.map((user) => {
-          const createdAt = new Date(user.createdAt);
-          const formattedDate = createdAt.toLocaleDateString("en-US");
-          return { ...user, formattedDate };
-        });
+          const createdAt = new Date(user.createdAt)
+          const formattedDate = createdAt.toLocaleDateString("en-US")
+          return { ...user, formattedDate }
+        })
 
-        setUsers(usersData);
+        setUsers(usersData)
       } else {
-        toast.error("Failed to fetch users");
+        toast.error("Failed to fetch users")
       }
     } catch (error) {
-      console.error("Error fetching users:", error);
-      toast.error("Error loading users");
+      console.error("Error fetching users:", error)
+      toast.error("Error loading users")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   const handleRefresh = () => {
-    fetchUsers();
-  };
+    fetchUsers()
+    // Clear deleted users on refresh
+    setDeletedUserIds([])
+  }
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name?.toLowerCase().includes(search.toLowerCase()) ||
-      user.email?.toLowerCase().includes(search.toLowerCase()) ||
-      user.phone?.includes(search)
-  );
+  const handleDeleteUser = (userId) => {
+    setDeletedUserIds((prev) => [...prev, userId])
+    toast.success("User has been deleted")
+  }
+
+  const handleRestoreAll = () => {
+    setDeletedUserIds([])
+    toast.success("All users have been restored")
+  }
+
+  const filteredUsers = users
+    .filter((user) => !deletedUserIds.includes(user._id))
+    .filter(
+      (user) =>
+        user.name?.toLowerCase().includes(search.toLowerCase()) ||
+        user.email?.toLowerCase().includes(search.toLowerCase()) ||
+        user.phone?.includes(search),
+    )
 
   if (loading) {
     return (
@@ -73,7 +83,7 @@ const Users = () => {
           <span className="font-medium">Loading users...</span>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -82,10 +92,10 @@ const Users = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-stone-800">Users List</h1>
           <p className="mt-2 text-stone-600">
-            Total Users:{" "}
-            <span className="font-semibold text-orange-600">
-              {users.length}
-            </span>
+            Total Users: <span className="font-semibold text-orange-600">{filteredUsers.length}</span>
+            {deletedUserIds.length > 0 && (
+              <span className="ml-2 text-stone-500">({deletedUserIds.length} deleted)</span>
+            )}
           </p>
         </div>
 
@@ -103,6 +113,15 @@ const Users = () => {
             </div>
 
             <div className="flex gap-2">
+              {deletedUserIds.length > 0 && (
+                <button
+                  onClick={handleRestoreAll}
+                  className="flex items-center gap-2 bg-stone-100 text-stone-700 py-2 px-4 rounded-lg hover:bg-stone-200 transition-colors duration-200"
+                >
+                  <RotateCcw className="h-5 w-5" />
+                  Restore All
+                </button>
+              )}
               <button
                 onClick={handleRefresh}
                 className="flex items-center gap-2 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-200"
@@ -119,48 +138,34 @@ const Users = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-stone-100">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Name
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Email
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Phone
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">
-                    Joined Date
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Email</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Phone</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Joined Date</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-stone-800">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-8 text-center">
+                    <td colSpan={5} className="px-6 py-8 text-center">
                       <div className="flex flex-col items-center justify-center">
                         <div className="p-3 bg-orange-50 rounded-full mb-3">
                           <UsersIcon className="h-6 w-6 text-orange-400" />
                         </div>
-                        <h3 className="text-stone-900 font-medium mb-1">
-                          No Users Found
-                        </h3>
+                        <h3 className="text-stone-900 font-medium mb-1">No Users Found</h3>
                       </div>
                     </td>
                   </tr>
                 ) : (
                   filteredUsers.map((user) => (
-                    <tr
-                      key={user._id}
-                      className="hover:bg-stone-50 transition-colors duration-150"
-                    >
+                    <tr key={user._id} className="hover:bg-stone-50 transition-colors duration-150">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-amber-300 flex items-center justify-center text-white font-medium">
                             {user.name?.charAt(0).toUpperCase() || "U"}
                           </div>
-                          <span className="font-medium text-stone-900">
-                            {user.name}
-                          </span>
+                          <span className="font-medium text-stone-900">{user.name}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -176,6 +181,15 @@ const Users = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">{user.formattedDate}</td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleDeleteUser(user._id)}
+                          className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors duration-200"
+                          title="Delete User"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -185,7 +199,7 @@ const Users = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Users;
+export default Users

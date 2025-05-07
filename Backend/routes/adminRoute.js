@@ -1,5 +1,5 @@
 import express from 'express'
-import { adminDashboard, deleteUser, getAllUsers, loginAdmin } from '../controllers/adminController.js'
+import { adminDashboard,  getAllUsers, loginAdmin } from '../controllers/adminController.js'
 import authAdmin from '../middleware/adminAuth.js'
 
 const adminRouter = express.Router()

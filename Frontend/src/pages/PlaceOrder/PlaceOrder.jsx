@@ -33,6 +33,8 @@ const PlaceOrder = () => {
     "Damside",
     "Chipledhunga",
     "Bagar",
+    "Rambazar",
+    "Fulbari"
   ];
 
   const onChangeHandler = (event) => {

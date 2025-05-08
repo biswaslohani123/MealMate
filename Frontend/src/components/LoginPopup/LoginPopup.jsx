@@ -29,6 +29,10 @@ const LoginPopup = ({ setShowlogin }) => {
   const validateForm = () => {
     const { name, email, password, phone } = data;
 
+    
+  
+
+
     // Sign up validations
     if (currState === "Sign Up") {
       if (name.trim().length < 2) {
@@ -55,7 +59,7 @@ const LoginPopup = ({ setShowlogin }) => {
       return false;
     }
 
-    return true;
+    return true;  
   };
 
   const onLogin = async (e) => {

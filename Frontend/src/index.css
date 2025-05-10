@@ -11,6 +11,9 @@ body{
   min-height: 100vh;
   background-color: #FFF7F1;
 }
+.custom-radio {
+  accent-color: tomato;
+}
 a{
   text-decoration: none;
   color: inherit;

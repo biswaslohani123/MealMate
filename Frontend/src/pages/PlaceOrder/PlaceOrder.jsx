@@ -20,7 +20,7 @@ const PlaceOrder = () => {
     paymentMethod: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("stripe");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -91,13 +91,14 @@ const PlaceOrder = () => {
   };
 
   useEffect(() => {
+    if (token === null ) return
     if (!token) {
       toast.warning("please Login to proceed");
       navigate("/");
     } else if (getTotalCartAmount() === 0) {
       navigate("/cart");
     }
-  }, [token]);
+  }, [token, cartItems]);
 
   return (
     <>

@@ -68,6 +68,8 @@ select option{
     gap: 8px;
 }
 
+
+
 .payment-1:hover,
 .payment-2:hover {
     background-color:  #ffe1e1;

@@ -25,11 +25,12 @@ const Notification = () => {
 
   const markNotificationAsRead = async (notificationId) => {
     try {
-      await axios.post(`${url}/api/notification/read`,  
+      await axios.post(
+        `${url}/api/notification/read`,
         { notificationId },
         { headers: { token } }
       );
-      // Updating  after marking as read
+      // Update after marking as read
       setNotifications((prev) =>
         prev.map((note) =>
           note._id === notificationId ? { ...note, isRead: true } : note
@@ -67,7 +68,10 @@ const Notification = () => {
                 className={`notification-item ${note.isRead ? "read" : "unread"}`}
                 onClick={() => markNotificationAsRead(note._id)}
               >
-                <p>{note.message}</p>
+                <div className="notification-message">
+                  <p>{note.message}</p>
+                  {note.isRead && <span className="tick-mark">✓</span>}
+                </div>
                 <span>{new Date(note.createdAt).toLocaleString()}</span>
               </div>
             ))

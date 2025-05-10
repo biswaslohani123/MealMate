@@ -61,4 +61,15 @@
     text-align: center;
     padding: 10px 0;
   }
+  .notification-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tick-mark {
+  color: green;
+  font-weight: bold;
+}
+
   

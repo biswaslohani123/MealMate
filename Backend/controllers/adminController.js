@@ -19,7 +19,7 @@ const loginAdmin = async(req , res) => {
         res.json({success:false, message:"Error"})
     }
 }
-//Api to get dashboard data fro admin panel
+//Route to get dashboard data fro admin panel
 
 const adminDashboard = async (req, res) => {
     try {

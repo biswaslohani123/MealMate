@@ -177,7 +177,7 @@ const listOrder = async (req, res) => {
   }
 };
 
-// API for Updating Order Status
+// Route for Updating Order Status
 const updateStatus = async (req, res) => {
   try {
     const order = await orderModel.findByIdAndUpdate(

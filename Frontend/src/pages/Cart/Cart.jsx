@@ -3,7 +3,6 @@ import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { faDivide } from "@fortawesome/free-solid-svg-icons";
 
 const Cart = () => {
   const {
@@ -12,17 +11,16 @@ const Cart = () => {
     removeFromCart,
     getTotalCartAmount,
     url,
-    
+    addToCart, 
+    decrementCartItem 
   } = useContext(StoreContext);
 
   // navigation for place Order Page
   const navigate = useNavigate();
+  
   return (
-    
     <div className="cart">
-     
       <div className="cart-items">
-       
         <div className="cart-items-title">
           <p>Items</p>
           <p>Item name</p>
@@ -41,7 +39,27 @@ const Cart = () => {
                   <img src={url + "/images/" + item.image} alt="" />
                   <p>{item.name}</p>
                   <p>Rs.{item.price}</p>
-                  <p>{cartItems[item._id]}</p>
+                  <div className="quantity-controls">
+                    <button 
+                      className="quantity-btn" 
+                      onClick={() => {
+                        decrementCartItem(item._id);
+                       
+                      }}
+                    >
+                      -
+                    </button>
+                    <p>{cartItems[item._id]}</p>
+                    <button 
+                      className="quantity-btn" 
+                      onClick={() => {
+                        addToCart(item._id);
+                      
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
                   <p>Rs.{item.price * cartItems[item._id]}</p>
                   <p
                     onClick={() => {

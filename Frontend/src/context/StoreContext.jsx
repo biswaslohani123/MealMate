@@ -93,6 +93,22 @@ const StoreContextProvider = (props) => {
   }, 0);
   };
 
+   // Decrement item quantity in cart
+  const decrementCartItem = (itemId) => {
+    setCartItems((prev) => {
+      const newCart = { ...prev };
+      if (newCart[itemId] > 1) {
+        
+        newCart[itemId] -= 1;
+      } else {
+        
+        delete newCart[itemId];
+      }
+      return newCart;
+    });
+  };
+  
+  
   const contextValue = {
     food_list,
     cartItems,
@@ -106,6 +122,8 @@ const StoreContextProvider = (props) => {
     clearCart,
     setFoodList,
     fetchFoodList,
+    decrementCartItem,
+   
     
   };
 

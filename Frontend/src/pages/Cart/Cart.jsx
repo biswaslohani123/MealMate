@@ -3,6 +3,7 @@ import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Trash2 } from 'lucide-react';
 
 const Cart = () => {
   const {
@@ -70,7 +71,7 @@ const Cart = () => {
                     }}
                     className="cross"
                   >
-                    x
+                      <Trash2 />
                   </p>
                 </div>
                 <hr />

@@ -12,7 +12,8 @@ const Cart = () => {
     getTotalCartAmount,
     url,
     addToCart, 
-    decrementCartItem 
+    decrementCartItem,
+    incrementCartItem
   } = useContext(StoreContext);
 
   // navigation for place Order Page
@@ -53,7 +54,8 @@ const Cart = () => {
                     <button 
                       className="quantity-btn" 
                       onClick={() => {
-                        addToCart(item._id);
+                        
+                        incrementCartItem(item._id)
                       
                       }}
                     >

@@ -70,7 +70,12 @@ const StoreContextProvider = (props) => {
   };
 
   const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: Math.max((prev[itemId] || 0) - 1, 0) }));
+     //removes the items completly from crt
+     setCartItems((prev) => {
+        const updatedCart = {...prev};
+        delete updatedCart[itemId];
+        return updatedCart
+     })
     
     if (token) {
       try {
@@ -94,19 +99,45 @@ const StoreContextProvider = (props) => {
   };
 
    // Decrement item quantity in cart
-  const decrementCartItem = (itemId) => {
-    setCartItems((prev) => {
-      const newCart = { ...prev };
-      if (newCart[itemId] > 1) {
-        
-        newCart[itemId] -= 1;
-      } else {
-        
-        delete newCart[itemId];
-      }
-      return newCart;
+ const decrementCartItem = async (itemId) => {
+  // 1. Update the cart in frontend
+  setCartItems((prev) => {
+    const newCart = { ...prev };
+    if (newCart[itemId] > 1) {
+      newCart[itemId] -= 1;
+    } else {
+      delete newCart[itemId];
+    }
+    return newCart;
+  });
+
+  // 2. Sync with backend
+  try {
+    await axios.post(`${url}/api/cart/decrement`, { itemId }, {
+      headers: { token },
     });
-  };
+  } catch (error) {
+    console.error("Error decrementing item:", error);
+  }
+};
+
+const incrementCartItem = async (itemId) => {
+  
+  setCartItems((prev) => ({
+    ...prev,
+    [itemId]: (prev[itemId] || 0) + 1,
+  }));
+
+  try {
+    await axios.post(`${url}/api/cart/increment`, { itemId }, {
+      headers: { token },
+    });
+  } catch (error) {
+    console.error("Error incrementing item:", error);
+  }
+};
+
+
   
   
   const contextValue = {
@@ -123,6 +154,7 @@ const StoreContextProvider = (props) => {
     setFoodList,
     fetchFoodList,
     decrementCartItem,
+    incrementCartItem
    
     
   };

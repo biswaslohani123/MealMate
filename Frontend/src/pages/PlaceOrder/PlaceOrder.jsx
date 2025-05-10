@@ -91,14 +91,14 @@ const PlaceOrder = () => {
   };
 
   useEffect(() => {
-    if (token === null ) return
+    
     if (!token) {
       toast.warning("please Login to proceed");
       navigate("/");
     } else if (getTotalCartAmount() === 0) {
       navigate("/cart");
     }
-  }, [token, cartItems]);
+  }, [token]);
 
   return (
     <>

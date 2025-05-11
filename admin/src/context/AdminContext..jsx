@@ -7,7 +7,8 @@ export const AdminContext = createContext();
 
 const  AdminContextProvider = (props) => {
 
-    const [atoken, setAtoken] = useState(localStorage.getItem('atoken')?localStorage.getItem('atoken'):<></>)
+   const [atoken, setAtoken] = useState(localStorage.getItem('atoken') || '');
+
     const [dashdata, setDashData] = useState(false)
 
 

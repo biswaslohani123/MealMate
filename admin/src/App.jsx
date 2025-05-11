@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login";
 import { AdminContext } from "./context/AdminContext.";
-import { User } from "lucide-react";
+
 import Users from "./pages/Users/Users";
 
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
             <Route path="/add" element={<Add url={url} />} />
             <Route path="/list" element={<List url={url} />} />
             <Route path="/orders" element={<Orders url={url} />} />
-            <Route path="/users" element={<Users/>} url={url}/>
+            <Route path="/users" element={<Users url={url} />} />
           </Routes>
         </div>
       </div>

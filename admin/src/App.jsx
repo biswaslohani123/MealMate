@@ -9,23 +9,22 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login";
-import { AdminContext } from "./context/AdminContext.";
 
 import Users from "./pages/Users/Users";
+import { AdminContext } from "./context/AdminContext.";
 
 const App = () => {
   const url = "http://localhost:4000";
 
-  const { atoken } = useContext(AdminContext);
+  const { atoken } = useContext(AdminContext); 
 
   if (!atoken) {
-    return <Login />;
+    return <Login />; 
   }
 
   return (
     <div className="min-h-screen">
       <ToastContainer />
-
       <Navbar />
 
       <div className="flex mt-[65px]">

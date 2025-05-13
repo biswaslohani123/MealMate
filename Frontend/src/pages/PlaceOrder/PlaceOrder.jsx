@@ -7,9 +7,7 @@ import { toast } from "react-toastify";
 import { FaCcStripe } from "react-icons/fa6";
 
 const PlaceOrder = () => {
-  const { getTotalCartAmount, token, food_list, cartItems, url, clearCart } =
-    useContext(StoreContext);
-
+  const { getTotalCartAmount, token, food_list, cartItems, url, clearCart } = useContext(StoreContext);
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -19,66 +17,91 @@ const PlaceOrder = () => {
     Phone: "",
     paymentMethod: "",
   });
-
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const locations = [
-    "Lakeside",
-    "Nadipur",
-    "Prithvi Chowk",
-    "Pardi",
-    "Ranipawa",
-    "Damside",
-    "Chipledhunga",
-    "Bagar",
-    "Rambazar",
-    "Fulbari"
+    "Lakeside", "Nadipur", "Prithvi Chowk", "Pardi", "Ranipawa", "Damside", 
+    "Chipledhunga", "Bagar", "Rambazar", "Fulbari"
   ];
 
   const onChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((data) => ({ ...data, [name]: value }));
+    const { name, value } = event.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // ✅ Fetch user profile to prefill form
+  const fetchUserProfile = async () => {
+    try {
+      const res = await axios.get(`${url}/api/user/profile`, {
+        headers: { token }
+      });
+
+      if (res.data.success) {
+        const user = res.data.user;
+        const [firstName, ...rest] = user.name?.split(" ") || [];
+        const lastName = rest.join(" ");
+        setData((prev) => ({
+          ...prev,
+          firstName: firstName || "",
+          lastName: lastName || "",
+          email: user.email || "",
+          Phone: user.phone || "",
+          location: user.address || "",
+        }));
+      }
+    } catch (err) {
+      toast.error("Failed to fetch user info");
+    }
   };
 
   useEffect(() => {
-    setData((data) => ({ ...data, paymentMethod: paymentMethod }));
+    setData((prev) => ({ ...prev, paymentMethod }));
   }, [paymentMethod]);
+
+  useEffect(() => {
+    if (!token) {
+      toast.warning("Please login to proceed");
+      navigate("/");
+    } else if (getTotalCartAmount() === 0) {
+      navigate("/cart");
+    } else {
+      fetchUserProfile(); 
+    }
+  }, [token]);
 
   const placeOrder = async (event) => {
     event.preventDefault();
-    let orderItems = [];
-    food_list.map((item) => {
+    const orderItems = [];
+
+    food_list.forEach((item) => {
       if (cartItems[item._id] > 0) {
-        let itemInfo = item;
-        itemInfo["quantity"] = cartItems[item._id];
-        orderItems.push(itemInfo);
+        orderItems.push({ ...item, quantity: cartItems[item._id] });
       }
     });
-    let orderData = {
+
+    const orderData = {
       address: data,
       items: orderItems,
       amount: getTotalCartAmount() + 100,
-      paymentMethod: paymentMethod,
+      paymentMethod
     };
 
     setLoading(true);
 
     try {
-      // calling API
-      let response = await axios.post(url + "/api/order/place", orderData, {
+      const response = await axios.post(`${url}/api/order/place`, orderData, {
         headers: { token },
       });
+
       if (response.data.success) {
         if (response.data.data === "cod") {
           clearCart();
           toast.success("Your Order has been placed");
           navigate("/myorders");
         } else {
-          const { session_url } = response.data;
-          window.location.replace(session_url);
+          window.location.replace(response.data.session_url);
         }
       } else {
         toast.error("Error placing order.");
@@ -89,16 +112,6 @@ const PlaceOrder = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    
-    if (!token) {
-      toast.warning("please Login to proceed");
-      navigate("/");
-    } else if (getTotalCartAmount() === 0) {
-      navigate("/cart");
-    }
-  }, [token]);
 
   return (
     <>
@@ -131,6 +144,7 @@ const PlaceOrder = () => {
                 required
               />
             </div>
+
             <p>Email:</p>
             <input
               name="email"
@@ -149,10 +163,8 @@ const PlaceOrder = () => {
               required
             >
               <option value="">Select your location</option>
-              {locations.map((location, index) => (
-                <option key={index} value={location}>
-                  {location}
-                </option>
+              {locations.map((loc, index) => (
+                <option key={index} value={loc}>{loc}</option>
               ))}
             </select>
 
@@ -167,6 +179,7 @@ const PlaceOrder = () => {
                 required
               />
             </div>
+
             <p>Phone:</p>
             <input
               name="Phone"
@@ -181,22 +194,21 @@ const PlaceOrder = () => {
           <div className="place-order-right">
             <div className="cart-total">
               <h2>Cart Totals</h2>
-              <div>
-                <div className="cart-total-details">
-                  <p>Subtotal</p>
-                  <p>Rs.{getTotalCartAmount()}</p>
-                </div>
-                <hr />
-                <div className="cart-total-details">
-                  <p>Delivery charge</p>
-                  <p>Rs.{100}</p>
-                </div>
-                <hr />
-                <div className="cart-total-details">
-                  <b>Total</b>
-                  <b>Rs.{getTotalCartAmount() + 100}</b>
-                </div>
+              <div className="cart-total-details">
+                <p>Subtotal</p>
+                <p>Rs.{getTotalCartAmount()}</p>
               </div>
+              <hr />
+              <div className="cart-total-details">
+                <p>Delivery charge</p>
+                <p>Rs.100</p>
+              </div>
+              <hr />
+              <div className="cart-total-details">
+                <b>Total</b>
+                <b>Rs.{getTotalCartAmount() + 100}</b>
+              </div>
+
               <h2>Payment Methods:</h2>
               <div className="payment-1">
                 <input
@@ -219,10 +231,10 @@ const PlaceOrder = () => {
                 />
                 (COD) Cash On Delivery
               </div>
+
               <button type="submit">PLACE ORDER</button>
               <b className="bold">
-                <span className="note">Note:</span> You will not be able to
-                cancel your order once it is placed.
+                <span className="note">Note:</span> You will not be able to cancel your order once it is placed.
               </b>
             </div>
           </div>

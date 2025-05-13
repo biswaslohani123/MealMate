@@ -19,6 +19,7 @@ const PlaceOrder = () => {
   });
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [loading, setLoading] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true); 
   const navigate = useNavigate();
 
   const onChangeHandler = (event) => {
@@ -26,7 +27,7 @@ const PlaceOrder = () => {
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Fetch user profile to prefill form
+  //  Fetch user profile to prefill form
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(`${url}/api/user/profile`, {
@@ -46,25 +47,36 @@ const PlaceOrder = () => {
           location: user.address || "",
         }));
       }
+      setIsCheckingAuth(false); 
     } catch (err) {
       toast.error("Failed to fetch user info");
+      setIsCheckingAuth(false); 
     }
   };
 
+  // Handle payment method changes
   useEffect(() => {
     setData((prev) => ({ ...prev, paymentMethod }));
   }, [paymentMethod]);
 
+  
   useEffect(() => {
-    if (!token) {
-      toast.warning("Please login to proceed");
-      navigate("/");
-    } else if (getTotalCartAmount() === 0) {
-      navigate("/cart");
-    } else {
-      fetchUserProfile(); // ✅ Fetch on mount
-    }
-  }, [token]);
+    const checkAuthAndCart = () => {
+      if (!token) {
+        toast.warning("Please login to proceed");
+        navigate("/");
+      } else if (getTotalCartAmount() === 0) {
+        navigate("/cart");
+      } else {
+        fetchUserProfile();
+      }
+    };
+    
+    
+    const authTimer = setTimeout(checkAuthAndCart, 100);
+    
+    return () => clearTimeout(authTimer);
+  }, [token, getTotalCartAmount, navigate]);
 
   const placeOrder = async (event) => {
     event.preventDefault();
@@ -114,6 +126,11 @@ const PlaceOrder = () => {
         <div className="loading-screen">
           <div className="spinner"></div>
           <p>Placing your order...</p>
+        </div>
+      ) : isCheckingAuth ? (
+        <div className="loading-screen">
+          <div className="spinner"></div>
+          <p>Loading...</p>
         </div>
       ) : (
         <form onSubmit={placeOrder} className="place-order">

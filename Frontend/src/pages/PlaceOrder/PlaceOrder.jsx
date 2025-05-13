@@ -21,11 +21,6 @@ const PlaceOrder = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const locations = [
-    "Lakeside", "Nadipur", "Prithvi Chowk", "Pardi", "Ranipawa", "Damside", 
-    "Chipledhunga", "Bagar", "Rambazar", "Fulbari"
-  ];
-
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     setData((prev) => ({ ...prev, [name]: value }));
@@ -67,7 +62,7 @@ const PlaceOrder = () => {
     } else if (getTotalCartAmount() === 0) {
       navigate("/cart");
     } else {
-      fetchUserProfile(); 
+      fetchUserProfile(); // ✅ Fetch on mount
     }
   }, [token]);
 
@@ -156,17 +151,14 @@ const PlaceOrder = () => {
             />
 
             <p>Your location:</p>
-            <select
+            <input
               name="location"
               onChange={onChangeHandler}
               value={data.location}
+              type="text"
+              placeholder="Enter your location"
               required
-            >
-              <option value="">Select your location</option>
-              {locations.map((loc, index) => (
-                <option key={index} value={loc}>{loc}</option>
-              ))}
-            </select>
+            />
 
             <div className="multi-fields">
               <p>Order Note (any message for us)</p>

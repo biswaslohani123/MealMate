@@ -9,8 +9,6 @@ const addToCart = async (req, res) => {
         console.log(userData)
         let cartData = await userData.cartData;
 
-    
-
 
         if (!cartData[req.body.itemId])
         {

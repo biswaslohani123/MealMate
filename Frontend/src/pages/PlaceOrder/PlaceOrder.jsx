@@ -35,18 +35,15 @@ const PlaceOrder = () => {
       });
 
       if (res.data.success) {
-        const user = res.data.user;
-        const [firstName, ...rest] = user.name?.split(" ") || [];
-        const lastName = rest.join(" ");
-        setData((prev) => ({
-          ...prev,
-          firstName: firstName || "",
-          lastName: lastName || "",
+      const user = res.data.user;
+      setData((prev) => ({
+        ...prev,
+        Phone: user.phone || "",
+        location: user.address || "",
           email: user.email || "",
-          Phone: user.phone || "",
-          location: user.address || "",
-        }));
-      }
+
+      }));
+    }
       setIsCheckingAuth(false); 
     } catch (err) {
       toast.error("Failed to fetch user info");

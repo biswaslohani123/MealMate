@@ -40,19 +40,12 @@
     margin: 30px 0;
     overflow-x: auto;
     padding-bottom: 20px;
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE and Edge */
 }
 
 .explore-menu-list::-webkit-scrollbar {
-    height: 8px;
-}
-
-.explore-menu-list::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 10px;
-}
-
-.explore-menu-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    display: none;                /* Chrome, Safari, Opera */
 }
 
 .explore-menu-list img {
@@ -99,7 +92,6 @@
     transform: scale(1.05);
     transition: transform 0.3s ease-in-out;
 }
-
 
 @media (max-width: 1050px) {
     .explore-menu-text {

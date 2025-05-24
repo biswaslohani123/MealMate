@@ -241,7 +241,7 @@ const PlaceOrder = () => {
                 (COD) Cash On Delivery
               </div>
 
-              <button type="submit">PLACE ORDER</button>
+              <button type="submit">{paymentMethod === "cod"? "Place Order" : "Proceed To CheckOut"}</button>
               <b className="bold">
                 <span className="note">Note:</span> You will not be able to cancel your order once it is placed.
               </b>

@@ -111,7 +111,7 @@ const StoreContextProvider = (props) => {
     return newCart;
   });
 
-  // 2. Sync with backend
+  //  Sync with backend
   try {
     await axios.post(`${url}/api/cart/decrement`, { itemId }, {
       headers: { token },

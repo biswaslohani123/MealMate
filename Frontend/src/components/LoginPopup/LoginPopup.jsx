@@ -36,7 +36,7 @@ const LoginPopup = ({ setShowlogin }) => {
     // Sign up validations
     if (currState === "Sign Up") {
       if (name.trim().length < 2) {
-        toast.error("Name must be at least 3 characters");
+        toast.error("Name must be at least 2 characters");
         return false;
       }
 

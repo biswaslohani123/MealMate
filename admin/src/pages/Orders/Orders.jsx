@@ -130,7 +130,7 @@ const Orders = ({ url }) => {
       return [currentStatus];
     }
     
-    // Otherwise, show current status and next status only
+    //show current status and next status only
     return statusOrder.slice(0, currentStatusIndex + 2);
   };
 

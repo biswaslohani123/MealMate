@@ -53,7 +53,7 @@ const LoginPopup = ({ setShowlogin }) => {
       return false;
     }
 
-    // Password validation (checks for at least one uppercase, one lowercase, one number, and one special character) for signup only
+    // Password validation 
     if (currState === "Sign Up" && !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/.test(password)) {
       toast.error("Password must include upper, lower, number & special character");
       return false;

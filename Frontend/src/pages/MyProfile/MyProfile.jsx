@@ -126,7 +126,7 @@ const MyProfile = () => {
         }
     }, [token]);
 
-  //  render profile image or default avatar
+  //  render profile image 
   const renderProfileImage = () => {
     if (userData.image) {
       // If there's an image, render it
@@ -142,7 +142,7 @@ const MyProfile = () => {
         />
       );
     } else {
-      // If no image, rendering the Lucide User icon as default avatar
+     
       return (
         <div className="default-avatar">
           <User size={64} color="#555" />

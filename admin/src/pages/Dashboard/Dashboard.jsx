@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { AdminContext } from "../../context/AdminContext";
+import { AdminContext } from "../../context/AdminContext.";
 import {
   Package,
   Users,

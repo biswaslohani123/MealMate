@@ -9,7 +9,7 @@ import axios from "axios";
 import Notification from "../Notification/Notification";
 
 const Navbar = ({ setShowlogin }) => {
-  const { getTotalCartAmount, token, setToken, url } = useContext(StoreContext);
+  const { getTotalCartAmount, token, setToken, url,  } = useContext(StoreContext);
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === "/";

@@ -5,7 +5,7 @@ import { StoreContext } from "../../context/StoreContext";
 import { toast } from "react-toastify";
 
 const FoodItem = ({ id, name, price, description, image, active = true }) => {
-  const { cartItems, addToCart, removeFromCart, url} = useContext(StoreContext);
+  const { cartItems, addToCart, removeFromCart, url, decrementCartItem } = useContext(StoreContext);
 
  
 
@@ -41,7 +41,7 @@ const FoodItem = ({ id, name, price, description, image, active = true }) => {
           ) : (
             <div className="food-item-counter">
               <img 
-                onClick={() => removeFromCart(id)}
+                onClick={() => decrementCartItem(id)}
                 src={assets.remove_icon_red}
                 alt=""
                 

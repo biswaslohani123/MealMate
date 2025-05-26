@@ -28,6 +28,27 @@
     border: none;
     margin-top: 80px;
   }
+  .see-more-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.see-more-button {
+  background-color: transparent;
+  color: #333;
+  border: 2px solid #333;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 25px;
+}
+
+.see-more-button:hover {
+  background-color: #333;
+  color: white;
+}
+
   
   /* Responsive design */
   @media (max-width: 768px) {

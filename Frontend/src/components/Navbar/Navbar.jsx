@@ -93,12 +93,13 @@ const Navbar = ({ setShowlogin }) => {
         >
           Menu
         </a>
-        <a
-          onClick={() => scrollToSection("Footer", "Contact Us")}
-          className={menu === "Contact Us" ? "active" : ""}
+        <Link
+          to="/all-foods"
+          onClick={() => setMenu("All Products")}
+          className={menu === "All Products" ? "active" : ""}
         >
-          Contact Us
-        </a>
+          All Products
+        </Link>
         <Link
           to="/about"
           onClick={() => setMenu("about")}

@@ -93,13 +93,7 @@ const Navbar = ({ setShowlogin }) => {
         >
           Menu
         </a>
-        <Link
-          to="/all-foods"
-          onClick={() => setMenu("All Products")}
-          className={menu === "All Products" ? "active" : ""}
-        >
-          All Products
-        </Link>
+       
         <Link
           to="/about"
           onClick={() => setMenu("about")}

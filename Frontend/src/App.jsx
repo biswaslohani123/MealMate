@@ -13,7 +13,7 @@ import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer } from "react-toastify";
 import MyProfile from "./pages/MyProfile/MyProfile";
 import Account from "./pages/Account/Account";
-import AllProducts from "./pages/AllProducts/AllProducts";
+
 
 
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
           <Route path="/MenuBook" element={<MenuBook />} />
           <Route path="/myOrders" element={<MyOrders />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/all-foods" element={<AllProducts/>}/>
+         
           
           
         </Routes>

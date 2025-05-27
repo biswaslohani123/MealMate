@@ -1,12 +1,14 @@
 import React from 'react';
 import './Header.css';
+import { assets } from '../../assets/assets';
 
 const Header = () => {
   return (
     <div className="header">
+        <img src={assets.header_img} alt="" />
       <div className="header-contents">
-        <h2 className="fade-slide">Order your favourite food here</h2>
-        <p className="fade-slide">Choose your favourite food from our diverse menu</p>
+
+     
       </div>
     </div>
   );

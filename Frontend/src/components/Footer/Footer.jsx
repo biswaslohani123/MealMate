@@ -29,7 +29,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-content-center">
-          <h2>About MealMate</h2>
+          <h2>About Transit</h2>
           <ul>
             <li>
               <Link to='/'>Home</Link>
@@ -63,10 +63,10 @@ const Footer = () => {
               <span>Mobile:</span> 9814136254
             </li>
             <li>
-              <span>Email:</span> MealMate@gmail.com
+              <span>Email:</span> Transit@gmail.com
             </li>
             <li>
-              <span>Location:</span> Ranipawa, Pokhara
+              <span>Location:</span> Damauli, Tanahun
             </li>
           </ul>
         </div>

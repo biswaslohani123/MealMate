@@ -1,26 +1,18 @@
-import React from "react";
-import "./OurGallery.css";
-import { assets } from "../../assets/assets";
+import React from 'react'
+import './OurGallery.css' // Make sure to create this CSS file
 
 const OurGallery = () => {
-  return (
-    <div className="gallery-section" id="Our-gallery">
-      
-        <h1>Our Gallery</h1>
-        
-       
-      <div className="content">
-        <div className="images">
-          <img src={assets.img_1} alt="" />
-          <img src={assets.img_2} alt="" />
-          <img src={assets.img_3} alt="" />
-          <img src={assets.img_4} alt="" />
-          <img src={assets.img_5} alt="" />
-          <img src={assets.img_6} alt="" />
-        </div>
-      </div>
-    </div>
-  );
-};
+  const currentYear = new Date().getFullYear()
+  const experience = currentYear - 2017
+  const randomNumber = Math.floor(Math.random() * 1000) + 1
 
-export default OurGallery;
+  return (
+    <div className="gallery-container">
+      <h2 className="gallery-title">Established in 2017</h2>
+      <p className="gallery-text">Experience: {experience} years</p>
+      <p className="gallery-text">Visitor Count: {randomNumber}</p>
+    </div>
+  )
+}
+
+export default OurGallery

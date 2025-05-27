@@ -59,7 +59,7 @@ const MyOrders = () => {
                                 <p>Total items: {latestOrders[0].items.length}</p>
                                 <p><span>&#x25cf;</span> <b>{latestOrders[0].status}</b></p>
                                 <p>Date: {DateFormat(latestOrders[0].date)}</p> 
-                                <button onClick={fetchOrders}>Track Order</button>
+                                <button onClick={fetchOrders}>Click to See status</button>
                             </div>
                         ) : (
                             <p>No Recent orders available.</p>

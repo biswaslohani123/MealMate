@@ -14,7 +14,7 @@ const Footer = () => {
           <p>
             Order online with the city's top-rated Day & Night Food and Cakes
             delivery service. Our Food and Cakes Delivery Service is available
-            inside Pokhara vAlley.
+            inside Damauli vAlley.
           </p>
           <div className="footer-social-icons">
             <a target="_blank" href="https://www.facebook.com/profile.php?id=100093406100843">
@@ -74,7 +74,7 @@ const Footer = () => {
       <hr />
       <p className="footer-copyright">
         
-        Copyright {new Date().getFullYear()} © MealMate.com - All Right Reserved{" "}
+        Copyright {new Date().getFullYear()} © Transit.com - All Right Reserved{" "}
       </p>
     </div>
   );

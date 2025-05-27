@@ -224,7 +224,7 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">
-            MealMate Dashboard
+            Transit Dashboard
           </h1>
           <div className="h-1 w-24 bg-orange-400 mx-auto md:mx-0 rounded-full"></div>
         </div>

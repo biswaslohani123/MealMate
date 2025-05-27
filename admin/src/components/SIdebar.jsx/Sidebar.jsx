@@ -41,7 +41,7 @@ const Sidebar = () => {
           </div>
           {isOpen && (
             <div className="transition-opacity duration-300">
-              <h1 className="font-bold text-lg text-stone-800">MealMate</h1>
+              <h1 className="font-bold text-lg text-stone-800">Transit</h1>
               
             </div>
           )}
